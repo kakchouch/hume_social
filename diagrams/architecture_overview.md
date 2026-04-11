@@ -73,10 +73,10 @@ graph TB
     RS -.-> FI
     FI -.-> FA
 
-    %% Styling
-    classDef modelClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    classDef systemClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
-    classDef processClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    %% Styling - High Contrast Theme
+    classDef modelClass fill:#2e7d32,stroke:#ffffff,stroke-width:3px,color:#ffffff
+    classDef systemClass fill:#1565c0,stroke:#ffffff,stroke-width:3px,color:#ffffff
+    classDef processClass fill:#f57c00,stroke:#ffffff,stroke-width:3px,color:#ffffff
 
     class U,MT,C,CT,TAG,TA_APP,TV,FP,FI,MR,MA modelClass
     class UL,SP,TA,F,P,CN,L systemClass

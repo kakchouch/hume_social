@@ -28,4 +28,72 @@ erDiagram
     FounderCohort ||--o{ User : contains
 
     EditorialReview ||--o{ ModerationAction : leads_to
+
+    %% Styling - High Contrast Theme
+    User {
+        string username
+        string email
+        int level
+        int tag_accuracy_score
+    }
+
+    MiniThesis {
+        string title
+        text content
+        int rigor_score
+        datetime created_at
+    }
+
+    Tag {
+        string name
+        string description
+        string category
+    }
+
+    Comment {
+        text content
+        datetime created_at
+    }
+
+    TagApplication {
+        string status
+        int upvotes
+        int downvotes
+    }
+
+    TagVote {
+        boolean is_upvote
+        datetime created_at
+    }
+
+    FeedItem {
+        int score
+        datetime created_at
+    }
+
+    UserFeedPreference {
+        json preferences
+    }
+
+    Sponsorship {
+        decimal amount
+        datetime created_at
+    }
+
+    FounderCohort {
+        string name
+        datetime created_at
+    }
+
+    EditorialReview {
+        text feedback
+        int rating
+        datetime created_at
+    }
+
+    ModerationAction {
+        string action_type
+        text reason
+        datetime created_at
+    }
 ```

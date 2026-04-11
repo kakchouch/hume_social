@@ -28,4 +28,8 @@ sequenceDiagram
     FI->>FA: Apply feed algorithm<br/>(personalized ranking)
 
     Note over FI: Content appears in user feeds<br/>based on preferences & scores
+
+    %% Styling - High Contrast Theme
+    Note fill:#2e7d32,color:#ffffff,stroke:#ffffff,stroke-width:2px
+    rect rgb(46, 125, 50)
 ```

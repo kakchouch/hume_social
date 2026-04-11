@@ -34,4 +34,15 @@ stateDiagram-v2
     end note
 
     Reviewer --> [*]: Account management
+
+    %% Styling - High Contrast Theme
+    classDef readerClass fill:#2e7d32,stroke:#ffffff,stroke-width:3px,color:#ffffff
+    classDef commentatorClass fill:#1565c0,stroke:#ffffff,stroke-width:3px,color:#ffffff
+    classDef taggerClass fill:#f57c00,stroke:#ffffff,stroke-width:3px,color:#ffffff
+    classDef reviewerClass fill:#d32f2f,stroke:#ffffff,stroke-width:3px,color:#ffffff
+
+    class Reader readerClass
+    class Commentator commentatorClass
+    class Tagger taggerClass
+    class Reviewer reviewerClass
 ```
