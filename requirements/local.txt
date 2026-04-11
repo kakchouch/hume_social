@@ -1,0 +1,7 @@
+-r base.txt
+
+# Development dependencies
+django-debug-toolbar==4.2.0
+black==23.11.0
+isort==5.12.0
+flake8==6.1.0

@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hume_social"
+version = "0.1.0"
+description = "Twitter without the noise. Wikipedia with original research."
+authors = [
+    {name = "Your Name", email = "your.email@example.com"},
+]
+dependencies = [
+    "Django>=4.2",
+    "djangorestframework",
+    "psycopg2-binary",
+    "python-decouple",
+]
+
+[tool.django]
+settings_module = "config.settings.local"
+
+[tool.setuptools]
+packages = ["src"]
