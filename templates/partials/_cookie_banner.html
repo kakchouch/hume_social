@@ -1,0 +1,44 @@
+{% if not request.session.cookies_consented %}
+<div id="cookie-banner" style="
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background: #1f2421;
+    color: #f3efe4;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.88rem;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.25);
+">
+    <span>
+        This site uses only strictly necessary session cookies required for
+        authentication and security. By continuing to use Hume Social you
+        acknowledge this.
+        <a href="{% url 'index' %}#privacy"
+           style="color:#5eead4;text-decoration:underline;margin-left:4px;">
+            Privacy policy
+        </a>
+    </span>
+    <form method="post" action="{% url 'users:cookie_consent' %}" style="margin:0;">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.path }}">
+        <button type="submit" style="
+            background: #0f766e;
+            color: #fff;
+            border: none;
+            border-radius: 999px;
+            padding: 8px 18px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            white-space: nowrap;
+        ">OK, I understand</button>
+    </form>
+</div>
+{% endif %}

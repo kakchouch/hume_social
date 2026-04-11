@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Hume Social</title>
+    <style>
+        :root {
+            --bg: #f3f0ea;
+            --surface: #fffdf9;
+            --ink: #24211e;
+            --muted: #6f675d;
+            --line: #e3dacd;
+            --accent: #0f766e;
+            --danger: #b91c1c;
+        }
+
+        body {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--ink);
+            background: var(--bg);
+        }
+
+        .wrap {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 28px 16px 60px;
+        }
+
+        .top-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .btn {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 9px 14px;
+            text-decoration: none;
+            color: var(--ink);
+            background: #fff;
+            display: inline-block;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-danger {
+            border-color: var(--danger);
+            color: var(--danger);
+            background: #fff5f5;
+        }
+
+        .btn form {
+            margin: 0;
+        }
+
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 20px 22px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            margin: 0 0 4px;
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+        }
+
+        h2 {
+            margin: 0 0 14px;
+            font-size: 1.15rem;
+        }
+
+        .muted {
+            color: var(--muted);
+            font-size: 0.88rem;
+        }
+
+        .field {
+            margin-bottom: 14px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 4px;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        .field input,
+        .field textarea {
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: #fff;
+            box-sizing: border-box;
+        }
+
+        .field textarea {
+            resize: vertical;
+        }
+
+        .error-list {
+            color: var(--danger);
+            font-size: 0.84rem;
+            margin: 4px 0 0;
+            padding-left: 18px;
+        }
+
+        .submit-row {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+            padding: 10px 22px;
+        }
+
+        .list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .chip {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 8px 10px;
+            background: #fff;
+            font-size: 0.9rem;
+        }
+
+        .chip a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .gdpr-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 6px;
+        }
+
+        .messages {
+            margin-bottom: 12px;
+        }
+
+        .messages li {
+            list-style: none;
+            padding: 10px 14px;
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            border-radius: 8px;
+            color: #065f46;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+        }
+
+        .badge {
+            display: inline-block;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 3px 10px;
+            font-size: 0.78rem;
+            background: #fff;
+            color: var(--muted);
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .badge-pending {
+            background: #fffbeb;
+            border-color: #fcd34d;
+            color: #92400e;
+        }
+
+        .badge-approved {
+            background: #ecfdf5;
+            border-color: #a7f3d0;
+            color: #065f46;
+        }
+
+        .badge-rejected {
+            background: #fff5f5;
+            border-color: #fca5a5;
+            color: #991b1b;
+        }
+    </style>
+</head>
+<body>
+    <main class="wrap">
+        <!-- Top bar -->
+        <div class="top-actions">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <a class="btn" href="{% url 'index' %}">Home</a>
+                <a class="btn" href="{% url 'users:list' %}">Users</a>
+                <a class="btn" href="{% url 'users:detail' pk=request.user.pk %}">Public view</a>
+            </div>
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button class="btn" type="submit">Disconnect</button>
+            </form>
+        </div>
+
+        <!-- Messages -->
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- Header -->
+        <div class="panel">
+            <h1>
+                {{ profile_user.real_name|default:profile_user.username }}
+                <span class="badge badge-{{ profile_user.sponsorship_status }}">
+                    {{ profile_user.get_sponsorship_status_display }}
+                </span>
+            </h1>
+            <p class="muted">@{{ profile_user.username }} · {{ profile_user.get_level_display }}
+                {% if profile_user.is_founder %} · Founder{% endif %}
+            </p>
+            {% if profile_user.bio %}<p>{{ profile_user.bio }}</p>{% endif %}
+        </div>
+
+        <!-- Edit profile form -->
+        <div class="panel">
+            <h2>Edit profile</h2>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="field">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <ul class="error-list">
+                                {% for error in field.errors %}<li>{{ error }}</li>{% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <div class="submit-row">
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Contacts -->
+        <div class="panel">
+            <h2>My contacts ({{ contacts|length }})</h2>
+            {% if contacts %}
+                <div class="list">
+                    {% for c in contacts %}
+                        <div class="chip">
+                            <a href="{% url 'users:detail' pk=c.pk %}">
+                                {{ c.real_name|default:c.username }}
+                            </a>
+                            <span class="muted">@{{ c.username }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="muted">No contacts yet.</p>
+            {% endif %}
+            <div style="margin-top:10px;">
+                <a class="btn" href="{% url 'users:contact_requests' %}">Contact requests</a>
+            </div>
+        </div>
+
+        <!-- Sponsored users -->
+        {% if sponsored_users %}
+        <div class="panel">
+            <h2>Users I sponsor ({{ sponsored_users|length }})</h2>
+            <div class="list">
+                {% for s in sponsored_users %}
+                    <div class="chip">
+                        <a href="{% url 'users:detail' pk=s.pk %}">{{ s.username }}</a>
+                        <span class="badge badge-{{ s.sponsorship_status }}">
+                            {{ s.get_sponsorship_status_display }}
+                        </span>
+                    </div>
+                {% endfor %}
+            </div>
+            <div style="margin-top:10px;">
+                <a class="btn" href="{% url 'users:sponsorship_requests' %}">Sponsorship requests</a>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- GDPR & account management -->
+        <div class="panel">
+            <h2>Privacy &amp; data (GDPR)</h2>
+            <p class="muted">
+                You can download all personal data we hold about you, or permanently
+                delete your account. Deleting your account removes all identifying
+                information; your published theses remain anonymised.
+            </p>
+            <p class="muted">
+                Account last activity:
+                {% if profile_user.last_activity_at %}
+                    {{ profile_user.last_activity_at|date:"d M Y" }}
+                {% else %}
+                    not recorded yet
+                {% endif %}
+            </p>
+            <p class="muted">
+                Cookie consent:
+                {% if profile_user.cookies_consented_at %}
+                    recorded on {{ profile_user.cookies_consented_at|date:"d M Y" }}
+                {% else %}
+                    not yet given
+                {% endif %}
+            </p>
+            <div class="gdpr-actions">
+                <a class="btn" href="{% url 'users:download_my_data' %}">Download my data (JSON)</a>
+                <a class="btn btn-danger" href="{% url 'users:delete_account' %}">Delete my account</a>
+            </div>
+        </div>
+    </main>
+
+    {% include 'partials/_cookie_banner.html' %}
+</body>
+</html>

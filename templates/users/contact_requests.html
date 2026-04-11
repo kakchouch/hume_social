@@ -103,6 +103,7 @@
     <main class="wrap">
         <div class="top">
             <a class="btn" href="{% url 'users:list' %}">Back to users</a>
+            <a class="btn" href="{% url 'users:me' %}">My Profile</a>
             <form method="post" action="{% url 'logout' %}">
                 {% csrf_token %}
                 <button class="btn" type="submit">Disconnect</button>
@@ -149,5 +150,6 @@
             </section>
         </div>
     </main>
+    {% include 'partials/_cookie_banner.html' %}
 </body>
 </html>

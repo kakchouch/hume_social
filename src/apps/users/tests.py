@@ -212,3 +212,119 @@ class TestUserPages(TestCase):
         self.assertEqual(response.status_code, 200)
         pending_user.refresh_from_db()
         self.assertEqual(pending_user.sponsorship_status, User.SponsorshipStatus.REJECTED)
+
+
+class TestGDPRViews(TestCase):
+    """Tests for my-profile, delete-account, data-download and cookie-consent."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username='gdpr_user',
+            email='gdpr@example.com',
+            password='Pass1234!',
+        )
+        self.client.force_login(self.user)
+
+    def test_my_profile_renders(self):
+        response = self.client.get(reverse('users:me'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Edit profile')
+
+    def test_my_profile_edit_saves(self):
+        response = self.client.post(
+            reverse('users:me'),
+            {'real_name': 'Updated Name', 'bio': 'Hello', 'linkedin_url': '',
+             'orcid_url': '', 'website_url': ''},
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.real_name, 'Updated Name')
+
+    def test_delete_account_get_renders(self):
+        response = self.client.get(reverse('users:delete_account'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Delete your account')
+
+    def test_delete_account_wrong_password_rejected(self):
+        response = self.client.post(
+            reverse('users:delete_account'),
+            {'password': 'WrongPass!'},
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Password is incorrect')
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.is_active)
+
+    def test_delete_account_correct_password_anonymises(self):
+        response = self.client.post(
+            reverse('users:delete_account'),
+            {'password': 'Pass1234!'},
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Account deleted')
+        self.user.refresh_from_db()
+        self.assertFalse(self.user.is_active)
+        self.assertEqual(self.user.email, '')
+        self.assertTrue(self.user.username.startswith('deleted_'))
+
+    def test_download_my_data_returns_json(self):
+        response = self.client.get(reverse('users:download_my_data'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'application/json')
+        self.assertIn('attachment', response['Content-Disposition'])
+        import json
+        data = json.loads(response.content)
+        self.assertIn('profile', data)
+        self.assertEqual(data['profile']['username'], 'gdpr_user')
+
+    def test_cookie_consent_sets_session(self):
+        response = self.client.post(
+            reverse('users:cookie_consent'),
+            {'next': '/'},
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(self.client.session.get('cookies_consented'))
+
+    def test_my_profile_requires_login(self):
+        self.client.logout()
+        response = self.client.get(reverse('users:me'))
+        self.assertEqual(response.status_code, 302)
+
+
+class TestPurgeInactiveUsers(TestCase):
+    """Tests for the purge_inactive_users management command."""
+
+    def test_dry_run_reports_without_deleting(self):
+        from datetime import timedelta
+        from django.utils import timezone
+        from django.core.management import call_command
+        from io import StringIO
+
+        old_user = User.objects.create_user(
+            username='old_inactive',
+            last_activity_at=timezone.now() - timedelta(days=400),
+        )
+        out = StringIO()
+        call_command('purge_inactive_users', '--dry-run', '--days', '365', stdout=out)
+        output = out.getvalue()
+        self.assertIn('old_inactive', output)
+        old_user.refresh_from_db()
+        self.assertTrue(old_user.is_active)  # not touched
+
+    def test_purge_anonymises_inactive_user(self):
+        from datetime import timedelta
+        from django.utils import timezone
+        from django.core.management import call_command
+
+        old_user = User.objects.create_user(
+            username='really_old',
+            email='old@example.com',
+            last_activity_at=timezone.now() - timedelta(days=400),
+        )
+        call_command('purge_inactive_users', '--days', '365', verbosity=0)
+        old_user.refresh_from_db()
+        self.assertFalse(old_user.is_active)
+        self.assertEqual(old_user.email, '')

@@ -56,6 +56,11 @@ class User(AbstractUser):
     # Founder status
     is_founder = models.BooleanField(default=False)
 
+    # GDPR / activity tracking
+    last_activity_at = models.DateTimeField(null=True, blank=True)
+    cookies_consented_at = models.DateTimeField(null=True, blank=True)
+    deletion_requested_at = models.DateTimeField(null=True, blank=True)
+
     # Reputation metrics
     tag_accuracy_score = models.FloatField(
         default=1.0,

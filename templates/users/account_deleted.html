@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account deleted | Hume Social</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            background: #f3f0ea;
+            color: #24211e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .box {
+            max-width: 480px;
+            text-align: center;
+            padding: 40px 24px;
+        }
+
+        h1 { font-size: 2rem; margin-bottom: 12px; }
+
+        p { color: #6f675d; margin-bottom: 24px; }
+
+        .btn {
+            display: inline-block;
+            border: 1px solid #e3dacd;
+            border-radius: 999px;
+            padding: 10px 22px;
+            text-decoration: none;
+            color: #24211e;
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>Account deleted</h1>
+        <p>
+            Your personal data has been erased and your account is now deactivated.
+            Thank you for your time on Hume Social.
+        </p>
+        <a class="btn" href="{% url 'index' %}">Back to home</a>
+    </div>
+</body>
+</html>

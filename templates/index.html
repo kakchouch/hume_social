@@ -322,6 +322,7 @@
     <main class="page">
         <div class="topbar">
             {% if user.is_authenticated %}
+                <a class="pill" href="{% url 'users:me' %}">My Profile</a>
                 <form method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
                     <button class="pill" type="submit">Disconnect</button>
@@ -446,5 +447,6 @@
             </a>
         </section>
     </main>
+    {% include 'partials/_cookie_banner.html' %}
 </body>
 </html>
