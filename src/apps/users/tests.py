@@ -151,6 +151,25 @@ class TestUserPages(TestCase):
         self.assertContains(response, 'Signed in as')
         self.assertNotContains(response, 'Create your account')
 
+    def test_signin_page_loads(self):
+        response = self.client.get(reverse('login'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Sign in')
+
+    def test_signin_page_authenticates_user(self):
+        login_user = User.objects.create_user(
+            username='login_user',
+            password='StrongPass!23',
+        )
+        response = self.client.post(
+            reverse('login'),
+            {'username': 'login_user', 'password': 'StrongPass!23'},
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Signed in as')
+        self.assertIn(str(login_user.pk), self.client.session.get('_auth_user_id', ''))
+
     def test_landing_signup_creates_account(self):
         payload = {
             'username': 'newjoiner',

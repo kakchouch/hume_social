@@ -1,84 +1,82 @@
 # Hume Social Platform Architecture
 
 ```mermaid
-graph TB
-    %% User System
-    subgraph "User Management"
-        U[User Model]
-        UL[User Levels<br/>Reader → Commentator<br/>→ Tagger → Reviewer]
-        SP[Sponsorship<br/>Founder Cohorts]
-        TA[Tag Accuracy<br/>Scoring]
+flowchart TB
+    subgraph UMG[users app]
+        U[User]
+        CR[ContactRequest]
     end
 
-    %% Content System
-    subgraph "Content Creation"
+    subgraph THM[theses app]
         MT[MiniThesis]
-        C[Comment]
+        CM[Comment]
         CT[Citation]
-        F[Facts]
-        P[Normative Premises]
-        CN[Conclusion]
-        L[Limits]
     end
 
-    %% Validation System
-    subgraph "Community Validation"
-        TAG[Tag Model]
-        TA_APP[TagApplication]
+    subgraph TGM[tags app]
+        TG[Tag]
+        TA[TagApplication]
         TV[TagVote]
-        RS[Rigor Score<br/>0-2 scale]
     end
 
-    %% Feed System
-    subgraph "Content Discovery"
+    subgraph FDM[feed app]
         FP[UserFeedPreference]
         FI[FeedItem]
-        FA[Feed Algorithm<br/>Score Calculation]
     end
 
-    %% Moderation System
-    subgraph "Content Moderation"
-        MR[EditorialReview]
+    subgraph MDM[moderation app]
+        ER[EditorialReview]
         MA[ModerationAction]
-        MQ[Review Ratings]
     end
 
-    %% Relationships
+    subgraph SPM[sponsorship app]
+        SP[Sponsorship]
+        FC[FounderCohort]
+    end
+
+    UI[Templates + Browser]
+    VU[users views]
+    VT[theses views]
+    VF[feed views]
+
+    UI --> VU
+    UI --> VT
+    UI --> VF
+
+    VU --> U
+    VU --> CR
+    VT --> MT
+    VT --> ER
+    VT --> TA
+    VF --> FP
+    VF --> FI
+
     U --> MT
-    U --> C
-    U --> TA_APP
+    U --> CM
+    U --> TA
     U --> TV
-    U --> FP
-    U --> SP
+    U --> ER
     U --> MA
+    U --> SP
+    U --> FC
+    U --> CR
 
-    MT --> C
+    MT --> CM
     MT --> CT
-    MT --> TA_APP
-    MT --> FI
-    MT --> MR
+    MT --> TA
+    MT --> ER
     MT --> MA
+    MT --> FI
 
-    TAG --> TA_APP
-    TA_APP --> TV
-    TA_APP --> RS
-
+    TG --> TA
+    TA --> TV
     FP --> FI
-    FI --> FA
 
-    MR --> MA
+    classDef model fill:#0f766e,stroke:#ffffff,stroke-width:2px,color:#ffffff
+    classDef flow fill:#8b3a45,stroke:#ffffff,stroke-width:2px,color:#ffffff
+    classDef app fill:#39424e,stroke:#ffffff,stroke-width:2px,color:#ffffff
 
-    %% Data Flow
-    MT -.-> RS
-    RS -.-> FI
-    FI -.-> FA
-
-    %% Styling - High Contrast Theme
-    classDef modelClass fill:#2e7d32,stroke:#ffffff,stroke-width:3px,color:#ffffff
-    classDef systemClass fill:#1565c0,stroke:#ffffff,stroke-width:3px,color:#ffffff
-    classDef processClass fill:#f57c00,stroke:#ffffff,stroke-width:3px,color:#ffffff
-
-    class U,MT,C,CT,TAG,TA_APP,TV,FP,FI,MR,MA modelClass
-    class UL,SP,TA,F,P,CN,L systemClass
-    class RS,FA,MQ processClass
+    class U,CR,MT,CM,CT,TG,TA,TV,FP,FI,ER,MA,SP,FC model
+    class VU,VT,VF,UI flow
+    class UMG,THM,TGM,FDM,MDM,SPM app
 ```

@@ -2,34 +2,34 @@
 
 ```mermaid
 sequenceDiagram
-    participant U as User
+    participant Author as Author User
+    participant ThesisView as thesis_create view
     participant MT as MiniThesis
+    participant Tagger as Tagger User
     participant TA as TagApplication
     participant TV as TagVote
-    participant RS as Rigor Score
-    participant FI as FeedItem
-    participant FA as Feed Algorithm
+    participant Rev as Editorial Reviewer
+    participant ER as EditorialReview
+    participant FeedView as feed view
+    participant FI as FeedItem.calculate_scores
 
-    Note over U,FA: Thesis Creation & Validation Flow
+    Note over Author,FI: Current implemented flow across apps
 
-    U->>MT: Create MiniThesis<br/>(facts, premises, conclusion, limits)
-    MT->>TA: Auto-create TagApplication<br/>(pending status)
+    Author->>ThesisView: Submit thesis form
+    ThesisView->>MT: Create MiniThesis
+    MT-->>Author: Thesis published
 
-    loop Community Tagging
-        U->>TV: Submit TagVote<br/>(upvote/downvote)
-        TV->>TA: Update vote counts
-        TA->>TA: Check resolution criteria
-    end
+    Tagger->>TA: Apply tag with justification
+    Tagger->>TV: Vote on tag application
+    TV->>TA: Update vote totals
+    TA->>TA: Optional resolve() by resolver
 
-    TA->>TA: Resolve tags<br/>(approved/rejected)
-    TA->>RS: Calculate rigor score<br/>(0-2 based on tags)
+    Rev->>ER: Publish editorial review
 
-    RS->>FI: Create/update FeedItem<br/>(with calculated score)
-    FI->>FA: Apply feed algorithm<br/>(personalized ranking)
+    Author->>FeedView: Open feed page
+    FeedView->>FI: Calculate scores per thesis
+    FI->>MT: Read rigor_score and engagement signals
+    FeedView-->>Author: Ranked feed entries
 
-    Note over FI: Content appears in user feeds<br/>based on preferences & scores
-
-    %% Styling - High Contrast Theme
-    Note fill:#2e7d32,color:#ffffff,stroke:#ffffff,stroke-width:2px
-    rect rgb(46, 125, 50)
+    Note over FeedView,FI: Ranking combines rigor, engagement, and recency
 ```

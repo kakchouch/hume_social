@@ -328,7 +328,7 @@
                     <button class="pill" type="submit">Disconnect</button>
                 </form>
             {% else %}
-                <a class="pill" href="/admin/login/">Sign in</a>
+                <a class="pill" href="{% url 'login' %}">Sign in</a>
             {% endif %}
         </div>
 
