@@ -7,17 +7,15 @@ class MiniThesis(models.Model):
     """Core model for mini-theses - structured argumentative posts."""
 
     author = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='theses'
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="theses"
     )
     parent_thesis = models.ForeignKey(
-        'self',
+        "self",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='follow_up_theses',
-        help_text='Optional earlier thesis that this text follows up on.',
+        related_name="follow_up_theses",
+        help_text="Optional earlier thesis that this text follows up on.",
     )
 
     # Core structure
@@ -44,7 +42,7 @@ class MiniThesis(models.Model):
     citation_count = models.PositiveIntegerField(default=0)
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ["-created_at"]
 
     def __str__(self):
         thesis_text = str(self.thesis)
@@ -54,13 +52,13 @@ class MiniThesis(models.Model):
     def rigor_score(self):
         """Calculate rigor score based on resolved tags."""
         resolved_tags = self.tags.filter(
-            status__in=['resolved_positive', 'resolved_negative']
+            status__in=["resolved_positive", "resolved_negative"]
         )
         if not resolved_tags.exists():
             return 0.5  # Neutral score for untagged theses
 
-        positive_count = resolved_tags.filter(status='resolved_positive').count()
-        negative_count = resolved_tags.filter(status='resolved_negative').count()
+        positive_count = resolved_tags.filter(status="resolved_positive").count()
+        negative_count = resolved_tags.filter(status="resolved_negative").count()
         total_resolved = resolved_tags.count()
 
         # Weighted score: positive tags boost, negative tags penalize
@@ -77,17 +75,17 @@ class Comment(models.Model):
     """Comments on mini-theses."""
 
     thesis = models.ForeignKey(
-        MiniThesis, on_delete=models.CASCADE, related_name='comments'
+        MiniThesis, on_delete=models.CASCADE, related_name="comments"
     )
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
     parent = models.ForeignKey(
-        'self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies'
+        "self", null=True, blank=True, on_delete=models.CASCADE, related_name="replies"
     )
 
     class Meta:
-        ordering = ['created_at']
+        ordering = ["created_at"]
 
     def __str__(self):
         return f"Comment by {self.author} on {self.thesis}"
@@ -97,15 +95,15 @@ class Citation(models.Model):
     """When one thesis cites another."""
 
     citing_thesis = models.ForeignKey(
-        MiniThesis, on_delete=models.CASCADE, related_name='citations_made'
+        MiniThesis, on_delete=models.CASCADE, related_name="citations_made"
     )
     cited_thesis = models.ForeignKey(
-        MiniThesis, on_delete=models.CASCADE, related_name='citations_received'
+        MiniThesis, on_delete=models.CASCADE, related_name="citations_received"
     )
     context = models.TextField(help_text="How the citation is used in context")
 
     class Meta:
-        unique_together = ['citing_thesis', 'cited_thesis']
+        unique_together = ["citing_thesis", "cited_thesis"]
 
     def __str__(self):
         return f"{self.citing_thesis} cites {self.cited_thesis}"
@@ -115,30 +113,30 @@ class ThesisReviewHighlight(models.Model):
     """Reviewer-highlighted thesis segments with an attached tag and optional comment."""
 
     class Section(models.TextChoices):
-        THESIS = 'thesis', 'Thesis'
-        FACTS = 'facts', 'Facts'
-        NORMATIVE_PREMISES = 'normative_premises', 'Normative premises'
-        CONCLUSION = 'conclusion', 'Conclusion'
-        DECLARED_LIMITS = 'declared_limits', 'Declared limits'
+        THESIS = "thesis", "Thesis"
+        FACTS = "facts", "Facts"
+        NORMATIVE_PREMISES = "normative_premises", "Normative premises"
+        CONCLUSION = "conclusion", "Conclusion"
+        DECLARED_LIMITS = "declared_limits", "Declared limits"
 
     thesis = models.ForeignKey(
         MiniThesis,
         on_delete=models.CASCADE,
-        related_name='review_highlights',
+        related_name="review_highlights",
     )
     reviewer = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='thesis_review_highlights',
+        related_name="thesis_review_highlights",
     )
     section = models.CharField(max_length=30, choices=Section.choices)
-    selected_text = models.TextField(help_text='Exact text selected by the reviewer.')
-    tag = models.ForeignKey('tags.Tag', on_delete=models.PROTECT)
+    selected_text = models.TextField(help_text="Exact text selected by the reviewer.")
+    tag = models.ForeignKey("tags.Tag", on_delete=models.PROTECT)
     comment = models.TextField(blank=True)
     created_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        ordering = ['created_at']
+        ordering = ["created_at"]
 
     def __str__(self):
         return f"{self.reviewer} highlighted {self.get_section_display()} on thesis {self.thesis_id}"

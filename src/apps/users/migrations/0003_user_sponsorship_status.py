@@ -4,15 +4,22 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0002_alter_user_tag_accuracy_score'),
+        ("users", "0002_alter_user_tag_accuracy_score"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='user',
-            name='sponsorship_status',
-            field=models.CharField(choices=[('pending', 'Pending sponsor validation'), ('approved', 'Approved'), ('rejected', 'Rejected')], default='approved', max_length=10),
+            model_name="user",
+            name="sponsorship_status",
+            field=models.CharField(
+                choices=[
+                    ("pending", "Pending sponsor validation"),
+                    ("approved", "Approved"),
+                    ("rejected", "Rejected"),
+                ],
+                default="approved",
+                max_length=10,
+            ),
         ),
     ]

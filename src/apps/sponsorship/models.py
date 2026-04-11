@@ -9,12 +9,12 @@ class Sponsorship(models.Model):
     sponsor = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='sponsorships_given'
+        related_name="sponsorships_given",
     )
     sponsored = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='sponsorships_received'
+        related_name="sponsorships_received",
     )
 
     # Sponsorship details
@@ -23,9 +23,9 @@ class Sponsorship(models.Model):
 
     # Status tracking
     class Status(models.TextChoices):
-        ACTIVE = 'active', 'Active'
-        REVOKED = 'revoked', 'Revoked'
-        GRADUATED = 'graduated', 'Graduated'
+        ACTIVE = "active", "Active"
+        REVOKED = "revoked", "Revoked"
+        GRADUATED = "graduated", "Graduated"
 
     status = models.CharField(
         max_length=10, choices=Status.choices, default=Status.ACTIVE
@@ -36,12 +36,12 @@ class Sponsorship(models.Model):
         null=True,
         blank=True,
         choices=[(i, i) for i in range(1, 6)],
-        help_text="Sponsor's rating of the sponsored user (1-5)"
+        help_text="Sponsor's rating of the sponsored user (1-5)",
     )
 
     class Meta:
-        unique_together = ['sponsor', 'sponsored']
-        ordering = ['-created_at']
+        unique_together = ["sponsor", "sponsored"]
+        ordering = ["-created_at"]
 
     def __str__(self):
         return f"{self.sponsor} sponsors {self.sponsored}"
@@ -56,7 +56,7 @@ class FounderCohort(models.Model):
 
     # Cohort members
     members = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name='founder_cohorts'
+        settings.AUTH_USER_MODEL, related_name="founder_cohorts"
     )
 
     # Cohort settings

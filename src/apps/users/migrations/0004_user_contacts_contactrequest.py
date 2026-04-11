@@ -7,30 +7,62 @@ import django.utils.timezone
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0003_user_sponsorship_status'),
+        ("users", "0003_user_sponsorship_status"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='user',
-            name='contacts',
+            model_name="user",
+            name="contacts",
             field=models.ManyToManyField(blank=True, to=settings.AUTH_USER_MODEL),
         ),
         migrations.CreateModel(
-            name='ContactRequest',
+            name="ContactRequest",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('status', models.CharField(choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')], default='pending', max_length=10)),
-                ('created_at', models.DateTimeField(default=django.utils.timezone.now)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('from_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='sent_contact_requests', to=settings.AUTH_USER_MODEL)),
-                ('to_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='received_contact_requests', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("pending", "Pending"),
+                            ("accepted", "Accepted"),
+                            ("rejected", "Rejected"),
+                        ],
+                        default="pending",
+                        max_length=10,
+                    ),
+                ),
+                ("created_at", models.DateTimeField(default=django.utils.timezone.now)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "from_user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="sent_contact_requests",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "to_user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="received_contact_requests",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-created_at'],
-                'unique_together': {('from_user', 'to_user')},
+                "ordering": ["-created_at"],
+                "unique_together": {("from_user", "to_user")},
             },
         ),
     ]

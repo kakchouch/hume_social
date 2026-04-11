@@ -10,7 +10,7 @@ class UpdateLastActivityMiddleware:
     key so authenticated users don't incur a DB write on every request).
     """
 
-    SESSION_KEY = '_last_activity_date'
+    SESSION_KEY = "_last_activity_date"
 
     def __init__(self, get_response):
         self.get_response = get_response

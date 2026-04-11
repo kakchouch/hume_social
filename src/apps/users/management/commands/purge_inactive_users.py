@@ -26,27 +26,27 @@ from django.utils import timezone
 
 
 class Command(BaseCommand):
-    help = 'Anonymise accounts that have been inactive for more than one year (GDPR).'
+    help = "Anonymise accounts that have been inactive for more than one year (GDPR)."
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--days',
+            "--days",
             type=int,
             default=365,
-            help='Number of days of inactivity before anonymisation (default: 365).',
+            help="Number of days of inactivity before anonymisation (default: 365).",
         )
         parser.add_argument(
-            '--dry-run',
-            action='store_true',
-            help='Report which accounts would be anonymised without making changes.',
+            "--dry-run",
+            action="store_true",
+            help="Report which accounts would be anonymised without making changes.",
         )
 
     def handle(self, *args, **options):
         # Import here to avoid app-registry issues during tests
         from apps.users.models import User
 
-        days = options['days']
-        dry_run = options['dry_run']
+        days = options["days"]
+        dry_run = options["dry_run"]
         cutoff = timezone.now() - timedelta(days=days)
 
         # Accounts that have explicit last_activity_at older than cutoff
@@ -70,41 +70,48 @@ class Command(BaseCommand):
         count = candidates.count()
 
         if count == 0:
-            self.stdout.write(self.style.SUCCESS('No inactive accounts found.'))
+            self.stdout.write(self.style.SUCCESS("No inactive accounts found."))
             return
 
         if dry_run:
             self.stdout.write(
-                self.style.WARNING(
-                    f'[DRY RUN] {count} account(s) would be anonymised:'
-                )
+                self.style.WARNING(f"[DRY RUN] {count} account(s) would be anonymised:")
             )
-            for user in candidates.order_by('username'):
+            for user in candidates.order_by("username"):
                 last = user.last_activity_at or user.date_joined
-                self.stdout.write(f'  • {user.username} (last active: {last.date()})')
+                self.stdout.write(f"  • {user.username} (last active: {last.date()})")
             return
 
         anonymised = 0
         for user in candidates:
             pk = user.pk
-            user.username = f'deleted_{pk}'
-            user.email = ''
-            user.real_name = ''
-            user.bio = ''
-            user.linkedin_url = ''
-            user.orcid_url = ''
-            user.website_url = ''
+            user.username = f"deleted_{pk}"
+            user.email = ""
+            user.real_name = ""
+            user.bio = ""
+            user.linkedin_url = ""
+            user.orcid_url = ""
+            user.website_url = ""
             user.is_active = False
             user.deletion_requested_at = timezone.now()
             user.set_unusable_password()
-            user.save(update_fields=[
-                'username', 'email', 'real_name', 'bio',
-                'linkedin_url', 'orcid_url', 'website_url',
-                'is_active', 'deletion_requested_at', 'password',
-            ])
+            user.save(
+                update_fields=[
+                    "username",
+                    "email",
+                    "real_name",
+                    "bio",
+                    "linkedin_url",
+                    "orcid_url",
+                    "website_url",
+                    "is_active",
+                    "deletion_requested_at",
+                    "password",
+                ]
+            )
             anonymised += 1
-            self.stdout.write(f'  Anonymised pk={pk}')
+            self.stdout.write(f"  Anonymised pk={pk}")
 
         self.stdout.write(
-            self.style.SUCCESS(f'Done. {anonymised} account(s) anonymised.')
+            self.style.SUCCESS(f"Done. {anonymised} account(s) anonymised.")
         )

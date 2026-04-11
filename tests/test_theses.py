@@ -10,7 +10,7 @@ class MiniThesisModelTest(TestCase):
 
     def setUp(self):
         """Set up test data."""
-        self.user = User.objects.create_user(username='testuser')
+        self.user = User.objects.create_user(username="testuser")
 
     def test_mini_thesis_creation(self):
         """Test that a mini-thesis can be created."""
@@ -20,7 +20,7 @@ class MiniThesisModelTest(TestCase):
             facts="Test facts with sources",
             normative_premises="Test normative premises",
             conclusion="Test conclusion",
-            declared_limits="Test limits"
+            declared_limits="Test limits",
         )
 
         self.assertEqual(thesis.author, self.user)
@@ -35,7 +35,7 @@ class MiniThesisModelTest(TestCase):
             facts="Test facts",
             normative_premises="Test premises",
             conclusion="Test conclusion",
-            declared_limits="Test limits"
+            declared_limits="Test limits",
         )
 
         # Without tags, should be 0.5
@@ -47,22 +47,20 @@ class CommentModelTest(TestCase):
 
     def setUp(self):
         """Set up test data."""
-        self.user = User.objects.create_user(username='testuser')
+        self.user = User.objects.create_user(username="testuser")
         self.thesis = MiniThesis.objects.create(
             author=self.user,
             thesis="Test thesis",
             facts="Test facts",
             normative_premises="Test premises",
             conclusion="Test conclusion",
-            declared_limits="Test limits"
+            declared_limits="Test limits",
         )
 
     def test_comment_creation(self):
         """Test that a comment can be created."""
         comment = Comment.objects.create(
-            thesis=self.thesis,
-            author=self.user,
-            content="Test comment content"
+            thesis=self.thesis, author=self.user, content="Test comment content"
         )
 
         self.assertEqual(comment.thesis, self.thesis)
@@ -75,14 +73,14 @@ class CitationModelTest(TestCase):
 
     def setUp(self):
         """Set up test data."""
-        self.user = User.objects.create_user(username='testuser')
+        self.user = User.objects.create_user(username="testuser")
         self.thesis1 = MiniThesis.objects.create(
             author=self.user,
             thesis="Thesis 1",
             facts="Facts 1",
             normative_premises="Premises 1",
             conclusion="Conclusion 1",
-            declared_limits="Limits 1"
+            declared_limits="Limits 1",
         )
         self.thesis2 = MiniThesis.objects.create(
             author=self.user,
@@ -90,7 +88,7 @@ class CitationModelTest(TestCase):
             facts="Facts 2",
             normative_premises="Premises 2",
             conclusion="Conclusion 2",
-            declared_limits="Limits 2"
+            declared_limits="Limits 2",
         )
 
     def test_citation_creation(self):
@@ -98,7 +96,7 @@ class CitationModelTest(TestCase):
         citation = Citation.objects.create(
             citing_thesis=self.thesis1,
             cited_thesis=self.thesis2,
-            context="This thesis builds upon the previous work"
+            context="This thesis builds upon the previous work",
         )
 
         self.assertEqual(citation.citing_thesis, self.thesis1)
@@ -110,12 +108,12 @@ class CitationModelTest(TestCase):
         Citation.objects.create(
             citing_thesis=self.thesis1,
             cited_thesis=self.thesis2,
-            context="First citation"
+            context="First citation",
         )
 
         with self.assertRaises(Exception):
             Citation.objects.create(
                 citing_thesis=self.thesis1,
                 cited_thesis=self.thesis2,
-                context="Duplicate citation"
+                context="Duplicate citation",
             )

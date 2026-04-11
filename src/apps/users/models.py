@@ -18,15 +18,13 @@ class User(AbstractUser):
 
     # Level system
     class UserLevel(models.TextChoices):
-        READER = 'reader', 'Reader'
-        COMMENTATOR = 'commentator', 'Commentator'
-        TAGGER = 'tagger', 'Tagger'
-        EDITORIAL_REVIEWER = 'editorial_reviewer', 'Editorial Reviewer'
+        READER = "reader", "Reader"
+        COMMENTATOR = "commentator", "Commentator"
+        TAGGER = "tagger", "Tagger"
+        EDITORIAL_REVIEWER = "editorial_reviewer", "Editorial Reviewer"
 
     level = models.CharField(
-        max_length=20,
-        choices=UserLevel.choices,
-        default=UserLevel.READER
+        max_length=20, choices=UserLevel.choices, default=UserLevel.READER
     )
 
     # Progression tracking
@@ -35,23 +33,24 @@ class User(AbstractUser):
 
     # Sponsorship system
     sponsor = models.ForeignKey(
-        'self',
+        "self",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='sponsored_users'
+        related_name="sponsored_users",
     )
+
     class SponsorshipStatus(models.TextChoices):
-        PENDING = 'pending', 'Pending sponsor validation'
-        APPROVED = 'approved', 'Approved'
-        REJECTED = 'rejected', 'Rejected'
+        PENDING = "pending", "Pending sponsor validation"
+        APPROVED = "approved", "Approved"
+        REJECTED = "rejected", "Rejected"
 
     sponsorship_status = models.CharField(
         max_length=10,
         choices=SponsorshipStatus.choices,
         default=SponsorshipStatus.APPROVED,
     )
-    contacts = models.ManyToManyField('self', blank=True)
+    contacts = models.ManyToManyField("self", blank=True)
 
     # Founder status
     is_founder = models.BooleanField(default=False)
@@ -81,7 +80,7 @@ class User(AbstractUser):
         return self.level in [
             self.UserLevel.COMMENTATOR,
             self.UserLevel.TAGGER,
-            self.UserLevel.EDITORIAL_REVIEWER
+            self.UserLevel.EDITORIAL_REVIEWER,
         ]
 
     def can_tag(self):
@@ -113,19 +112,19 @@ class ContactRequest(models.Model):
     """A pending request between two users before adding them as contacts."""
 
     class Status(models.TextChoices):
-        PENDING = 'pending', 'Pending'
-        ACCEPTED = 'accepted', 'Accepted'
-        REJECTED = 'rejected', 'Rejected'
+        PENDING = "pending", "Pending"
+        ACCEPTED = "accepted", "Accepted"
+        REJECTED = "rejected", "Rejected"
 
     from_user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='sent_contact_requests',
+        related_name="sent_contact_requests",
     )
     to_user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='received_contact_requests',
+        related_name="received_contact_requests",
     )
     status = models.CharField(
         max_length=10,
@@ -136,8 +135,8 @@ class ContactRequest(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ['from_user', 'to_user']
-        ordering = ['-created_at']
+        unique_together = ["from_user", "to_user"]
+        ordering = ["-created_at"]
 
     def __str__(self):
-        return f'{self.from_user} -> {self.to_user} ({self.status})'
+        return f"{self.from_user} -> {self.to_user} ({self.status})"

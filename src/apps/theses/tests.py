@@ -12,7 +12,7 @@ class TestMiniThesisModel(TestCase):
 
     def setUp(self):
         """Set up test data."""
-        self.user = User.objects.create_user(username='testuser')
+        self.user = User.objects.create_user(username="testuser")
 
     def test_mini_thesis_creation(self):
         """Test that a mini-thesis can be created."""
@@ -22,7 +22,7 @@ class TestMiniThesisModel(TestCase):
             facts="Test facts with sources",
             normative_premises="Test normative premises",
             conclusion="Test conclusion",
-            declared_limits="Test limits"
+            declared_limits="Test limits",
         )
 
         self.assertEqual(thesis.author, self.user)
@@ -37,7 +37,7 @@ class TestMiniThesisModel(TestCase):
             facts="Test facts",
             normative_premises="Test premises",
             conclusion="Test conclusion",
-            declared_limits="Test limits"
+            declared_limits="Test limits",
         )
 
         # Without tags, should be 0.5
@@ -50,7 +50,7 @@ class TestMiniThesisModel(TestCase):
             facts="Facts",
             normative_premises="Premises",
             conclusion="Conclusion",
-            declared_limits="Limits"
+            declared_limits="Limits",
         )
         MiniThesis.objects.create(
             author=self.user,
@@ -59,7 +59,7 @@ class TestMiniThesisModel(TestCase):
             facts="Facts",
             normative_premises="Premises",
             conclusion="Conclusion",
-            declared_limits="Limits"
+            declared_limits="Limits",
         )
 
         self.assertEqual(thesis.follow_up_count, 1)
@@ -70,22 +70,20 @@ class TestCommentModel(TestCase):
 
     def setUp(self):
         """Set up test data."""
-        self.user = User.objects.create_user(username='testuser')
+        self.user = User.objects.create_user(username="testuser")
         self.thesis = MiniThesis.objects.create(
             author=self.user,
             thesis="Test thesis",
             facts="Test facts",
             normative_premises="Test premises",
             conclusion="Test conclusion",
-            declared_limits="Test limits"
+            declared_limits="Test limits",
         )
 
     def test_comment_creation(self):
         """Test that a comment can be created."""
         comment = Comment.objects.create(
-            thesis=self.thesis,
-            author=self.user,
-            content="Test comment content"
+            thesis=self.thesis, author=self.user, content="Test comment content"
         )
 
         self.assertEqual(comment.thesis, self.thesis)
@@ -98,14 +96,14 @@ class TestCitationModel(TestCase):
 
     def setUp(self):
         """Set up test data."""
-        self.user = User.objects.create_user(username='testuser')
+        self.user = User.objects.create_user(username="testuser")
         self.thesis1 = MiniThesis.objects.create(
             author=self.user,
             thesis="Thesis 1",
             facts="Facts 1",
             normative_premises="Premises 1",
             conclusion="Conclusion 1",
-            declared_limits="Limits 1"
+            declared_limits="Limits 1",
         )
         self.thesis2 = MiniThesis.objects.create(
             author=self.user,
@@ -113,7 +111,7 @@ class TestCitationModel(TestCase):
             facts="Facts 2",
             normative_premises="Premises 2",
             conclusion="Conclusion 2",
-            declared_limits="Limits 2"
+            declared_limits="Limits 2",
         )
 
     def test_citation_creation(self):
@@ -121,7 +119,7 @@ class TestCitationModel(TestCase):
         citation = Citation.objects.create(
             citing_thesis=self.thesis1,
             cited_thesis=self.thesis2,
-            context="This thesis builds upon the previous work"
+            context="This thesis builds upon the previous work",
         )
 
         self.assertEqual(citation.citing_thesis, self.thesis1)
@@ -133,14 +131,14 @@ class TestCitationModel(TestCase):
         Citation.objects.create(
             citing_thesis=self.thesis1,
             cited_thesis=self.thesis2,
-            context="First citation"
+            context="First citation",
         )
 
         with self.assertRaises(Exception):
             Citation.objects.create(
                 citing_thesis=self.thesis1,
                 cited_thesis=self.thesis2,
-                context="Duplicate citation"
+                context="Duplicate citation",
             )
 
 
@@ -149,31 +147,33 @@ class TestMiniThesisForm(TestCase):
 
     def _base_form_data(self):
         return {
-            'thesis': 'Thesis proposition',
-            'facts': 'Facts and sources',
-            'conclusion': 'Conclusion',
-            'declared_limits': 'Declared limits',
+            "thesis": "Thesis proposition",
+            "facts": "Facts and sources",
+            "conclusion": "Conclusion",
+            "declared_limits": "Declared limits",
         }
 
     def test_form_accepts_custom_normative_premises(self):
         """Custom premises alone should satisfy validation."""
         data = self._base_form_data()
-        data.update({'custom_normative_premises': 'Human dignity is a baseline value.'})
+        data.update({"custom_normative_premises": "Human dignity is a baseline value."})
 
         form = MiniThesisForm(data=data)
 
         self.assertTrue(form.is_valid())
-        self.assertIn('Custom normative premises:', form.cleaned_data['normative_premises'])
+        self.assertIn(
+            "Custom normative premises:", form.cleaned_data["normative_premises"]
+        )
 
     def test_form_accepts_preset_normative_premises(self):
         """Preset premises should satisfy validation even with no custom text."""
         data = self._base_form_data()
         data.update(
             {
-                'argument_field': 'political',
-                'viewing_lens': 'liberal',
-                'preset_normative_premises': [
-                    'Political legitimacy requires transparent and accountable institutions.',
+                "argument_field": "political",
+                "viewing_lens": "liberal",
+                "preset_normative_premises": [
+                    "Political legitimacy requires transparent and accountable institutions.",
                 ],
             }
         )
@@ -181,25 +181,27 @@ class TestMiniThesisForm(TestCase):
         form = MiniThesisForm(data=data)
 
         self.assertTrue(form.is_valid())
-        self.assertIn('Preset normative premises:', form.cleaned_data['normative_premises'])
-        self.assertIn('Field: political', form.cleaned_data['normative_premises'])
-        self.assertIn('Viewing lens: liberal', form.cleaned_data['normative_premises'])
+        self.assertIn(
+            "Preset normative premises:", form.cleaned_data["normative_premises"]
+        )
+        self.assertIn("Field: political", form.cleaned_data["normative_premises"])
+        self.assertIn("Viewing lens: liberal", form.cleaned_data["normative_premises"])
 
     def test_form_requires_custom_or_preset_premises(self):
         """At least one normative premise source must be provided."""
         form = MiniThesisForm(data=self._base_form_data())
 
         self.assertFalse(form.is_valid())
-        self.assertIn('custom_normative_premises', form.errors)
+        self.assertIn("custom_normative_premises", form.errors)
 
     def test_form_accepts_field_without_lens(self):
         """A user can skip lens and still use field presets."""
         data = self._base_form_data()
         data.update(
             {
-                'argument_field': 'technical',
-                'preset_normative_premises': [
-                    'Systems should be evaluated through reliability, safety, and maintainability.',
+                "argument_field": "technical",
+                "preset_normative_premises": [
+                    "Systems should be evaluated through reliability, safety, and maintainability.",
                 ],
             }
         )
@@ -207,18 +209,18 @@ class TestMiniThesisForm(TestCase):
         form = MiniThesisForm(data=data)
 
         self.assertTrue(form.is_valid())
-        self.assertIn('Field: technical', form.cleaned_data['normative_premises'])
-        self.assertNotIn('Viewing lens:', form.cleaned_data['normative_premises'])
+        self.assertIn("Field: technical", form.cleaned_data["normative_premises"])
+        self.assertNotIn("Viewing lens:", form.cleaned_data["normative_premises"])
 
     def test_form_accepts_new_availability_lens(self):
         """Technical users can choose the availability lens."""
         data = self._base_form_data()
         data.update(
             {
-                'argument_field': 'technical',
-                'viewing_lens': 'availability',
-                'preset_normative_premises': [
-                    'Critical services should prioritize continuity and graceful degradation.',
+                "argument_field": "technical",
+                "viewing_lens": "availability",
+                "preset_normative_premises": [
+                    "Critical services should prioritize continuity and graceful degradation.",
                 ],
             }
         )
@@ -226,21 +228,23 @@ class TestMiniThesisForm(TestCase):
         form = MiniThesisForm(data=data)
 
         self.assertTrue(form.is_valid())
-        self.assertIn('Viewing lens: availability', form.cleaned_data['normative_premises'])
+        self.assertIn(
+            "Viewing lens: availability", form.cleaned_data["normative_premises"]
+        )
 
 
 class TestThesisAccessControl(TestCase):
     """Test thesis writing restrictions based on sponsorship status."""
 
     def setUp(self):
-        self.sponsor = User.objects.create_user(username='sponsor_user')
+        self.sponsor = User.objects.create_user(username="sponsor_user")
         self.pending_user = User.objects.create_user(
-            username='pending_writer',
+            username="pending_writer",
             sponsor=self.sponsor,
             sponsorship_status=User.SponsorshipStatus.PENDING,
         )
         self.approved_user = User.objects.create_user(
-            username='approved_writer',
+            username="approved_writer",
             sponsor=self.sponsor,
             sponsorship_status=User.SponsorshipStatus.APPROVED,
         )
@@ -248,103 +252,107 @@ class TestThesisAccessControl(TestCase):
     def test_pending_user_cannot_access_thesis_create(self):
         self.client.force_login(self.pending_user)
 
-        response = self.client.get(reverse('theses:create'), follow=True)
+        response = self.client.get(reverse("theses:create"), follow=True)
 
         self.assertEqual(response.status_code, 200)
-        self.assertRedirects(response, reverse('theses:list'))
-        messages = list(response.context['messages'])
+        self.assertRedirects(response, reverse("theses:list"))
+        messages = list(response.context["messages"])
         self.assertTrue(
-            any('cannot write a thesis until your sponsorship is approved' in str(message) for message in messages)
+            any(
+                "cannot write a thesis until your sponsorship is approved"
+                in str(message)
+                for message in messages
+            )
         )
 
     def test_approved_user_can_access_thesis_create(self):
         self.client.force_login(self.approved_user)
 
-        response = self.client.get(reverse('theses:create'))
+        response = self.client.get(reverse("theses:create"))
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Create Mini-Thesis')
+        self.assertContains(response, "Create Mini-Thesis")
 
 
 class TestThesisViews(TestCase):
     """Test thesis detail, follow-up creation, and review tab behavior."""
 
     def setUp(self):
-        self.user = User.objects.create_user(username='author')
+        self.user = User.objects.create_user(username="author")
         self.reviewer = User.objects.create_user(
-            username='editor_reviewer',
+            username="editor_reviewer",
             level=User.UserLevel.EDITORIAL_REVIEWER,
         )
         self.review_tag = Tag.objects.create(
             name=Tag.TagType.NON_SEQUITUR,
-            description='Logical jump between premises and conclusion.',
+            description="Logical jump between premises and conclusion.",
         )
         self.thesis = MiniThesis.objects.create(
             author=self.user,
-            thesis='Main thesis',
-            facts='Main facts',
-            normative_premises='Main premises',
-            conclusion='Main conclusion',
-            declared_limits='Main limits',
+            thesis="Main thesis",
+            facts="Main facts",
+            normative_premises="Main premises",
+            conclusion="Main conclusion",
+            declared_limits="Main limits",
         )
 
     def test_thesis_detail_rejects_post_requests(self):
-        response = self.client.post(reverse('theses:detail', args=[self.thesis.pk]))
+        response = self.client.post(reverse("theses:detail", args=[self.thesis.pk]))
 
         self.assertEqual(response.status_code, 405)
 
     def test_follow_up_create_sets_parent_thesis(self):
         self.client.force_login(self.user)
         payload = {
-            'thesis': 'Follow-up argument',
-            'facts': 'Follow-up facts',
-            'conclusion': 'Follow-up conclusion',
-            'declared_limits': 'Follow-up limits',
-            'custom_normative_premises': 'Follow-up premise',
+            "thesis": "Follow-up argument",
+            "facts": "Follow-up facts",
+            "conclusion": "Follow-up conclusion",
+            "declared_limits": "Follow-up limits",
+            "custom_normative_premises": "Follow-up premise",
         }
 
         response = self.client.post(
-            reverse('theses:follow_up', args=[self.thesis.pk]),
+            reverse("theses:follow_up", args=[self.thesis.pk]),
             payload,
             follow=True,
         )
 
         self.assertEqual(response.status_code, 200)
-        follow_up = MiniThesis.objects.get(thesis='Follow-up argument')
+        follow_up = MiniThesis.objects.get(thesis="Follow-up argument")
         self.assertEqual(follow_up.parent_thesis, self.thesis)
 
     def test_review_tab_renders(self):
-        response = self.client.get(reverse('theses:review', args=[self.thesis.pk]))
+        response = self.client.get(reverse("theses:review", args=[self.thesis.pk]))
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Review Workspace')
+        self.assertContains(response, "Review Workspace")
 
     def test_thesis_list_marks_follow_up_entries(self):
         MiniThesis.objects.create(
             author=self.user,
             parent_thesis=self.thesis,
-            thesis='Nested follow-up thesis',
-            facts='Nested facts',
-            normative_premises='Nested premises',
-            conclusion='Nested conclusion',
-            declared_limits='Nested limits',
+            thesis="Nested follow-up thesis",
+            facts="Nested facts",
+            normative_premises="Nested premises",
+            conclusion="Nested conclusion",
+            declared_limits="Nested limits",
         )
 
-        response = self.client.get(reverse('theses:list'))
+        response = self.client.get(reverse("theses:list"))
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Follow-up to')
+        self.assertContains(response, "Follow-up to")
 
     def test_editorial_reviewer_can_add_highlight_review(self):
         self.client.force_login(self.reviewer)
 
         response = self.client.post(
-            reverse('theses:review', args=[self.thesis.pk]),
+            reverse("theses:review", args=[self.thesis.pk]),
             {
-                'section': 'facts',
-                'selected_text': 'Main facts',
-                'tag': self.review_tag.pk,
-                'comment': 'This part requires stronger support.',
+                "section": "facts",
+                "selected_text": "Main facts",
+                "tag": self.review_tag.pk,
+                "comment": "This part requires stronger support.",
             },
             follow=True,
         )
@@ -353,25 +361,25 @@ class TestThesisViews(TestCase):
         self.assertTrue(
             ThesisReviewHighlight.objects.filter(
                 thesis=self.thesis,
-                selected_text='Main facts',
+                selected_text="Main facts",
             ).exists()
         )
 
     def test_superuser_can_add_highlight_review(self):
         superuser = User.objects.create_superuser(
-            username='admin_reviewer',
-            email='admin@example.com',
-            password='AdminPass!234',
+            username="admin_reviewer",
+            email="admin@example.com",
+            password="AdminPass!234",
         )
         self.client.force_login(superuser)
 
         response = self.client.post(
-            reverse('theses:review', args=[self.thesis.pk]),
+            reverse("theses:review", args=[self.thesis.pk]),
             {
-                'section': 'conclusion',
-                'selected_text': 'Main conclusion',
-                'tag': self.review_tag.pk,
-                'comment': 'Admin review note.',
+                "section": "conclusion",
+                "selected_text": "Main conclusion",
+                "tag": self.review_tag.pk,
+                "comment": "Admin review note.",
             },
             follow=True,
         )
@@ -381,7 +389,7 @@ class TestThesisViews(TestCase):
             ThesisReviewHighlight.objects.filter(
                 thesis=self.thesis,
                 reviewer=superuser,
-                selected_text='Main conclusion',
+                selected_text="Main conclusion",
             ).exists()
         )
 
@@ -389,15 +397,15 @@ class TestThesisViews(TestCase):
         ThesisReviewHighlight.objects.create(
             thesis=self.thesis,
             reviewer=self.reviewer,
-            section='facts',
-            selected_text='Main facts',
+            section="facts",
+            selected_text="Main facts",
             tag=self.review_tag,
-            comment='Tooltip comment',
+            comment="Tooltip comment",
         )
 
-        response = self.client.get(reverse('theses:detail', args=[self.thesis.pk]))
+        response = self.client.get(reverse("theses:detail", args=[self.thesis.pk]))
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'review-highlight')
+        self.assertContains(response, "review-highlight")
         self.assertContains(response, str(self.review_tag))
-        self.assertContains(response, 'Tooltip comment')
+        self.assertContains(response, "Tooltip comment")

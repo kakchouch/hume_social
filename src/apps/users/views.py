@@ -23,25 +23,30 @@ def landing_page(request):
     min_rigor_threshold = 0.0
 
     if not request.user.is_authenticated:
-        if request.method == 'POST':
+        if request.method == "POST":
             form = CustomUserCreationForm(request.POST)
             if form.is_valid():
                 user = form.save()
                 login(request, user)
-                return redirect('index')
+                return redirect("index")
         else:
             form = CustomUserCreationForm()
     else:
         preferences, _ = UserFeedPreference.objects.get_or_create(user=request.user)
-        blocked_user_ids = preferences.blocked_users.values_list('id', flat=True)
+        blocked_user_ids = preferences.blocked_users.values_list("id", flat=True)
         min_rigor_threshold = preferences.min_rigor_threshold
         theses = (
             MiniThesis.objects.filter(is_published=True)
-            .select_related('author', 'parent_thesis')
+            .select_related("author", "parent_thesis")
             .exclude(author_id__in=blocked_user_ids)
         )
         for thesis in theses:
-            rigor_score, engagement_score, recency_score, total_score = FeedItem.calculate_scores(
+            (
+                rigor_score,
+                engagement_score,
+                recency_score,
+                total_score,
+            ) = FeedItem.calculate_scores(
                 thesis,
                 request.user,
             )
@@ -49,32 +54,32 @@ def landing_page(request):
                 continue
             feed_items.append(
                 {
-                    'thesis': thesis,
-                    'rigor_score': rigor_score,
-                    'engagement_score': engagement_score,
-                    'recency_score': recency_score,
-                    'total_score': total_score,
+                    "thesis": thesis,
+                    "rigor_score": rigor_score,
+                    "engagement_score": engagement_score,
+                    "recency_score": recency_score,
+                    "total_score": total_score,
                 }
             )
-        feed_items.sort(key=lambda item: item['total_score'], reverse=True)
+        feed_items.sort(key=lambda item: item["total_score"], reverse=True)
         feed_items = feed_items[:20]
 
     return render(
         request,
-        'index.html',
+        "index.html",
         {
-            'signup_form': form,
-            'feed_items': feed_items,
-            'min_rigor_threshold': min_rigor_threshold,
+            "signup_form": form,
+            "feed_items": feed_items,
+            "min_rigor_threshold": min_rigor_threshold,
         },
     )
 
 
 def user_list(request):
     """Searchable user directory page."""
-    query = (request.GET.get('q') or '').strip()
+    query = (request.GET.get("q") or "").strip()
 
-    users = User.objects.select_related('sponsor').order_by('username')
+    users = User.objects.select_related("sponsor").order_by("username")
     if query:
         users = users.filter(
             Q(username__icontains=query)
@@ -84,10 +89,10 @@ def user_list(request):
 
     return render(
         request,
-        'users/user_list.html',
+        "users/user_list.html",
         {
-            'users': users,
-            'search_query': query,
+            "users": users,
+            "search_query": query,
         },
     )
 
@@ -95,7 +100,9 @@ def user_list(request):
 def user_detail(request, pk):
     """User profile with sponsorship and contact information."""
     profile_user = get_object_or_404(
-        User.objects.select_related('sponsor').prefetch_related('sponsored_users', 'contacts'),
+        User.objects.select_related("sponsor").prefetch_related(
+            "sponsored_users", "contacts"
+        ),
         pk=pk,
     )
     contact_state = None
@@ -103,7 +110,7 @@ def user_detail(request, pk):
 
     if request.user.is_authenticated and request.user != profile_user:
         if request.user.is_in_contact_with(profile_user):
-            contact_state = 'connected'
+            contact_state = "connected"
         else:
             outgoing_request = ContactRequest.objects.filter(
                 from_user=request.user,
@@ -116,19 +123,19 @@ def user_detail(request, pk):
                 status=ContactRequest.Status.PENDING,
             ).first()
             if outgoing_request:
-                contact_state = 'sent'
+                contact_state = "sent"
             elif incoming_request:
-                contact_state = 'received'
+                contact_state = "received"
 
     return render(
         request,
-        'users/user_detail.html',
+        "users/user_detail.html",
         {
-            'profile_user': profile_user,
-            'sponsored_users': profile_user.sponsored_users.all().order_by('username'),
-            'contacts': profile_user.contacts.all().order_by('username'),
-            'contact_state': contact_state,
-            'incoming_request': incoming_request,
+            "profile_user": profile_user,
+            "sponsored_users": profile_user.sponsored_users.all().order_by("username"),
+            "contacts": profile_user.contacts.all().order_by("username"),
+            "contact_state": contact_state,
+            "incoming_request": incoming_request,
         },
     )
 
@@ -136,16 +143,16 @@ def user_detail(request, pk):
 @login_required
 def send_contact_request(request, pk):
     """Send a contact request to another user from their profile page."""
-    if request.method != 'POST':
-        return redirect('users:detail', pk=pk)
+    if request.method != "POST":
+        return redirect("users:detail", pk=pk)
 
     recipient = get_object_or_404(User, pk=pk)
     if recipient == request.user:
-        return redirect('users:detail', pk=pk)
+        return redirect("users:detail", pk=pk)
 
     if request.user.is_in_contact_with(recipient):
-        messages.info(request, 'You are already connected with this user.')
-        return redirect('users:detail', pk=pk)
+        messages.info(request, "You are already connected with this user.")
+        return redirect("users:detail", pk=pk)
 
     existing_request = ContactRequest.objects.filter(
         Q(from_user=request.user, to_user=recipient)
@@ -153,12 +160,12 @@ def send_contact_request(request, pk):
         status=ContactRequest.Status.PENDING,
     ).first()
     if existing_request:
-        messages.info(request, 'A contact request is already pending between you.')
-        return redirect('users:detail', pk=pk)
+        messages.info(request, "A contact request is already pending between you.")
+        return redirect("users:detail", pk=pk)
 
     ContactRequest.objects.create(from_user=request.user, to_user=recipient)
-    messages.success(request, 'Contact request sent.')
-    return redirect('users:detail', pk=pk)
+    messages.success(request, "Contact request sent.")
+    return redirect("users:detail", pk=pk)
 
 
 @login_required
@@ -167,18 +174,18 @@ def contact_requests(request):
     incoming_requests = ContactRequest.objects.filter(
         to_user=request.user,
         status=ContactRequest.Status.PENDING,
-    ).select_related('from_user')
+    ).select_related("from_user")
     outgoing_requests = ContactRequest.objects.filter(
         from_user=request.user,
         status=ContactRequest.Status.PENDING,
-    ).select_related('to_user')
+    ).select_related("to_user")
 
     return render(
         request,
-        'users/contact_requests.html',
+        "users/contact_requests.html",
         {
-            'incoming_requests': incoming_requests,
-            'outgoing_requests': outgoing_requests,
+            "incoming_requests": incoming_requests,
+            "outgoing_requests": outgoing_requests,
         },
     )
 
@@ -186,8 +193,8 @@ def contact_requests(request):
 @login_required
 def contact_request_decision(request, pk):
     """Accept or reject a received contact request."""
-    if request.method != 'POST':
-        return redirect('users:contact_requests')
+    if request.method != "POST":
+        return redirect("users:contact_requests")
 
     contact_request = get_object_or_404(
         ContactRequest,
@@ -195,18 +202,18 @@ def contact_request_decision(request, pk):
         to_user=request.user,
         status=ContactRequest.Status.PENDING,
     )
-    decision = request.POST.get('decision')
-    if decision == 'accept':
+    decision = request.POST.get("decision")
+    if decision == "accept":
         contact_request.status = ContactRequest.Status.ACCEPTED
-        contact_request.save(update_fields=['status', 'updated_at'])
+        contact_request.save(update_fields=["status", "updated_at"])
         request.user.contacts.add(contact_request.from_user)
-        messages.success(request, 'Contact request accepted.')
-    elif decision == 'reject':
+        messages.success(request, "Contact request accepted.")
+    elif decision == "reject":
         contact_request.status = ContactRequest.Status.REJECTED
-        contact_request.save(update_fields=['status', 'updated_at'])
-        messages.info(request, 'Contact request rejected.')
+        contact_request.save(update_fields=["status", "updated_at"])
+        messages.info(request, "Contact request rejected.")
 
-    return redirect('users:contact_requests')
+    return redirect("users:contact_requests")
 
 
 @login_required
@@ -215,20 +222,20 @@ def sponsorship_requests(request):
     pending_users = User.objects.filter(
         sponsor=request.user,
         sponsorship_status=User.SponsorshipStatus.PENDING,
-    ).order_by('date_joined')
+    ).order_by("date_joined")
 
     return render(
         request,
-        'users/sponsorship_requests.html',
-        {'pending_users': pending_users},
+        "users/sponsorship_requests.html",
+        {"pending_users": pending_users},
     )
 
 
 @login_required
 def sponsorship_decision(request, pk):
     """Approve or reject sponsorship for a pending sponsored user."""
-    if request.method != 'POST':
-        return redirect('users:sponsorship_requests')
+    if request.method != "POST":
+        return redirect("users:sponsorship_requests")
 
     sponsored_user = get_object_or_404(
         User,
@@ -236,44 +243,50 @@ def sponsorship_decision(request, pk):
         sponsor=request.user,
         sponsorship_status=User.SponsorshipStatus.PENDING,
     )
-    decision = request.POST.get('decision')
-    if decision == 'approve':
+    decision = request.POST.get("decision")
+    if decision == "approve":
         sponsored_user.sponsorship_status = User.SponsorshipStatus.APPROVED
-        sponsored_user.save(update_fields=['sponsorship_status'])
-    elif decision == 'reject':
+        sponsored_user.save(update_fields=["sponsorship_status"])
+    elif decision == "reject":
         sponsored_user.sponsorship_status = User.SponsorshipStatus.REJECTED
-        sponsored_user.save(update_fields=['sponsorship_status'])
+        sponsored_user.save(update_fields=["sponsorship_status"])
 
-    return redirect('users:sponsorship_requests')
+    return redirect("users:sponsorship_requests")
 
 
 # ---------------------------------------------------------------------------
 # Own profile (my profile)
 # ---------------------------------------------------------------------------
 
+
 @login_required
 def my_profile(request):
     """The currently logged-in user's own profile with edit capability."""
-    if request.method == 'POST':
+    if request.method == "POST":
         form = UserProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Profile updated.')
-            return redirect('users:me')
+            messages.success(request, "Profile updated.")
+            return redirect("users:me")
     else:
         form = UserProfileForm(instance=request.user)
 
-    return render(request, 'users/my_profile.html', {
-        'form': form,
-        'profile_user': request.user,
-        'sponsored_users': request.user.sponsored_users.order_by('username'),
-        'contacts': request.user.contacts.order_by('username'),
-    })
+    return render(
+        request,
+        "users/my_profile.html",
+        {
+            "form": form,
+            "profile_user": request.user,
+            "sponsored_users": request.user.sponsored_users.order_by("username"),
+            "contacts": request.user.contacts.order_by("username"),
+        },
+    )
 
 
 # ---------------------------------------------------------------------------
 # Account deletion (GDPR: right to erasure)
 # ---------------------------------------------------------------------------
+
 
 @login_required
 def delete_account(request):
@@ -287,7 +300,7 @@ def delete_account(request):
     """
     form = DeleteAccountForm(user=request.user)
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = DeleteAccountForm(request.POST, user=request.user)
         if form.is_valid():
             user = request.user
@@ -295,34 +308,44 @@ def delete_account(request):
             logout(request)
 
             pk = user.pk
-            user.username = f'deleted_{pk}'
-            user.email = ''
-            user.real_name = ''
-            user.bio = ''
-            user.linkedin_url = ''
-            user.orcid_url = ''
-            user.website_url = ''
+            user.username = f"deleted_{pk}"
+            user.email = ""
+            user.real_name = ""
+            user.bio = ""
+            user.linkedin_url = ""
+            user.orcid_url = ""
+            user.website_url = ""
             user.is_active = False
             user.deletion_requested_at = timezone.now()
             user.set_unusable_password()
-            user.save(update_fields=[
-                'username', 'email', 'real_name', 'bio',
-                'linkedin_url', 'orcid_url', 'website_url',
-                'is_active', 'deletion_requested_at', 'password',
-            ])
-            return redirect('users:account_deleted')
+            user.save(
+                update_fields=[
+                    "username",
+                    "email",
+                    "real_name",
+                    "bio",
+                    "linkedin_url",
+                    "orcid_url",
+                    "website_url",
+                    "is_active",
+                    "deletion_requested_at",
+                    "password",
+                ]
+            )
+            return redirect("users:account_deleted")
 
-    return render(request, 'users/delete_account_confirm.html', {'form': form})
+    return render(request, "users/delete_account_confirm.html", {"form": form})
 
 
 def account_deleted(request):
     """Simple confirmation page shown after account deletion."""
-    return render(request, 'users/account_deleted.html')
+    return render(request, "users/account_deleted.html")
 
 
 # ---------------------------------------------------------------------------
 # Data portability (GDPR: right to data portability)
 # ---------------------------------------------------------------------------
+
 
 @login_required
 def download_my_data(request):
@@ -331,50 +354,63 @@ def download_my_data(request):
 
     theses = list(
         user.theses.values(
-            'pk', 'thesis', 'conclusion', 'is_published', 'created_at', 'updated_at',
+            "pk",
+            "thesis",
+            "conclusion",
+            "is_published",
+            "created_at",
+            "updated_at",
         )
     )
-    contact_list = list(user.contacts.values('pk', 'username', 'real_name'))
+    contact_list = list(user.contacts.values("pk", "username", "real_name"))
 
     sent_requests = list(
-        user.sent_contact_requests.values('pk', 'to_user__username', 'status', 'created_at')
+        user.sent_contact_requests.values(
+            "pk", "to_user__username", "status", "created_at"
+        )
     )
     received_requests = list(
-        user.received_contact_requests.values('pk', 'from_user__username', 'status', 'created_at')
+        user.received_contact_requests.values(
+            "pk", "from_user__username", "status", "created_at"
+        )
     )
 
     payload = {
-        'meta': {
-            'exported_at': timezone.now().isoformat(),
-            'gdpr_info': (
-                'This file contains all personal data we hold about you. '
-                'You may request erasure by deleting your account from your profile page.'
+        "meta": {
+            "exported_at": timezone.now().isoformat(),
+            "gdpr_info": (
+                "This file contains all personal data we hold about you. "
+                "You may request erasure by deleting your account from your profile page."
             ),
         },
-        'profile': {
-            'pk': user.pk,
-            'username': user.username,
-            'real_name': user.real_name,
-            'email': user.email,
-            'bio': user.bio,
-            'linkedin_url': user.linkedin_url,
-            'orcid_url': user.orcid_url,
-            'website_url': user.website_url,
-            'level': user.level,
-            'sponsorship_status': user.sponsorship_status,
-            'is_founder': user.is_founder,
-            'date_joined': user.date_joined.isoformat(),
-            'last_activity_at': user.last_activity_at.isoformat() if user.last_activity_at else None,
-            'cookies_consented_at': user.cookies_consented_at.isoformat() if user.cookies_consented_at else None,
+        "profile": {
+            "pk": user.pk,
+            "username": user.username,
+            "real_name": user.real_name,
+            "email": user.email,
+            "bio": user.bio,
+            "linkedin_url": user.linkedin_url,
+            "orcid_url": user.orcid_url,
+            "website_url": user.website_url,
+            "level": user.level,
+            "sponsorship_status": user.sponsorship_status,
+            "is_founder": user.is_founder,
+            "date_joined": user.date_joined.isoformat(),
+            "last_activity_at": user.last_activity_at.isoformat()
+            if user.last_activity_at
+            else None,
+            "cookies_consented_at": user.cookies_consented_at.isoformat()
+            if user.cookies_consented_at
+            else None,
         },
-        'theses': theses,
-        'contacts': contact_list,
-        'contact_requests_sent': sent_requests,
-        'contact_requests_received': received_requests,
+        "theses": theses,
+        "contacts": contact_list,
+        "contact_requests_sent": sent_requests,
+        "contact_requests_received": received_requests,
     }
 
-    response = JsonResponse(payload, json_dumps_params={'indent': 2, 'default': str})
-    response['Content-Disposition'] = 'attachment; filename="my_hume_data.json"'
+    response = JsonResponse(payload, json_dumps_params={"indent": 2, "default": str})
+    response["Content-Disposition"] = 'attachment; filename="my_hume_data.json"'
     return response
 
 
@@ -382,13 +418,14 @@ def download_my_data(request):
 # Cookie consent
 # ---------------------------------------------------------------------------
 
+
 @require_POST
 def cookie_consent(request):
     """Record cookie consent in session (and on User model if authenticated)."""
-    request.session['cookies_consented'] = True
+    request.session["cookies_consented"] = True
     if request.user.is_authenticated and not request.user.cookies_consented_at:
         User.objects.filter(pk=request.user.pk).update(
             cookies_consented_at=timezone.now()
         )
-    next_url = request.POST.get('next') or request.META.get('HTTP_REFERER') or '/'
+    next_url = request.POST.get("next") or request.META.get("HTTP_REFERER") or "/"
     return redirect(next_url)

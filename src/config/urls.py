@@ -20,21 +20,21 @@ from django.urls import path, include
 from apps.users.views import landing_page
 
 urlpatterns = [
-    path('', landing_page, name='index'),
+    path("", landing_page, name="index"),
     path(
-        'signin/',
+        "signin/",
         LoginView.as_view(
-            template_name='registration/login.html',
+            template_name="registration/login.html",
             redirect_authenticated_user=True,
         ),
-        name='login',
+        name="login",
     ),
-    path('logout/', LogoutView.as_view(next_page='index'), name='logout'),
-    path('admin/', admin.site.urls),
-    path('users/', include('apps.users.urls')),
-    path('theses/', include('apps.theses.urls')),
-    path('tags/', include('apps.tags.urls')),
-    path('moderation/', include('apps.moderation.urls')),
-    path('feed/', include('apps.feed.urls')),
-    path('sponsorship/', include('apps.sponsorship.urls')),
+    path("logout/", LogoutView.as_view(next_page="index"), name="logout"),
+    path("admin/", admin.site.urls),
+    path("users/", include("apps.users.urls")),
+    path("theses/", include("apps.theses.urls")),
+    path("tags/", include("apps.tags.urls")),
+    path("moderation/", include("apps.moderation.urls")),
+    path("feed/", include("apps.feed.urls")),
+    path("sponsorship/", include("apps.sponsorship.urls")),
 ]

@@ -9,20 +9,26 @@ class UserModelTest(TestCase):
     def test_user_creation(self):
         """Test that a user can be created."""
         user = User.objects.create_user(
-            username='testuser',
-            email='test@example.com',
-            password='testpass123'
+            username="testuser", email="test@example.com", password="testpass123"
         )
-        self.assertEqual(user.username, 'testuser')
-        self.assertEqual(user.email, 'test@example.com')
-        self.assertTrue(user.check_password('testpass123'))
+        self.assertEqual(user.username, "testuser")
+        self.assertEqual(user.email, "test@example.com")
+        self.assertTrue(user.check_password("testpass123"))
 
     def test_user_levels(self):
         """Test user level permissions."""
-        reader = User.objects.create_user(username='reader', level=User.UserLevel.READER)
-        commentator = User.objects.create_user(username='commentator', level=User.UserLevel.COMMENTATOR)
-        tagger = User.objects.create_user(username='tagger', level=User.UserLevel.TAGGER)
-        reviewer = User.objects.create_user(username='reviewer', level=User.UserLevel.EDITORIAL_REVIEWER)
+        reader = User.objects.create_user(
+            username="reader", level=User.UserLevel.READER
+        )
+        commentator = User.objects.create_user(
+            username="commentator", level=User.UserLevel.COMMENTATOR
+        )
+        tagger = User.objects.create_user(
+            username="tagger", level=User.UserLevel.TAGGER
+        )
+        reviewer = User.objects.create_user(
+            username="reviewer", level=User.UserLevel.EDITORIAL_REVIEWER
+        )
 
         # Test permissions
         self.assertFalse(reader.can_comment())
@@ -42,7 +48,7 @@ class UserModelTest(TestCase):
 
     def test_tag_accuracy_score_bounds(self):
         """Test that tag accuracy score stays within bounds."""
-        user = User.objects.create_user(username='testuser')
+        user = User.objects.create_user(username="testuser")
 
         # Test upper bound
         user.tag_accuracy_score = 3.0

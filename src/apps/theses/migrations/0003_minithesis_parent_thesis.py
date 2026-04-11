@@ -5,15 +5,21 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('theses', '0002_initial'),
+        ("theses", "0002_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='minithesis',
-            name='parent_thesis',
-            field=models.ForeignKey(blank=True, help_text='Optional earlier thesis that this text follows up on.', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='follow_up_theses', to='theses.minithesis'),
+            model_name="minithesis",
+            name="parent_thesis",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="Optional earlier thesis that this text follows up on.",
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="follow_up_theses",
+                to="theses.minithesis",
+            ),
         ),
     ]

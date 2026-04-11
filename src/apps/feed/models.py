@@ -8,11 +8,9 @@ class UserFeedPreference(models.Model):
     """User preferences for feed customization."""
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    preferred_tags = models.ManyToManyField('tags.Tag', blank=True)
+    preferred_tags = models.ManyToManyField("tags.Tag", blank=True)
     blocked_users = models.ManyToManyField(
-        settings.AUTH_USER_MODEL,
-        blank=True,
-        related_name='blocked_by'
+        settings.AUTH_USER_MODEL, blank=True, related_name="blocked_by"
     )
     min_rigor_threshold = models.FloatField(
         default=0.0, help_text="Minimum rigor score (0-2)"
@@ -39,8 +37,8 @@ class FeedItem(models.Model):
     is_visible = models.BooleanField(default=True)
 
     class Meta:
-        unique_together = ['user', 'thesis']
-        ordering = ['-total_score', '-cached_at']
+        unique_together = ["user", "thesis"]
+        ordering = ["-total_score", "-cached_at"]
 
     def __str__(self):
         return f"Feed item: {self.thesis} for {self.user}"
@@ -52,7 +50,7 @@ class FeedItem(models.Model):
         rigor_score = thesis.rigor_score
 
         # Engagement score (secondary) from follow-ups, citations, and reviews.
-        published_review_count = thesis.reviews.filter(status='published').count()
+        published_review_count = thesis.reviews.filter(status="published").count()
         engagement_score = min(
             2.0,
             (

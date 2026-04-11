@@ -8,7 +8,7 @@ class EditorialReview(models.Model):
     """Editorial reviews by Editorial Reviewers."""
 
     thesis = models.ForeignKey(
-        MiniThesis, on_delete=models.CASCADE, related_name='reviews'
+        MiniThesis, on_delete=models.CASCADE, related_name="reviews"
     )
     reviewer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -31,9 +31,9 @@ class EditorialReview(models.Model):
 
     # Status
     class Status(models.TextChoices):
-        DRAFT = 'draft', 'Draft'
-        PUBLISHED = 'published', 'Published'
-        REVISION_REQUESTED = 'revision_requested', 'Revision Requested'
+        DRAFT = "draft", "Draft"
+        PUBLISHED = "published", "Published"
+        REVISION_REQUESTED = "revision_requested", "Revision Requested"
 
     status = models.CharField(
         max_length=20, choices=Status.choices, default=Status.DRAFT
@@ -43,8 +43,8 @@ class EditorialReview(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ['thesis', 'reviewer']
-        ordering = ['-created_at']
+        unique_together = ["thesis", "reviewer"]
+        ordering = ["-created_at"]
 
     def __str__(self):
         return f"Review of {self.thesis} by {self.reviewer}"
@@ -58,10 +58,10 @@ class ModerationAction(models.Model):
     """Moderation actions taken on content."""
 
     class ActionType(models.TextChoices):
-        HIDE_THESIS = 'hide_thesis', 'Hide Thesis'
-        DELETE_COMMENT = 'delete_comment', 'Delete Comment'
-        SUSPEND_USER = 'suspend_user', 'Suspend User'
-        WARN_USER = 'warn_user', 'Warn User'
+        HIDE_THESIS = "hide_thesis", "Hide Thesis"
+        DELETE_COMMENT = "delete_comment", "Delete Comment"
+        SUSPEND_USER = "suspend_user", "Suspend User"
+        WARN_USER = "warn_user", "Warn User"
 
     action_type = models.CharField(max_length=20, choices=ActionType.choices)
     moderator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -71,11 +71,14 @@ class ModerationAction(models.Model):
         MiniThesis, null=True, blank=True, on_delete=models.CASCADE
     )
     comment = models.ForeignKey(
-        'theses.Comment', null=True, blank=True, on_delete=models.CASCADE
+        "theses.Comment", null=True, blank=True, on_delete=models.CASCADE
     )
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, null=True, blank=True,
-        on_delete=models.CASCADE, related_name='moderation_actions_taken'
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="moderation_actions_taken",
     )
 
     reason = models.TextField()
