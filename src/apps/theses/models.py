@@ -11,6 +11,14 @@ class MiniThesis(models.Model):
         on_delete=models.CASCADE,
         related_name='theses'
     )
+    parent_thesis = models.ForeignKey(
+        'self',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='follow_up_theses',
+        help_text='Optional earlier thesis that this text follows up on.',
+    )
 
     # Core structure
     thesis = models.TextField(help_text="A clear and contestable proposition")
@@ -58,6 +66,11 @@ class MiniThesis(models.Model):
         # Weighted score: positive tags boost, negative tags penalize
         score = (positive_count * 1.2 - negative_count * 1.5) / total_resolved
         return max(0, min(2, score + 1))  # Clamp between 0 and 2
+
+    @property
+    def follow_up_count(self):
+        """Count direct follow-up theses."""
+        return self.follow_up_theses.count()
 
 
 class Comment(models.Model):

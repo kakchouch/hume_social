@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thesis Review | Hume Social</title>
+    <style>
+        :root {
+            --bg: #f6f3ec;
+            --surface: #fffdf8;
+            --text: #23211d;
+            --muted: #6f665d;
+            --line: #e0d8cb;
+            --accent: #1f6f5f;
+        }
+
+        body {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 28px 16px 44px;
+        }
+
+        .top-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 8px;
+        }
+
+        .btn, .tab {
+            text-decoration: none;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 8px 14px;
+            color: var(--text);
+            background: #fff;
+        }
+
+        .tab.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .actions, .tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .panel {
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--surface);
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .item {
+            border-top: 1px solid var(--line);
+            padding-top: 12px;
+            margin-top: 12px;
+        }
+
+        .item:first-child {
+            border-top: 0;
+            margin-top: 0;
+            padding-top: 0;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+    </style>
+</head>
+<body>
+    <main class="wrap">
+        <div class="top-actions">
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button class="btn" type="submit">Disconnect</button>
+                </form>
+            {% endif %}
+        </div>
+
+        <div class="actions">
+            <a class="btn" href="{% url 'theses:list' %}">Back to list</a>
+            <a class="btn" href="{% url 'theses:detail' thesis.pk %}">Back to thesis</a>
+        </div>
+
+        <div class="tabs">
+            <a class="tab" href="{% url 'theses:detail' thesis.pk %}">Thesis</a>
+            <a class="tab active" href="{% url 'theses:review' thesis.pk %}">Review</a>
+        </div>
+
+        <section class="panel">
+            <h1>Review Workspace</h1>
+            <p class="muted">Wikipedia-style review is handled separately from the thesis text itself.</p>
+        </section>
+
+        <section class="panel">
+            <h2>Community Tags</h2>
+            {% for tag_application in tag_applications %}
+                <article class="item">
+                    <strong>{{ tag_application.tag }}</strong>
+                    <p>{{ tag_application.justification }}</p>
+                    <p class="muted">Applied by {{ tag_application.applied_by }} | Status: {{ tag_application.get_status_display }}</p>
+                </article>
+            {% empty %}
+                <p class="muted">No tags have been applied to this thesis yet.</p>
+            {% endfor %}
+        </section>
+
+        <section class="panel">
+            <h2>Editorial Reviews</h2>
+            {% for review in editorial_reviews %}
+                <article class="item">
+                    <p><strong>{{ review.reviewer }}</strong> | Average rating {{ review.average_rating|floatformat:1 }}/5</p>
+                    <p>{{ review.overall_assessment|linebreaks }}</p>
+                    {% if review.strengths %}<p><strong>Strengths:</strong> {{ review.strengths|linebreaks }}</p>{% endif %}
+                    {% if review.weaknesses %}<p><strong>Weaknesses:</strong> {{ review.weaknesses|linebreaks }}</p>{% endif %}
+                    {% if review.recommendations %}<p><strong>Recommendations:</strong> {{ review.recommendations|linebreaks }}</p>{% endif %}
+                </article>
+            {% empty %}
+                <p class="muted">No published editorial reviews yet.</p>
+            {% endfor %}
+        </section>
+    </main>
+</body>
+</html>

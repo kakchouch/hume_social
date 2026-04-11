@@ -1,5 +1,9 @@
+from django.urls import path
+
+from .views import FeedHomeView
+
 app_name = 'feed'
 
 urlpatterns = [
-    # Add your URL patterns here
+    path('', FeedHomeView.as_view(), name='index'),
 ]

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Requests | Hume Social</title>
+    <style>
+        :root {
+            --bg: #f3f0ea;
+            --surface: #fffdf9;
+            --ink: #24211e;
+            --muted: #6f675d;
+            --line: #e3dacd;
+            --accent: #0f766e;
+            --danger: #8b3a45;
+        }
+
+        body {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--ink);
+            background: var(--bg);
+        }
+
+        .wrap {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 28px 16px 42px;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .panel {
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--surface);
+            padding: 16px;
+        }
+
+        .item {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: #fff;
+            padding: 12px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 9px 14px;
+            background: #fff;
+            color: var(--ink);
+            text-decoration: none;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .btn.accent {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .btn.reject {
+            background: var(--danger);
+            border-color: var(--danger);
+            color: #fff;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 720px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="wrap">
+        <div class="top">
+            <a class="btn" href="{% url 'users:list' %}">Back to users</a>
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button class="btn" type="submit">Disconnect</button>
+            </form>
+        </div>
+
+        <h1>Contact Requests</h1>
+        <div class="columns">
+            <section class="panel">
+                <h2>Incoming</h2>
+                {% for contact_request in incoming_requests %}
+                    <article class="item">
+                        <strong>{{ contact_request.from_user.real_name|default:contact_request.from_user.username }}</strong>
+                        <div class="muted">@{{ contact_request.from_user.username }}</div>
+                        <div class="actions">
+                            <form method="post" action="{% url 'users:contact_request_decision' contact_request.pk %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="decision" value="accept">
+                                <button class="btn accent" type="submit">Accept</button>
+                            </form>
+                            <form method="post" action="{% url 'users:contact_request_decision' contact_request.pk %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="decision" value="reject">
+                                <button class="btn reject" type="submit">Reject</button>
+                            </form>
+                        </div>
+                    </article>
+                {% empty %}
+                    <p class="muted">No incoming contact requests.</p>
+                {% endfor %}
+            </section>
+
+            <section class="panel">
+                <h2>Outgoing</h2>
+                {% for contact_request in outgoing_requests %}
+                    <article class="item">
+                        <strong>{{ contact_request.to_user.real_name|default:contact_request.to_user.username }}</strong>
+                        <div class="muted">@{{ contact_request.to_user.username }}</div>
+                        <div class="muted">Waiting for response.</div>
+                    </article>
+                {% empty %}
+                    <p class="muted">No outgoing contact requests.</p>
+                {% endfor %}
+            </section>
+        </div>
+    </main>
+</body>
+</html>

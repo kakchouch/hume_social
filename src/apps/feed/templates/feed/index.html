@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed | Hume Social</title>
+    <style>
+        :root {
+            --bg: #f4f1ea;
+            --card: #fffdf8;
+            --ink: #22201c;
+            --muted: #6e655c;
+            --accent: #0f766e;
+            --accent-2: #d97706;
+            --line: #e4dccf;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Georgia", "Times New Roman", serif;
+            color: var(--ink);
+            background: radial-gradient(circle at 10% 20%, #fff7ea 0%, transparent 45%),
+                        radial-gradient(circle at 90% 15%, #e8f4f2 0%, transparent 50%),
+                        var(--bg);
+            min-height: 100vh;
+        }
+
+        .wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 48px 20px;
+        }
+
+        .top-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 12px;
+        }
+
+        .hero {
+            border: 1px solid var(--line);
+            background: var(--card);
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 18px 45px rgba(34, 32, 28, 0.08);
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.08;
+        }
+
+        p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 1.05rem;
+        }
+
+        .grid {
+            margin-top: 24px;
+            display: grid;
+            gap: 16px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-left: 6px solid var(--accent);
+            border-radius: 14px;
+            padding: 16px;
+        }
+
+        .card:nth-child(2) {
+            border-left-color: var(--accent-2);
+        }
+
+        .card h2 {
+            margin: 0 0 6px;
+            font-size: 1.1rem;
+        }
+
+        .card p {
+            margin: 0;
+        }
+
+        .meta {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .scores {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .score-chip {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 5px 10px;
+            background: #fff;
+            color: var(--muted);
+            font-size: 0.86rem;
+        }
+
+        .empty {
+            margin-top: 20px;
+            border: 1px dashed var(--line);
+            border-radius: 14px;
+            padding: 18px;
+            background: #fff;
+            color: var(--muted);
+        }
+
+        .actions {
+            margin-top: 22px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            text-decoration: none;
+            border-radius: 999px;
+            padding: 10px 16px;
+            border: 1px solid var(--line);
+            background: #ffffff;
+            color: var(--ink);
+            transition: transform 140ms ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn.primary {
+            border-color: var(--accent);
+            color: #ffffff;
+            background: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <main class="wrap">
+        <div class="top-actions">
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button class="btn" type="submit">Disconnect</button>
+                </form>
+            {% endif %}
+        </div>
+
+        <section class="hero">
+            <h1>Your Feed</h1>
+            <p>Published theses are ranked here by algorithmic score using rigor, engagement, and recency.</p>
+
+            {% if feed_items %}
+                <div class="grid">
+                    {% for item in feed_items %}
+                        <article class="card">
+                            <h2>
+                                <a href="{% url 'theses:detail' item.thesis.pk %}">{{ item.thesis.thesis|truncatechars:120 }}</a>
+                            </h2>
+                            <p>{{ item.thesis.conclusion|truncatechars:220 }}</p>
+                            <div class="meta">By {{ item.thesis.author }} | {{ item.thesis.created_at }}</div>
+                            <div class="scores">
+                                <span class="score-chip">Total {{ item.total_score|floatformat:2 }}</span>
+                                <span class="score-chip">Rigor {{ item.rigor_score|floatformat:2 }}</span>
+                                <span class="score-chip">Engagement {{ item.engagement_score|floatformat:2 }}</span>
+                                <span class="score-chip">Recency {{ item.recency_score|floatformat:2 }}</span>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty">
+                    No theses are currently available for your feed criteria.
+                </div>
+            {% endif %}
+
+            <div class="actions">
+                <a class="btn primary" href="/theses/">Browse theses</a>
+                <a class="btn" href="/">Back to home</a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

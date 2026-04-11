@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theses | Hume Social</title>
+    <style>
+        :root {
+            --bg: #f6f3ec;
+            --surface: #fffdf8;
+            --text: #23211d;
+            --muted: #6f665d;
+            --line: #e0d8cb;
+            --accent: #1f6f5f;
+        }
+
+        body {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 28px 16px 44px;
+        }
+
+        .top-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+
+        .top {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            text-decoration: none;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 9px 14px;
+            color: var(--text);
+            background: #fff;
+        }
+
+        .btn.primary {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .btn.disabled {
+            background: #ece7df;
+            border-color: var(--line);
+            color: var(--muted);
+            pointer-events: none;
+        }
+
+        .search {
+            margin-top: 16px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .search input {
+            flex: 1;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 10px;
+            font: inherit;
+        }
+
+        .card {
+            margin-top: 14px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--surface);
+            padding: 14px;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        .notice {
+            margin-top: 12px;
+            padding: 10px 12px;
+            border: 1px solid #e7d7b5;
+            border-radius: 12px;
+            background: #fff5df;
+            color: #7a5f22;
+        }
+    </style>
+</head>
+<body>
+    <main class="wrap">
+        <div class="top-actions">
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button class="btn" type="submit">Disconnect</button>
+                </form>
+            {% endif %}
+        </div>
+
+        <div class="top">
+            <h1>Theses</h1>
+            {% if user.is_authenticated %}
+                {% if can_write_theses %}
+                    <a class="btn primary" href="{% url 'theses:create' %}">Write a thesis</a>
+                {% else %}
+                    <span class="btn primary disabled">Write a thesis</span>
+                {% endif %}
+            {% else %}
+                <a class="btn primary" href="{% url 'theses:create' %}">Write a thesis</a>
+            {% endif %}
+        </div>
+
+        {% if user.is_authenticated and not can_write_theses %}
+            <div class="notice">
+                Thesis writing is unavailable until your sponsor approves your sponsorship.
+            </div>
+        {% endif %}
+
+        <form class="search" method="get">
+            <input type="text" name="q" value="{{ search_query|default:'' }}" placeholder="Search theses">
+            <button class="btn" type="submit">Search</button>
+        </form>
+
+        {% for thesis in page_obj %}
+            <article class="card">
+                <h2><a href="{% url 'theses:detail' thesis.pk %}">{{ thesis.thesis|truncatechars:130 }}</a></h2>
+                <p class="muted">By {{ thesis.author }} | {{ thesis.created_at }}</p>
+                <p>{{ thesis.conclusion|truncatechars:220 }}</p>
+            </article>
+        {% empty %}
+            <article class="card">
+                <p>No theses found yet.</p>
+            </article>
+        {% endfor %}
+    </main>
+</body>
+</html>

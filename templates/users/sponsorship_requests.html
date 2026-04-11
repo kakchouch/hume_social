@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponsorship Requests | Hume Social</title>
+    <style>
+        :root {
+            --bg: #f3f0ea;
+            --surface: #fffdf9;
+            --ink: #24211e;
+            --muted: #6f675d;
+            --line: #e3dacd;
+            --accent: #0f766e;
+            --danger: #8b3a45;
+        }
+
+        body {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--ink);
+            background: var(--bg);
+        }
+
+        .wrap {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 28px 16px 42px;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 9px 14px;
+            background: #fff;
+            color: var(--ink);
+            text-decoration: none;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .btn.accent {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        .btn.reject {
+            background: var(--danger);
+            color: #fff;
+            border-color: var(--danger);
+        }
+
+        .item {
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--surface);
+            padding: 14px;
+            margin-bottom: 10px;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .logout-form {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <main class="wrap">
+        <div class="top">
+            <a class="btn" href="{% url 'users:list' %}">Back to users</a>
+            {% if user.is_authenticated %}
+                <form class="logout-form" method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button class="btn" type="submit">Disconnect</button>
+                </form>
+            {% endif %}
+        </div>
+
+        <h1>Sponsorship requests</h1>
+        <p class="muted">Review new users who selected you as sponsor.</p>
+
+        {% for pending_user in pending_users %}
+            <section class="item">
+                <h2>{{ pending_user.real_name|default:pending_user.username }} (@{{ pending_user.username }})</h2>
+                <p class="muted">{{ pending_user.email }} | Requested {{ pending_user.date_joined }}</p>
+                <div class="actions">
+                    <form method="post" action="{% url 'users:sponsorship_decision' pending_user.pk %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="decision" value="approve">
+                        <button class="btn accent" type="submit">Approve</button>
+                    </form>
+                    <form method="post" action="{% url 'users:sponsorship_decision' pending_user.pk %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="decision" value="reject">
+                        <button class="btn reject" type="submit">Reject</button>
+                    </form>
+                </div>
+            </section>
+        {% empty %}
+            <section class="item">
+                <p class="muted">No pending requests right now.</p>
+            </section>
+        {% endfor %}
+    </main>
+</body>
+</html>

@@ -51,9 +51,15 @@ class FeedItem(models.Model):
         # Rigor score (primary)
         rigor_score = thesis.rigor_score
 
-        # Engagement score (secondary)
+        # Engagement score (secondary) from follow-ups, citations, and reviews.
+        published_review_count = thesis.reviews.filter(status='published').count()
         engagement_score = min(
-            2.0, (thesis.comment_count * 0.1 + thesis.citation_count * 0.2)
+            2.0,
+            (
+                thesis.follow_up_count * 0.15
+                + thesis.citation_count * 0.25
+                + published_review_count * 0.2
+            ),
         )
 
         # Recency score (tertiary) - decays over time

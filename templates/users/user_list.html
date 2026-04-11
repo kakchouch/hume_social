@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users | Hume Social</title>
+    <style>
+        :root {
+            --bg: #f3f0ea;
+            --surface: #fffdf9;
+            --ink: #24211e;
+            --muted: #6f675d;
+            --line: #e3dacd;
+            --accent: #0f766e;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 8% 0%, #fff0d6 0%, transparent 42%),
+                radial-gradient(circle at 96% 18%, #e6f5ef 0%, transparent 46%),
+                var(--bg);
+        }
+
+        .wrap {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 30px 18px 48px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .top-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+        }
+
+        .search {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .search input {
+            flex: 1;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 10px 12px;
+            font: inherit;
+            background: #fff;
+        }
+
+        .btn {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 10px 14px;
+            font: inherit;
+            background: #fff;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .btn.primary {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 12px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 14px;
+        }
+
+        .name {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .meta {
+            color: var(--muted);
+            margin: 6px 0 10px;
+            font-size: 0.94rem;
+        }
+
+        .links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .mini {
+            font-size: 0.88rem;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 4px 8px;
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .empty {
+            background: var(--surface);
+            border: 1px dashed var(--line);
+            border-radius: 14px;
+            padding: 18px;
+            color: var(--muted);
+        }
+    </style>
+</head>
+<body>
+    <main class="wrap">
+        <div class="top-actions">
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button class="btn" type="submit">Disconnect</button>
+                </form>
+            {% endif %}
+        </div>
+
+        <header class="header">
+            <h1>User Directory</h1>
+            <div>
+                {% if user.is_authenticated %}
+                    <a class="btn" href="{% url 'users:contact_requests' %}">Contact requests</a>
+                {% endif %}
+                <a class="btn" href="/">Home</a>
+            </div>
+        </header>
+
+        <form class="search" method="get" action="">
+            <input
+                type="text"
+                name="q"
+                value="{{ search_query }}"
+                placeholder="Search by username, real name, or email"
+            >
+            <button class="btn primary" type="submit">Search</button>
+        </form>
+
+        {% if users %}
+            <section class="grid">
+                {% for user in users %}
+                    <article class="card">
+                        <h2 class="name">{{ user.real_name|default:user.username }}</h2>
+                        <p class="meta">@{{ user.username }} | {{ user.get_level_display }}</p>
+                        <div class="links">
+                            {% if user.email %}<span class="mini">{{ user.email }}</span>{% endif %}
+                        </div>
+                        <a class="btn" href="{% url 'users:detail' user.pk %}">View profile</a>
+                    </article>
+                {% endfor %}
+            </section>
+        {% else %}
+            <section class="empty">No users match your search.</section>
+        {% endif %}
+    </main>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} | Hume Social</title>
+    <style>
+        :root {
+            --bg: #f6f3ec;
+            --surface: #fffdf8;
+            --text: #23211d;
+            --muted: #6f665d;
+            --line: #e0d8cb;
+            --accent: #1f6f5f;
+            --accent-soft: #e4f2ee;
+            --danger: #a32020;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 15% 0%, #fff4db 0%, transparent 48%),
+                radial-gradient(circle at 90% 20%, #e8f3f0 0%, transparent 42%),
+                var(--bg);
+        }
+
+        .shell {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 32px 18px 56px;
+        }
+
+        .top-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+
+        .header {
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+            line-height: 1.1;
+        }
+
+        .header p {
+            margin-top: 8px;
+            color: var(--muted);
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 16px 40px rgba(35, 33, 29, 0.08);
+        }
+
+        .context {
+            margin-bottom: 16px;
+            padding: 12px;
+            border: 1px dashed var(--line);
+            border-radius: 12px;
+            background: #fff;
+            color: var(--muted);
+        }
+
+        .errors {
+            margin-bottom: 16px;
+            border: 1px solid #f0c8c8;
+            background: #fff3f3;
+            border-radius: 12px;
+            padding: 12px;
+            color: var(--danger);
+        }
+
+        .field {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 700;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 10px 12px;
+            font: inherit;
+            background: #fff;
+            color: inherit;
+        }
+
+        .help {
+            color: var(--muted);
+            font-size: 0.94rem;
+            margin-top: 6px;
+        }
+
+        .checkboxes {
+            border: 1px dashed var(--line);
+            border-radius: 12px;
+            padding: 10px;
+            background: var(--accent-soft);
+        }
+
+        .checkboxes label {
+            font-weight: 400;
+            margin-bottom: 6px;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .btn {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 10px 16px;
+            text-decoration: none;
+            color: inherit;
+            background: #fff;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .btn.primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 640px) {
+            .card {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <div class="top-actions">
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button class="btn" type="submit">Disconnect</button>
+                </form>
+            {% endif %}
+        </div>
+
+        <header class="header">
+            <h1>{{ title }}</h1>
+            <p>Build a structured argument with clear facts, explicit values, and declared limits.</p>
+        </header>
+
+        <section class="card">
+            {% if parent_thesis %}
+                <div class="context">
+                    This follow-up responds to:
+                    <a href="{% url 'theses:detail' parent_thesis.pk %}">{{ parent_thesis.thesis|truncatechars:140 }}</a>
+                </div>
+            {% endif %}
+
+            {% if form.non_field_errors %}
+                <div class="errors">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                {% for field in form %}
+                    {% if field.name == 'normative_premises' %}
+                        {{ field }}
+                    {% elif field.name == 'preset_normative_premises' %}
+                        <div class="field">
+                            <label>{{ field.label }}</label>
+                            <div class="checkboxes">{{ field }}</div>
+                            {% if field.errors %}<div class="errors">{{ field.errors }}</div>{% endif %}
+                            {% if field.help_text %}<div class="help">{{ field.help_text }}</div>{% endif %}
+                        </div>
+                    {% else %}
+                        <div class="field">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}<div class="errors">{{ field.errors }}</div>{% endif %}
+                            {% if field.help_text %}<div class="help">{{ field.help_text }}</div>{% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                <div class="actions">
+                    <button class="btn primary" type="submit">Publish thesis</button>
+                    <a class="btn" href="{% url 'theses:list' %}">Back to theses</a>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hume Social</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f3efe4;
+            --paper: #fffdf7;
+            --ink: #1f2421;
+            --muted: #5f6b62;
+            --line: #d8d3c4;
+            --teal: #0f766e;
+            --sand: #e7bc77;
+            --berry: #8b3a45;
+            --shadow: 0 14px 40px rgba(31, 36, 33, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            font-family: "Space Grotesk", "Segoe UI", sans-serif;
+            background:
+                radial-gradient(circle at 12% 0%, #fff3d8 0%, transparent 44%),
+                radial-gradient(circle at 92% 20%, #ddeee8 0%, transparent 47%),
+                linear-gradient(140deg, #f8f5ec 0%, #f0ecde 100%);
+        }
+
+        .mesh {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.38;
+            background-image:
+                linear-gradient(transparent 96%, rgba(31, 36, 33, 0.08) 96%),
+                linear-gradient(90deg, transparent 96%, rgba(31, 36, 33, 0.08) 96%);
+            background-size: 26px 26px;
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 28px 18px 56px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            background: var(--paper);
+            box-shadow: var(--shadow);
+            padding: clamp(22px, 4vw, 44px);
+        }
+
+        .hero::before,
+        .hero::after {
+            content: "";
+            position: absolute;
+            border-radius: 999px;
+            filter: blur(2px);
+            opacity: 0.9;
+        }
+
+        .hero::before {
+            width: 280px;
+            height: 280px;
+            right: -96px;
+            top: -100px;
+            background: radial-gradient(circle, rgba(15, 118, 110, 0.35) 0%, rgba(15, 118, 110, 0) 70%);
+        }
+
+        .hero::after {
+            width: 240px;
+            height: 240px;
+            right: 12%;
+            bottom: -120px;
+            background: radial-gradient(circle, rgba(139, 58, 69, 0.28) 0%, rgba(139, 58, 69, 0) 72%);
+        }
+
+        .eyebrow {
+            display: inline-block;
+            font-size: 0.77rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 7px 12px;
+            color: var(--muted);
+            background: #fff;
+        }
+
+        h1 {
+            margin: 14px 0 12px;
+            max-width: 15ch;
+            font-family: "Fraunces", Georgia, serif;
+            font-size: clamp(2rem, 6vw, 4rem);
+            line-height: 0.98;
+            letter-spacing: -0.02em;
+        }
+
+        .lead {
+            margin: 0;
+            max-width: 58ch;
+            color: var(--muted);
+            font-size: clamp(1rem, 1.6vw, 1.15rem);
+            line-height: 1.5;
+        }
+
+        .quick {
+            margin-top: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .pill {
+            text-decoration: none;
+            border-radius: 999px;
+            padding: 10px 14px;
+            border: 1px solid var(--line);
+            background: #fff;
+            color: var(--ink);
+            transition: transform 140ms ease, box-shadow 140ms ease;
+        }
+
+        .pill:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 16px rgba(31, 36, 33, 0.08);
+        }
+
+        .pill.primary {
+            background: var(--teal);
+            color: #fff;
+            border-color: var(--teal);
+        }
+
+        .pill.disabled {
+            background: #ebe7db;
+            color: #847d70;
+            border-color: #d8d3c4;
+            pointer-events: none;
+            box-shadow: none;
+        }
+
+        .sections {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 12px;
+        }
+
+        .signup-box {
+            margin-top: 20px;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: linear-gradient(145deg, #ffffff 0%, #edf7f4 100%);
+            padding: 16px;
+        }
+
+        .signup-box h2 {
+            margin: 0 0 10px;
+            font-family: "Fraunces", Georgia, serif;
+            font-size: 1.4rem;
+        }
+
+        .signup-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .signup-field {
+            display: grid;
+            gap: 6px;
+        }
+
+        .signup-field label {
+            font-size: 0.92rem;
+            color: var(--muted);
+        }
+
+        .signup-field input {
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 10px;
+            font: inherit;
+            background: #fff;
+        }
+
+        .signup-full {
+            grid-column: 1 / -1;
+        }
+
+        .errorlist {
+            margin: 0;
+            padding-left: 16px;
+            color: #8b3a45;
+            font-size: 0.86rem;
+        }
+
+        .signin-state {
+            margin-top: 20px;
+            border: 1px dashed var(--line);
+            border-radius: 14px;
+            padding: 12px 14px;
+            background: #fff;
+            color: var(--muted);
+        }
+
+        .status-pending {
+            margin-top: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid #e7bc77;
+            background: #fff4dd;
+            color: #7e5a1e;
+            font-size: 0.92rem;
+        }
+
+        .card {
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 16px;
+            background: var(--paper);
+            box-shadow: 0 8px 18px rgba(31, 36, 33, 0.05);
+            text-decoration: none;
+            color: inherit;
+            transition: transform 160ms ease, border-color 160ms ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: #c6bea9;
+        }
+
+        .card h2 {
+            margin: 0 0 8px;
+            font-family: "Fraunces", Georgia, serif;
+            font-size: 1.35rem;
+        }
+
+        .card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.45;
+        }
+
+        .card small {
+            display: inline-block;
+            margin-top: 11px;
+            font-size: 0.8rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--berry);
+        }
+
+        .wide {
+            grid-column: span 6;
+        }
+
+        .narrow {
+            grid-column: span 3;
+        }
+
+        .accent-teal {
+            background: linear-gradient(145deg, #ffffff 0%, #eaf8f5 100%);
+        }
+
+        .accent-sand {
+            background: linear-gradient(145deg, #fffdf7 0%, #fff2dc 100%);
+        }
+
+        @media (max-width: 920px) {
+            .wide,
+            .narrow {
+                grid-column: span 6;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .page {
+                padding: 18px 12px 36px;
+            }
+
+            .hero {
+                border-radius: 20px;
+            }
+
+            .wide,
+            .narrow {
+                grid-column: span 12;
+            }
+
+            .signup-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mesh" aria-hidden="true"></div>
+    <main class="page">
+        <div class="topbar">
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button class="pill" type="submit">Disconnect</button>
+                </form>
+            {% else %}
+                <a class="pill" href="/admin/login/">Sign in</a>
+            {% endif %}
+        </div>
+
+        <section class="hero">
+            <span class="eyebrow">Hume Social Platform</span>
+            <h1>Debate with structure, publish with clarity.</h1>
+            <p class="lead">
+                Build theses from explicit facts and values, follow argument quality in your feed,
+                and explore a transparent community of contributors.
+            </p>
+            <div class="quick">
+                {% if user.is_authenticated and not user.can_write_theses %}
+                    <span class="pill primary disabled">Write a Thesis</span>
+                {% else %}
+                    <a class="pill primary" href="/theses/create/">Write a Thesis</a>
+                {% endif %}
+                <a class="pill" href="/feed/">Open Feed</a>
+                <a class="pill" href="/users/">Search Users</a>
+            </div>
+
+            {% if user.is_authenticated %}
+                <div class="signin-state">
+                    Signed in as <strong>{{ user.username }}</strong>. You can start writing or explore users and theses.
+                </div>
+                <div class="quick">
+                    <a class="pill" href="{% url 'users:sponsorship_requests' %}">Validate sponsorships</a>
+                </div>
+                {% if user.sponsorship_status == 'pending' %}
+                    <div class="status-pending">
+                        Your sponsorship is pending validation by <strong>{{ user.sponsor.username }}</strong>. Thesis writing stays locked until approval.
+                    </div>
+                {% endif %}
+            {% else %}
+                <section class="signup-box" aria-label="Sign up">
+                    <h2>Create your account</h2>
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        {% if signup_form.non_field_errors %}
+                            {{ signup_form.non_field_errors }}
+                        {% endif %}
+                        <div class="signup-grid">
+                            <div class="signup-field">
+                                <label for="{{ signup_form.username.id_for_label }}">Username</label>
+                                {{ signup_form.username }}
+                                {{ signup_form.username.errors }}
+                            </div>
+                            <div class="signup-field">
+                                <label for="{{ signup_form.real_name.id_for_label }}">Real name</label>
+                                {{ signup_form.real_name }}
+                                {{ signup_form.real_name.errors }}
+                            </div>
+                            <div class="signup-field signup-full">
+                                <label for="{{ signup_form.email.id_for_label }}">Email</label>
+                                {{ signup_form.email }}
+                                {{ signup_form.email.errors }}
+                            </div>
+                            <div class="signup-field signup-full">
+                                <label for="{{ signup_form.sponsor_username.id_for_label }}">Sponsor username</label>
+                                {{ signup_form.sponsor_username }}
+                                {{ signup_form.sponsor_username.errors }}
+                            </div>
+                            <div class="signup-field">
+                                <label for="{{ signup_form.password1.id_for_label }}">Password</label>
+                                {{ signup_form.password1 }}
+                                {{ signup_form.password1.errors }}
+                            </div>
+                            <div class="signup-field">
+                                <label for="{{ signup_form.password2.id_for_label }}">Confirm password</label>
+                                {{ signup_form.password2 }}
+                                {{ signup_form.password2.errors }}
+                            </div>
+                            <div class="signup-field signup-full">
+                                <button class="pill primary" type="submit">Sign up</button>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            {% endif %}
+        </section>
+
+        <section class="sections" aria-label="Main sections">
+            <a class="card wide accent-teal" href="/theses/">
+                <h2>Theses</h2>
+                <p>Browse published arguments, inspect rigor, and open detailed reasoning chains.</p>
+                <small>Explore discourse</small>
+            </a>
+
+            <a class="card narrow" href="/users/">
+                <h2>Users</h2>
+                <p>Find profiles, sponsors, and contact links.</p>
+                <small>Community map</small>
+            </a>
+
+            <a class="card narrow accent-sand" href="/feed/">
+                <h2>Feed</h2>
+                <p>Follow recommended content and recent activity.</p>
+                <small>Daily stream</small>
+            </a>
+
+            <a class="card narrow" href="/tags/">
+                <h2>Tags</h2>
+                <p>Track quality signals and contested claims.</p>
+                <small>Review layer</small>
+            </a>
+
+            <a class="card narrow" href="/moderation/">
+                <h2>Moderation</h2>
+                <p>Manage reports, workflows, and policy actions.</p>
+                <small>Governance tools</small>
+            </a>
+
+            <a class="card wide" href="/sponsorship/">
+                <h2>Sponsorship</h2>
+                <p>Understand mentoring and sponsorship paths across user levels.</p>
+                <small>Growth network</small>
+            </a>
+        </section>
+    </main>
+</body>
+</html>
