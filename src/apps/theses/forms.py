@@ -1,5 +1,5 @@
 from django import forms
-from .models import MiniThesis
+from .models import MiniThesis, ThesisReviewHighlight
 
 
 FIELD_CHOICES = [
@@ -283,3 +283,26 @@ class MiniThesisForm(forms.ModelForm):
 
         cleaned_data['normative_premises'] = '\n'.join(lines)
         return cleaned_data
+
+
+class ThesisReviewHighlightForm(forms.ModelForm):
+    """Create a highlight review by selecting exact text from one thesis section."""
+
+    class Meta:
+        model = ThesisReviewHighlight
+        fields = ['section', 'selected_text', 'tag', 'comment']
+        widgets = {
+            'selected_text': forms.Textarea(attrs={'rows': 3, 'readonly': 'readonly'}),
+            'comment': forms.Textarea(
+                attrs={
+                    'rows': 3,
+                    'placeholder': 'Optional context for this highlighted segment...',
+                }
+            ),
+        }
+
+    def clean_selected_text(self):
+        selected_text = (self.cleaned_data.get('selected_text') or '').strip()
+        if not selected_text:
+            raise forms.ValidationError('Select part of the thesis text before submitting a review highlight.')
+        return selected_text

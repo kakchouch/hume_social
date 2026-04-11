@@ -2,7 +2,8 @@ from django.test import TestCase
 from django.urls import reverse
 
 from apps.users.models import User
-from apps.theses.models import MiniThesis, Comment, Citation
+from apps.tags.models import Tag
+from apps.theses.models import MiniThesis, Comment, Citation, ThesisReviewHighlight
 from apps.theses.forms import MiniThesisForm
 
 
@@ -270,6 +271,14 @@ class TestThesisViews(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(username='author')
+        self.reviewer = User.objects.create_user(
+            username='editor_reviewer',
+            level=User.UserLevel.EDITORIAL_REVIEWER,
+        )
+        self.review_tag = Tag.objects.create(
+            name=Tag.TagType.NON_SEQUITUR,
+            description='Logical jump between premises and conclusion.',
+        )
         self.thesis = MiniThesis.objects.create(
             author=self.user,
             thesis='Main thesis',
@@ -325,3 +334,70 @@ class TestThesisViews(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Follow-up to')
+
+    def test_editorial_reviewer_can_add_highlight_review(self):
+        self.client.force_login(self.reviewer)
+
+        response = self.client.post(
+            reverse('theses:review', args=[self.thesis.pk]),
+            {
+                'section': 'facts',
+                'selected_text': 'Main facts',
+                'tag': self.review_tag.pk,
+                'comment': 'This part requires stronger support.',
+            },
+            follow=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(
+            ThesisReviewHighlight.objects.filter(
+                thesis=self.thesis,
+                selected_text='Main facts',
+            ).exists()
+        )
+
+    def test_superuser_can_add_highlight_review(self):
+        superuser = User.objects.create_superuser(
+            username='admin_reviewer',
+            email='admin@example.com',
+            password='AdminPass!234',
+        )
+        self.client.force_login(superuser)
+
+        response = self.client.post(
+            reverse('theses:review', args=[self.thesis.pk]),
+            {
+                'section': 'conclusion',
+                'selected_text': 'Main conclusion',
+                'tag': self.review_tag.pk,
+                'comment': 'Admin review note.',
+            },
+            follow=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(
+            ThesisReviewHighlight.objects.filter(
+                thesis=self.thesis,
+                reviewer=superuser,
+                selected_text='Main conclusion',
+            ).exists()
+        )
+
+    def test_highlight_review_appears_in_thesis_detail_with_tooltip_content(self):
+        ThesisReviewHighlight.objects.create(
+            thesis=self.thesis,
+            reviewer=self.reviewer,
+            section='facts',
+            selected_text='Main facts',
+            tag=self.review_tag,
+            comment='Tooltip comment',
+        )
+
+        response = self.client.get(reverse('theses:detail', args=[self.thesis.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'review-highlight')
+        self.assertContains(response, str(self.review_tag))
+        self.assertContains(response, 'Tooltip comment')

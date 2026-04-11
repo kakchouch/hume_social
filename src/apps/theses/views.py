@@ -4,11 +4,69 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.urls import reverse
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
 from apps.moderation.models import EditorialReview
 from apps.tags.models import TagApplication
 
-from .models import MiniThesis
-from .forms import MiniThesisForm
+from .models import MiniThesis, ThesisReviewHighlight
+from .forms import MiniThesisForm, ThesisReviewHighlightForm
+
+
+def _render_highlighted_section(content, highlights):
+    """Render a thesis section with hoverable review highlights."""
+    if not content:
+        return ''
+
+    ranges = []
+    for highlight in highlights:
+        snippet = (highlight.selected_text or '').strip()
+        if not snippet:
+            continue
+
+        start_search = 0
+        found_range = None
+        while True:
+            idx = content.find(snippet, start_search)
+            if idx == -1:
+                break
+            end = idx + len(snippet)
+            overlaps = any(not (end <= rs or idx >= re) for rs, re, _ in ranges)
+            if not overlaps:
+                found_range = (idx, end, highlight)
+                break
+            start_search = idx + 1
+
+        if found_range:
+            ranges.append(found_range)
+
+    if not ranges:
+        return mark_safe(escape(content).replace('\n', '<br>'))
+
+    ranges.sort(key=lambda item: item[0])
+    pieces = []
+    cursor = 0
+    for start, end, highlight in ranges:
+        if cursor < start:
+            pieces.append(escape(content[cursor:start]).replace('\n', '<br>'))
+
+        snippet_html = escape(content[start:end]).replace('\n', '<br>')
+        tag_html = escape(str(highlight.tag))
+        comment_html = escape(highlight.comment).replace('\n', '<br>') if highlight.comment else ''
+        tooltip = f'<strong>{tag_html}</strong>'
+        if comment_html:
+            tooltip += f'<br>{comment_html}'
+
+        pieces.append(
+            f'<span class="review-highlight">{snippet_html}<span class="review-tooltip">{tooltip}</span></span>'
+        )
+        cursor = end
+
+    if cursor < len(content):
+        pieces.append(escape(content[cursor:]).replace('\n', '<br>'))
+
+    return mark_safe(''.join(pieces))
 
 
 def thesis_list(request):
@@ -49,22 +107,84 @@ def thesis_detail(request, pk):
     follow_up_theses = thesis.follow_up_theses.filter(is_published=True).select_related('author')
     review_count = thesis.reviews.filter(status=EditorialReview.Status.PUBLISHED).count()
     tag_count = thesis.tags.count()
+    section_highlights = {
+        section: [] for section in ThesisReviewHighlight.Section.values
+    }
+    for highlight in thesis.review_highlights.select_related('tag', 'reviewer'):
+        section_highlights.setdefault(highlight.section, []).append(highlight)
+
+    highlighted_sections = {
+        'thesis': _render_highlighted_section(
+            thesis.thesis,
+            section_highlights.get(ThesisReviewHighlight.Section.THESIS, []),
+        ),
+        'facts': _render_highlighted_section(
+            thesis.facts,
+            section_highlights.get(ThesisReviewHighlight.Section.FACTS, []),
+        ),
+        'normative_premises': _render_highlighted_section(
+            thesis.normative_premises,
+            section_highlights.get(ThesisReviewHighlight.Section.NORMATIVE_PREMISES, []),
+        ),
+        'conclusion': _render_highlighted_section(
+            thesis.conclusion,
+            section_highlights.get(ThesisReviewHighlight.Section.CONCLUSION, []),
+        ),
+        'declared_limits': _render_highlighted_section(
+            thesis.declared_limits,
+            section_highlights.get(ThesisReviewHighlight.Section.DECLARED_LIMITS, []),
+        ),
+    }
 
     return render(request, 'theses/thesis_detail.html', {
         'thesis': thesis,
         'follow_up_theses': follow_up_theses,
         'review_count': review_count,
         'tag_count': tag_count,
+        'highlighted_sections': highlighted_sections,
     })
 
 
 def thesis_review(request, pk):
     """Separate review tab showing tags and published editorial reviews."""
     thesis = get_object_or_404(MiniThesis, pk=pk, is_published=True)
+
+    if request.method == 'POST' and not request.user.is_authenticated:
+        return redirect(f"{reverse('login')}?next={request.path}")
+
+    form = None
+    can_submit_highlight_review = request.user.is_authenticated and (
+        request.user.can_review() or request.user.is_staff or request.user.is_superuser
+    )
+    if can_submit_highlight_review:
+        if request.method == 'POST':
+            form = ThesisReviewHighlightForm(request.POST)
+            if form.is_valid():
+                section = form.cleaned_data['section']
+                selected_text = form.cleaned_data['selected_text']
+                if selected_text not in getattr(thesis, section):
+                    form.add_error(
+                        'selected_text',
+                        'The selected text must match content in the chosen thesis section.',
+                    )
+                else:
+                    review_highlight = form.save(commit=False)
+                    review_highlight.thesis = thesis
+                    review_highlight.reviewer = request.user
+                    review_highlight.save()
+                    messages.success(request, 'Highlighted review segment saved.')
+                    return redirect('theses:review', pk=thesis.pk)
+        else:
+            form = ThesisReviewHighlightForm()
+    elif request.method == 'POST':
+        messages.error(request, 'Only editorial reviewers can add highlighted review segments.')
+        return redirect('theses:review', pk=thesis.pk)
+
     tag_applications = thesis.tags.select_related('tag', 'applied_by', 'resolved_by')
     editorial_reviews = thesis.reviews.filter(
         status=EditorialReview.Status.PUBLISHED
     ).select_related('reviewer')
+    highlight_reviews = thesis.review_highlights.select_related('tag', 'reviewer')
 
     return render(
         request,
@@ -73,6 +193,9 @@ def thesis_review(request, pk):
             'thesis': thesis,
             'tag_applications': tag_applications,
             'editorial_reviews': editorial_reviews,
+            'highlight_reviews': highlight_reviews,
+            'review_highlight_form': form,
+            'can_add_highlight_review': can_submit_highlight_review,
         },
     )
 

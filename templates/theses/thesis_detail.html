@@ -93,6 +93,40 @@
         .follow-up-item:first-child {
             border-top: 0;
         }
+
+        .review-highlight {
+            position: relative;
+            background: #fff4b8;
+            border-radius: 4px;
+            padding: 0 2px;
+            cursor: help;
+        }
+
+        .review-tooltip {
+            position: absolute;
+            left: 0;
+            bottom: calc(100% + 8px);
+            width: max-content;
+            max-width: 320px;
+            background: #23211d;
+            color: #fff;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 0.82rem;
+            line-height: 1.35;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(6px);
+            transition: opacity 140ms ease, transform 140ms ease;
+            z-index: 10;
+        }
+
+        .review-highlight:hover .review-tooltip,
+        .review-highlight:focus-within .review-tooltip {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
@@ -121,27 +155,27 @@
 
         <section class="panel">
             <div class="k">Thesis</div>
-            <p>{{ thesis.thesis }}</p>
+            <p>{{ highlighted_sections.thesis }}</p>
         </section>
 
         <section class="panel">
             <div class="k">Facts</div>
-            <p>{{ thesis.facts|linebreaks }}</p>
+            <p>{{ highlighted_sections.facts }}</p>
         </section>
 
         <section class="panel">
             <div class="k">Normative premises</div>
-            <p>{{ thesis.normative_premises|linebreaks }}</p>
+            <p>{{ highlighted_sections.normative_premises }}</p>
         </section>
 
         <section class="panel">
             <div class="k">Conclusion</div>
-            <p>{{ thesis.conclusion|linebreaks }}</p>
+            <p>{{ highlighted_sections.conclusion }}</p>
         </section>
 
         <section class="panel">
             <div class="k">Declared limits</div>
-            <p>{{ thesis.declared_limits|linebreaks }}</p>
+            <p>{{ highlighted_sections.declared_limits }}</p>
         </section>
 
         <section class="panel">

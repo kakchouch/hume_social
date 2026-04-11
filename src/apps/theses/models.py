@@ -109,3 +109,36 @@ class Citation(models.Model):
 
     def __str__(self):
         return f"{self.citing_thesis} cites {self.cited_thesis}"
+
+
+class ThesisReviewHighlight(models.Model):
+    """Reviewer-highlighted thesis segments with an attached tag and optional comment."""
+
+    class Section(models.TextChoices):
+        THESIS = 'thesis', 'Thesis'
+        FACTS = 'facts', 'Facts'
+        NORMATIVE_PREMISES = 'normative_premises', 'Normative premises'
+        CONCLUSION = 'conclusion', 'Conclusion'
+        DECLARED_LIMITS = 'declared_limits', 'Declared limits'
+
+    thesis = models.ForeignKey(
+        MiniThesis,
+        on_delete=models.CASCADE,
+        related_name='review_highlights',
+    )
+    reviewer = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='thesis_review_highlights',
+    )
+    section = models.CharField(max_length=30, choices=Section.choices)
+    selected_text = models.TextField(help_text='Exact text selected by the reviewer.')
+    tag = models.ForeignKey('tags.Tag', on_delete=models.PROTECT)
+    comment = models.TextField(blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ['created_at']
+
+    def __str__(self):
+        return f"{self.reviewer} highlighted {self.get_section_display()} on thesis {self.thesis_id}"
