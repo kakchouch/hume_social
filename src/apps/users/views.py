@@ -9,6 +9,9 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 
+from apps.feed.models import FeedItem, UserFeedPreference
+from apps.theses.models import MiniThesis
+
 from .forms import CustomUserCreationForm, DeleteAccountForm, UserProfileForm
 from .models import ContactRequest, User
 
@@ -16,6 +19,8 @@ from .models import ContactRequest, User
 def landing_page(request):
     """Home page that exposes signup only for anonymous users."""
     form = None
+    feed_items = []
+    min_rigor_threshold = 0.0
 
     if not request.user.is_authenticated:
         if request.method == 'POST':
@@ -26,8 +31,43 @@ def landing_page(request):
                 return redirect('index')
         else:
             form = CustomUserCreationForm()
+    else:
+        preferences, _ = UserFeedPreference.objects.get_or_create(user=request.user)
+        blocked_user_ids = preferences.blocked_users.values_list('id', flat=True)
+        min_rigor_threshold = preferences.min_rigor_threshold
+        theses = (
+            MiniThesis.objects.filter(is_published=True)
+            .select_related('author', 'parent_thesis')
+            .exclude(author_id__in=blocked_user_ids)
+        )
+        for thesis in theses:
+            rigor_score, engagement_score, recency_score, total_score = FeedItem.calculate_scores(
+                thesis,
+                request.user,
+            )
+            if rigor_score < min_rigor_threshold:
+                continue
+            feed_items.append(
+                {
+                    'thesis': thesis,
+                    'rigor_score': rigor_score,
+                    'engagement_score': engagement_score,
+                    'recency_score': recency_score,
+                    'total_score': total_score,
+                }
+            )
+        feed_items.sort(key=lambda item: item['total_score'], reverse=True)
+        feed_items = feed_items[:20]
 
-    return render(request, 'index.html', {'signup_form': form})
+    return render(
+        request,
+        'index.html',
+        {
+            'signup_form': form,
+            'feed_items': feed_items,
+            'min_rigor_threshold': min_rigor_threshold,
+        },
+    )
 
 
 def user_list(request):

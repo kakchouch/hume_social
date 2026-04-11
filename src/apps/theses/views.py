@@ -13,7 +13,7 @@ from .forms import MiniThesisForm
 
 def thesis_list(request):
     """Main feed view with rigor-based ranking."""
-    theses = MiniThesis.objects.filter(is_published=True)
+    theses = MiniThesis.objects.filter(is_published=True).select_related('author', 'parent_thesis')
 
     # Apply basic filtering
     search_query = request.GET.get('q')

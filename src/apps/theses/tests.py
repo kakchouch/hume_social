@@ -309,3 +309,19 @@ class TestThesisViews(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Review Workspace')
+
+    def test_thesis_list_marks_follow_up_entries(self):
+        MiniThesis.objects.create(
+            author=self.user,
+            parent_thesis=self.thesis,
+            thesis='Nested follow-up thesis',
+            facts='Nested facts',
+            normative_premises='Nested premises',
+            conclusion='Nested conclusion',
+            declared_limits='Nested limits',
+        )
+
+        response = self.client.get(reverse('theses:list'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Follow-up to')

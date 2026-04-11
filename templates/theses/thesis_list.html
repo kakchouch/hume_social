@@ -85,6 +85,24 @@
             padding: 14px;
         }
 
+        .card.follow-up {
+            margin-left: 26px;
+            border-left: 4px solid #9db7af;
+            background: #fbf8f2;
+        }
+
+        .thread-note {
+            margin: 0 0 8px;
+            font-size: 0.84rem;
+            color: var(--muted);
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        .thread-note a {
+            color: inherit;
+        }
+
         .muted {
             color: var(--muted);
         }
@@ -136,7 +154,13 @@
         </form>
 
         {% for thesis in page_obj %}
-            <article class="card">
+            <article class="card {% if thesis.parent_thesis_id %}follow-up{% endif %}">
+                {% if thesis.parent_thesis_id %}
+                    <p class="thread-note">
+                        Follow-up to
+                        <a href="{% url 'theses:detail' thesis.parent_thesis_id %}">thesis #{{ thesis.parent_thesis_id }}</a>
+                    </p>
+                {% endif %}
                 <h2><a href="{% url 'theses:detail' thesis.pk %}">{{ thesis.thesis|truncatechars:130 }}</a></h2>
                 <p class="muted">By {{ thesis.author }} | {{ thesis.created_at }}</p>
                 <p>{{ thesis.conclusion|truncatechars:220 }}</p>

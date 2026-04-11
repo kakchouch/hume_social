@@ -237,6 +237,90 @@
             font-size: 0.92rem;
         }
 
+        .home-feed {
+            margin-top: 18px;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: #fff;
+            padding: 14px;
+        }
+
+        .home-feed h2 {
+            margin: 0 0 4px;
+            font-family: "Fraunces", Georgia, serif;
+            font-size: 1.35rem;
+        }
+
+        .home-feed .intro {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.94rem;
+        }
+
+        .feed-grid {
+            margin-top: 12px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .feed-item {
+            border: 1px solid var(--line);
+            border-left: 5px solid var(--teal);
+            border-radius: 12px;
+            padding: 10px 12px;
+            background: #fffdf8;
+        }
+
+        .feed-item h3 {
+            margin: 0;
+            font-family: "Fraunces", Georgia, serif;
+            font-size: 1.04rem;
+        }
+
+        .feed-item h3 a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .feed-item p {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.42;
+        }
+
+        .feed-meta {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 0.84rem;
+        }
+
+        .feed-scores {
+            margin-top: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .feed-score {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 3px 9px;
+            background: #fff;
+            color: var(--muted);
+            font-size: 0.79rem;
+        }
+
+        .feed-empty {
+            margin-top: 10px;
+            border: 1px dashed var(--line);
+            border-radius: 10px;
+            padding: 10px 11px;
+            background: #fff;
+            color: var(--muted);
+            font-size: 0.93rem;
+        }
+
         .card {
             border: 1px solid var(--line);
             border-radius: 18px;
@@ -345,7 +429,7 @@
                 {% else %}
                     <a class="pill primary" href="/theses/create/">Write a Thesis</a>
                 {% endif %}
-                <a class="pill" href="/feed/">Open Feed</a>
+                <a class="pill" href="#home-feed">Open Feed</a>
                 <a class="pill" href="/users/">Search Users</a>
             </div>
 
@@ -361,6 +445,36 @@
                         Your sponsorship is pending validation by <strong>{{ user.sponsor.username }}</strong>. Thesis writing stays locked until approval.
                     </div>
                 {% endif %}
+
+                <section id="home-feed" class="home-feed" aria-label="Home feed">
+                    <h2>Your feed</h2>
+                    <p class="intro">
+                        Ranked on home using rigor, engagement, and recency. Minimum rigor: {{ min_rigor_threshold|floatformat:2 }}.
+                    </p>
+                    {% if feed_items %}
+                        <div class="feed-grid">
+                            {% for item in feed_items %}
+                                <article class="feed-item">
+                                    <h3>
+                                        <a href="{% url 'theses:detail' item.thesis.pk %}">{{ item.thesis.thesis|truncatechars:120 }}</a>
+                                    </h3>
+                                    <p>{{ item.thesis.conclusion|truncatechars:180 }}</p>
+                                    <div class="feed-meta">By {{ item.thesis.author }} | {{ item.thesis.created_at }}</div>
+                                    <div class="feed-scores">
+                                        <span class="feed-score">Total {{ item.total_score|floatformat:2 }}</span>
+                                        <span class="feed-score">Rigor {{ item.rigor_score|floatformat:2 }}</span>
+                                        <span class="feed-score">Engagement {{ item.engagement_score|floatformat:2 }}</span>
+                                        <span class="feed-score">Recency {{ item.recency_score|floatformat:2 }}</span>
+                                    </div>
+                                </article>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="feed-empty">
+                            No theses currently match your feed criteria.
+                        </div>
+                    {% endif %}
+                </section>
             {% else %}
                 <section class="signup-box" aria-label="Sign up">
                     <h2>Create your account</h2>
@@ -422,10 +536,10 @@
                 <small>Community map</small>
             </a>
 
-            <a class="card narrow accent-sand" href="/feed/">
+            <a class="card narrow accent-sand" href="{% if user.is_authenticated %}#home-feed{% else %}{% url 'login' %}{% endif %}">
                 <h2>Feed</h2>
-                <p>Follow recommended content and recent activity.</p>
-                <small>Daily stream</small>
+                <p>Available directly on home once you are signed in.</p>
+                <small>Homepage stream</small>
             </a>
 
             <a class="card narrow" href="/tags/">

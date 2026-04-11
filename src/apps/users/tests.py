@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from apps.users.models import ContactRequest, User
+from apps.theses.models import MiniThesis
 
 
 class TestUserModel(TestCase):
@@ -150,6 +151,29 @@ class TestUserPages(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Signed in as')
         self.assertNotContains(response, 'Create your account')
+
+    def test_landing_shows_feed_for_authenticated_user(self):
+        MiniThesis.objects.create(
+            author=self.user,
+            thesis='Visible feed thesis',
+            facts='Facts',
+            normative_premises='Premises',
+            conclusion='Conclusion',
+            declared_limits='Limits',
+        )
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse('index'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Your feed')
+        self.assertContains(response, 'Visible feed thesis')
+
+    def test_feed_page_redirects_to_homepage(self):
+        response = self.client.get(reverse('feed:index'))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('index'))
 
     def test_signin_page_loads(self):
         response = self.client.get(reverse('login'))
