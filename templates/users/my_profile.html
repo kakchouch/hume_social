@@ -4,106 +4,153 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile | Hume Social</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f3f0ea;
-            --surface: #fffdf9;
-            --ink: #24211e;
-            --muted: #6f675d;
-            --line: #e3dacd;
-            --accent: #0f766e;
-            --danger: #b91c1c;
+            --bg: #f3efe4;
+            --paper: #fffdf7;
+            --ink: #1f2421;
+            --muted: #5f6b62;
+            --line: #d8d3c4;
+            --teal: #0f766e;
+            --sand: #e7bc77;
+            --berry: #8b3a45;
+            --shadow: 0 14px 40px rgba(31, 36, 33, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
             margin: 0;
-            font-family: Georgia, "Times New Roman", serif;
             color: var(--ink);
-            background: var(--bg);
+            font-family: "Space Grotesk", "Segoe UI", sans-serif;
+            background:
+                radial-gradient(circle at 12% 0%, #fff3d8 0%, transparent 44%),
+                radial-gradient(circle at 92% 20%, #ddeee8 0%, transparent 47%),
+                linear-gradient(140deg, #f8f5ec 0%, #f0ecde 100%);
         }
 
-        .wrap {
-            max-width: 860px;
+        .mesh {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.38;
+            background-image:
+                linear-gradient(transparent 96%, rgba(31, 36, 33, 0.08) 96%),
+                linear-gradient(90deg, transparent 96%, rgba(31, 36, 33, 0.08) 96%);
+            background-size: 26px 26px;
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+            max-width: 1120px;
             margin: 0 auto;
-            padding: 28px 16px 60px;
+            padding: 28px 18px 56px;
         }
 
-        .top-actions {
+        .topbar {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-            flex-wrap: wrap;
+            justify-content: flex-end;
             gap: 8px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
         }
 
-        .btn {
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            padding: 9px 14px;
+        .pill {
             text-decoration: none;
-            color: var(--ink);
-            background: #fff;
-            display: inline-block;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .btn-danger {
-            border-color: var(--danger);
-            color: var(--danger);
-            background: #fff5f5;
-        }
-
-        .btn form {
-            margin: 0;
-        }
-
-        .panel {
-            background: var(--surface);
+            border-radius: 999px;
+            padding: 10px 14px;
             border: 1px solid var(--line);
-            border-radius: 14px;
-            padding: 20px 22px;
-            margin-bottom: 16px;
+            background: #fff;
+            color: var(--ink);
+            transition: transform 140ms ease, box-shadow 140ms ease;
+            font-size: 0.95rem;
+        }
+
+        .pill:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 16px rgba(31, 36, 33, 0.08);
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        h1, h2, h3 {
+            font-family: "Fraunces", Georgia, serif;
+            letter-spacing: -0.01em;
         }
 
         h1 {
-            margin: 0 0 4px;
-            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            margin: 0 0 8px;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            line-height: 1.1;
         }
 
         h2 {
-            margin: 0 0 14px;
-            font-size: 1.15rem;
+            margin: 0 0 12px;
+            font-size: 1.2rem;
+        }
+
+        .header-panel {
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            background: var(--paper);
+            box-shadow: var(--shadow);
+            padding: 32px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .header-panel p {
+            margin: 0;
+            max-width: 70ch;
+            color: var(--muted);
+            font-size: 1rem;
+            line-height: 1.6;
         }
 
         .muted {
             color: var(--muted);
-            font-size: 0.88rem;
+            font-size: 0.92rem;
+        }
+
+        .panel {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 14px;
+            box-shadow: var(--shadow);
         }
 
         .field {
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .field label {
             display: block;
-            font-size: 0.85rem;
-            font-weight: bold;
-            margin-bottom: 4px;
-            font-family: "Segoe UI", sans-serif;
+            font-size: 0.92rem;
+            color: var(--muted);
+            font-weight: 500;
+            margin-bottom: 6px;
         }
 
         .field input,
         .field textarea {
             width: 100%;
             border: 1px solid var(--line);
-            border-radius: 8px;
-            padding: 9px 12px;
-            font-size: 0.95rem;
-            font-family: inherit;
+            border-radius: 10px;
+            padding: 10px;
+            font: inherit;
             background: #fff;
-            box-sizing: border-box;
+            color: var(--ink);
         }
 
         .field textarea {
@@ -111,7 +158,7 @@
         }
 
         .error-list {
-            color: var(--danger);
+            color: #8b3a45;
             font-size: 0.84rem;
             margin: 4px 0 0;
             padding-left: 18px;
@@ -120,13 +167,13 @@
         .submit-row {
             display: flex;
             justify-content: flex-end;
+            gap: 8px;
         }
 
         .btn-primary {
-            background: var(--accent);
+            background: var(--teal);
             color: #fff;
-            border-color: var(--accent);
-            padding: 10px 22px;
+            border-color: var(--teal);
         }
 
         .list {
@@ -136,31 +183,36 @@
 
         .chip {
             border: 1px solid var(--line);
-            border-radius: 12px;
-            padding: 8px 10px;
+            border-radius: 10px;
+            padding: 10px;
             background: #fff;
-            font-size: 0.9rem;
+            font-size: 0.92rem;
         }
 
         .chip a {
-            color: var(--accent);
+            color: var(--teal);
             text-decoration: none;
+        }
+
+        .chip a:hover {
+            text-decoration: underline;
         }
 
         .gdpr-actions {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 6px;
+            gap: 8px;
+            margin-top: 10px;
         }
 
         .messages {
             margin-bottom: 12px;
+            list-style: none;
+            padding: 0;
         }
 
         .messages li {
-            list-style: none;
-            padding: 10px 14px;
+            padding: 10px 12px;
             background: #ecfdf5;
             border: 1px solid #a7f3d0;
             border-radius: 8px;
@@ -173,12 +225,15 @@
             display: inline-block;
             border: 1px solid var(--line);
             border-radius: 999px;
-            padding: 3px 10px;
-            font-size: 0.78rem;
+            padding: 4px 10px;
+            font-size: 0.75rem;
             background: #fff;
             color: var(--muted);
             margin-left: 6px;
             vertical-align: middle;
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 0.04em;
         }
 
         .badge-pending {
@@ -200,38 +255,64 @@
         }
 
         @media (max-width: 760px) {
-            .top-actions > div,
-            .top-actions form {
-                width: 100%;
+            main {
+                padding: 16px 16px 44px;
             }
 
-            .top-actions .btn,
-            .top-actions button,
-            .submit-row .btn,
-            .gdpr-actions .btn {
+            .header-panel {
+                padding: 20px 16px;
+                margin-bottom: 16px;
+            }
+
+            .topbar {
+                justify-content: stretch;
+            }
+
+            .topbar .pill {
                 width: 100%;
                 text-align: center;
             }
 
+            .topbar form {
+                width: 100%;
+            }
+
+            .topbar button {
+                width: 100%;
+            }
+
             .submit-row {
-                justify-content: stretch;
+                flex-direction: column;
+            }
+
+            .submit-row .pill {
+                width: 100%;
+                text-align: center;
+            }
+
+            .gdpr-actions .pill {
+                width: 100%;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-    <main class="wrap">
+    <div class="mesh"></div>
+    <main>
         <!-- Top bar -->
-        <div class="top-actions">
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                <a class="btn" href="{% url 'index' %}">Home</a>
-                <a class="btn" href="{% url 'users:list' %}">Users</a>
-                <a class="btn" href="{% url 'users:detail' pk=request.user.pk %}">Public view</a>
-            </div>
+        <div class="topbar">
+            <a class="pill" href="{% url 'index' %}">Home</a>
+            <a class="pill" href="{% url 'users:list' %}">Users</a>
+            <a class="pill" href="{% url 'users:detail' pk=request.user.pk %}">Public view</a>
             <form method="post" action="{% url 'logout' %}">
                 {% csrf_token %}
-                <button class="btn" type="submit">Disconnect</button>
+                <button class="pill" type="submit">Disconnect</button>
             </form>
+        </div>
+
+        <div class="header-panel">
+            <p>Debate with structure, publish with clarity. Build theses from explicit facts and values, follow argument quality in your feed, and explore a transparent community of contributors.</p>
         </div>
 
         <!-- Messages -->
@@ -272,7 +353,7 @@
                     </div>
                 {% endfor %}
                 <div class="submit-row">
-                    <button class="btn btn-primary" type="submit">Save changes</button>
+                    <button class="pill btn-primary" type="submit">Save changes</button>
                 </div>
             </form>
         </div>
@@ -295,9 +376,65 @@
                 <p class="muted">No contacts yet.</p>
             {% endif %}
             <div style="margin-top:10px;">
-                <a class="btn" href="{% url 'users:contact_requests' %}">Contact requests</a>
+                <a class="pill" href="{% url 'users:contact_requests' %}">Contact requests</a>
             </div>
         </div>
+
+        <!-- Sponsored users -->
+        {% if sponsored_users %}
+        <div class="panel">
+            <h2>Users I sponsor ({{ sponsored_users|length }})</h2>
+            <div class="list">
+                {% for s in sponsored_users %}
+                    <div class="chip">
+                        <a href="{% url 'users:detail' pk=s.pk %}">{{ s.username }}</a>
+                        <span class="badge badge-{{ s.sponsorship_status }}">
+                            {{ s.get_sponsorship_status_display }}
+                        </span>
+                    </div>
+                {% endfor %}
+            </div>
+            <div style="margin-top:10px;">
+                <a class="pill" href="{% url 'users:sponsorship_requests' %}">Sponsorship requests</a>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- GDPR & account management -->
+        <div class="panel">
+            <h2>Privacy &amp; data (GDPR)</h2>
+            <p class="muted">
+                You can download all personal data we hold about you, or permanently
+                delete your account. Deleting your account removes all identifying
+                information; your published theses remain anonymised.
+            </p>
+            <p class="muted">
+                Account last activity:
+                {% if profile_user.last_activity_at %}
+                    {{ profile_user.last_activity_at|date:"d M Y" }}
+                {% else %}
+                    not recorded yet
+                {% endif %}
+            </p>
+            <p class="muted">
+                Cookie consent:
+                {% if profile_user.cookies_consented_at %}
+                    recorded on {{ profile_user.cookies_consented_at|date:"d M Y" }}
+                {% else %}
+                    not yet given
+                {% endif %}
+            </p>
+            <div class="gdpr-actions">
+                <a class="pill" href="{% url 'users:download_my_data' %}">Download my data (JSON)</a>
+                <a class="pill" href="{% url 'users:delete_account' %}">Delete my account</a>
+            </div>
+        </div>
+    </main>
+
+    {% include 'partials/_home_button.html' %}
+    {% include 'partials/_cookie_banner.html' %}
+</body>
+</html>
 
         <!-- Sponsored users -->
         {% if sponsored_users %}

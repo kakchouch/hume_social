@@ -4,48 +4,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thesis Review | Hume Social</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f6f3ec;
-            --surface: #fffdf8;
-            --text: #23211d;
-            --muted: #6f665d;
-            --line: #e0d8cb;
-            --accent: #1f6f5f;
+            --bg: #f3efe4;
+            --paper: #fffdf7;
+            --ink: #1f2421;
+            --muted: #5f6b62;
+            --line: #d8d3c4;
+            --teal: #0f766e;
+            --sand: #e7bc77;
+            --berry: #8b3a45;
+            --shadow: 0 14px 40px rgba(31, 36, 33, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
             margin: 0;
-            font-family: Georgia, "Times New Roman", serif;
-            background: var(--bg);
-            color: var(--text);
+            color: var(--ink);
+            font-family: "Space Grotesk", "Segoe UI", sans-serif;
+            background:
+                radial-gradient(circle at 12% 0%, #fff3d8 0%, transparent 44%),
+                radial-gradient(circle at 92% 20%, #ddeee8 0%, transparent 47%),
+                linear-gradient(140deg, #f8f5ec 0%, #f0ecde 100%);
         }
 
-        .wrap {
-            max-width: 900px;
+        .mesh {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.38;
+            background-image:
+                linear-gradient(transparent 96%, rgba(31, 36, 33, 0.08) 96%),
+                linear-gradient(90deg, transparent 96%, rgba(31, 36, 33, 0.08) 96%);
+            background-size: 26px 26px;
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+            max-width: 1120px;
             margin: 0 auto;
-            padding: 28px 16px 44px;
+            padding: 28px 18px 56px;
         }
 
-        .top-actions {
+        .topbar {
             display: flex;
             justify-content: flex-end;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
-        .btn, .tab {
+        .pill {
             text-decoration: none;
-            border: 1px solid var(--line);
             border-radius: 999px;
-            padding: 8px 14px;
-            color: var(--text);
+            padding: 10px 14px;
+            border: 1px solid var(--line);
             background: #fff;
+            color: var(--ink);
+            transition: transform 140ms ease, box-shadow 140ms ease;
         }
 
-        .tab.active {
-            background: var(--accent);
-            border-color: var(--accent);
+        .pill:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 16px rgba(31, 36, 33, 0.08);
+        }
+
+        .pill.primary {
+            background: var(--teal);
             color: #fff;
+            border-color: var(--teal);
+        }
+
+        .pill.berry {
+            background: var(--berry);
+            color: #fff;
+            border-color: var(--berry);
+        }
+
+        .pill.disabled {
+            background: #ebe7db;
+            color: #847d70;
+            border-color: #d8d3c4;
+            pointer-events: none;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        h1, h2, h3 {
+            font-family: "Fraunces", Georgia, serif;
+            letter-spacing: -0.01em;
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            font-size: clamp(1.8rem, 5vw, 2.4rem);
+            line-height: 1.1;
+        }
+
+        h2 {
+            margin: 0 0 12px;
+            font-size: 1.3rem;
+        }
+
+        h3 {
+            margin: 0 0 8px;
+            font-size: 1.05rem;
         }
 
         .actions, .tabs {
@@ -55,10 +126,28 @@
             margin-bottom: 12px;
         }
 
+        .header-panel {
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            background: var(--paper);
+            box-shadow: var(--shadow);
+            padding: 32px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .header-panel p {
+            margin: 0;
+            max-width: 70ch;
+            color: var(--muted);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
         .panel {
             border: 1px solid var(--line);
             border-radius: 14px;
-            background: var(--surface);
+            background: var(--paper);
             padding: 16px;
             margin-bottom: 12px;
         }
@@ -86,8 +175,9 @@
         }
 
         .field label {
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             color: var(--muted);
+            font-weight: 500;
         }
 
         .field select,
@@ -98,6 +188,7 @@
             padding: 10px;
             font: inherit;
             background: #fff;
+            color: var(--ink);
         }
 
         .field .errorlist {
@@ -112,8 +203,10 @@
             border: 1px dashed var(--line);
             border-radius: 10px;
             background: #fffcf5;
-            padding: 10px;
+            padding: 12px;
             margin-bottom: 8px;
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
 
         .selection-hint {
@@ -126,8 +219,8 @@
             display: inline-block;
             border: 1px solid var(--line);
             border-radius: 999px;
-            padding: 4px 9px;
-            font-size: 0.8rem;
+            padding: 5px 10px;
+            font-size: 0.78rem;
             color: var(--muted);
             background: #fff;
             margin-right: 6px;
@@ -145,6 +238,90 @@
 
         .review-form-section {
             grid-column: 1;
+        }
+
+        .vote-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .vote-form {
+            display: inline-flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .vote-btn {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 4px 10px;
+            background: #fff;
+            color: var(--ink);
+            font: inherit;
+            font-size: 0.84rem;
+        }
+
+        .vote-btn.active {
+            background: var(--teal);
+            border-color: var(--teal);
+            color: #fff;
+        }
+
+        .vote-score {
+            font-size: 0.88rem;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 3px 9px;
+            background: #fff;
+        }
+
+        .vote-info {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: #fff;
+            color: var(--muted);
+            cursor: help;
+            font-size: 0.95rem;
+        }
+
+        .vote-bubble {
+            position: absolute;
+            left: 50%;
+            bottom: calc(100% + 8px);
+            transform: translateX(-50%);
+            min-width: 220px;
+            max-width: 320px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: #23211d;
+            color: #fff;
+            padding: 10px;
+            font-size: 0.8rem;
+            line-height: 1.35;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 140ms ease;
+            z-index: 5;
+        }
+
+        .vote-info:hover .vote-bubble,
+        .vote-info:focus-within .vote-bubble {
+            opacity: 1;
+        }
+
+        .vote-bubble ul {
+            margin: 6px 0 0;
+            padding-left: 16px;
         }
 
         @media (min-width: 1100px) {
@@ -165,42 +342,61 @@
         }
 
         @media (max-width: 760px) {
-            .top-actions {
+            main {
+                padding: 16px 16px 44px;
+            }
+
+            .header-panel {
+                padding: 20px 16px;
+                margin-bottom: 16px;
+            }
+
+            .topbar {
                 justify-content: stretch;
                 gap: 8px;
             }
 
-            .top-actions .btn,
-            .top-actions form,
-            .top-actions button,
-            .actions .btn,
-            .tabs .tab {
+            .topbar .pill {
                 width: 100%;
                 text-align: center;
+            }
+
+            .actions .pill,
+            .tabs .pill {
+                width: auto;
+            }
+
+            .review-main-container {
+                gap: 12px;
             }
         }
     </style>
 </head>
 <body>
-    <main class="wrap">
-        <div class="top-actions">
+    <div class="mesh"></div>
+    <main>
+        <div class="topbar">
             {% if user.is_authenticated %}
-                <a class="btn" href="{% url 'users:me' %}">My Profile</a>
+                <a class="pill" href="{% url 'users:me' %}">My Profile</a>
                 <form method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
-                    <button class="btn" type="submit">Disconnect</button>
+                    <button class="pill" type="submit">Disconnect</button>
                 </form>
             {% endif %}
         </div>
 
+        <div class="header-panel">
+            <p>Debate with structure, publish with clarity. Build theses from explicit facts and values, follow argument quality in your feed, and explore a transparent community of contributors.</p>
+        </div>
+
         <div class="actions">
-            <a class="btn" href="{% url 'theses:list' %}">Back to list</a>
-            <a class="btn" href="{% url 'theses:detail' thesis.pk %}">Back to thesis</a>
+            <a class="pill" href="{% url 'theses:list' %}">Back to list</a>
+            <a class="pill" href="{% url 'theses:detail' thesis.pk %}">Back to thesis</a>
         </div>
 
         <div class="tabs">
-            <a class="tab" href="{% url 'theses:detail' thesis.pk %}">Thesis</a>
-            <a class="tab active" href="{% url 'theses:review' thesis.pk %}">Review</a>
+            <a class="pill" href="{% url 'theses:detail' thesis.pk %}">Thesis</a>
+            <a class="pill" href="{% url 'theses:review' thesis.pk %}">Review</a>
         </div>
 
         <section class="panel">
@@ -239,6 +435,7 @@
                 {% if can_add_highlight_review %}
                     <form method="post" action="">
                         {% csrf_token %}
+                        <input type="hidden" name="action" value="add_highlight_review">
                         {% if review_highlight_form.non_field_errors %}
                             {{ review_highlight_form.non_field_errors }}
                         {% endif %}
@@ -262,7 +459,7 @@
                             {{ review_highlight_form.comment }}
                             {{ review_highlight_form.comment.errors }}
                         </div>
-                        <button class="btn" type="submit">Save highlighted review</button>
+                        <button class="pill berry" type="submit">Save highlighted review</button>
                     </form>
                 {% else %}
                     <p class="muted">Only editorial reviewers can submit highlighted segment reviews.</p>
@@ -279,6 +476,33 @@
                         {% if highlight.comment %}
                             <p class="muted">{{ highlight.comment|linebreaks }}</p>
                         {% endif %}
+                        <div class="vote-row">
+                            {% if user.is_authenticated %}
+                                <form class="vote-form" method="post" action="">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="vote_review">
+                                    <input type="hidden" name="target_type" value="highlight">
+                                    <input type="hidden" name="target_id" value="{{ highlight.id }}">
+                                    <button class="vote-btn{% if highlight.user_vote == 1 %} active{% endif %}" type="submit" name="vote" value="1">Thumbs up</button>
+                                    <button class="vote-btn{% if highlight.user_vote == -1 %} active{% endif %}" type="submit" name="vote" value="-1">Thumbs down</button>
+                                </form>
+                            {% endif %}
+                            <span class="vote-score">Score: {{ highlight.vote_score|default:0 }}</span>
+                            <span class="vote-info" tabindex="0" aria-label="Show voters">&#128269;
+                                <span class="vote-bubble">
+                                    Voters
+                                    {% if highlight.vote_voters %}
+                                        <ul>
+                                            {% for voter in highlight.vote_voters %}
+                                                <li>{{ voter }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <br>No votes yet.
+                                    {% endif %}
+                                </span>
+                            </span>
+                        </div>
                     </article>
                 {% empty %}
                     <p class="muted">No highlighted segment reviews yet.</p>
@@ -290,7 +514,7 @@
             <h2>Community Tags</h2>
             {% for tag_application in tag_applications %}
                 <article class="item">
-                    <strong>{{ tag_application.tag }}</strong>
+                    <h3>{{ tag_application.tag }}</h3>
                     <p>{{ tag_application.justification }}</p>
                     <p class="muted">Applied by {{ tag_application.applied_by }} | Status: {{ tag_application.get_status_display }}</p>
                 </article>
@@ -308,6 +532,33 @@
                     {% if review.strengths %}<p><strong>Strengths:</strong> {{ review.strengths|linebreaks }}</p>{% endif %}
                     {% if review.weaknesses %}<p><strong>Weaknesses:</strong> {{ review.weaknesses|linebreaks }}</p>{% endif %}
                     {% if review.recommendations %}<p><strong>Recommendations:</strong> {{ review.recommendations|linebreaks }}</p>{% endif %}
+                    <div class="vote-row">
+                        {% if user.is_authenticated %}
+                            <form class="vote-form" method="post" action="">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="vote_review">
+                                <input type="hidden" name="target_type" value="editorial">
+                                <input type="hidden" name="target_id" value="{{ review.id }}">
+                                <button class="vote-btn{% if review.user_vote == 1 %} active{% endif %}" type="submit" name="vote" value="1">Thumbs up</button>
+                                <button class="vote-btn{% if review.user_vote == -1 %} active{% endif %}" type="submit" name="vote" value="-1">Thumbs down</button>
+                            </form>
+                        {% endif %}
+                        <span class="vote-score">Score: {{ review.vote_score|default:0 }}</span>
+                        <span class="vote-info" tabindex="0" aria-label="Show voters">&#128269;
+                            <span class="vote-bubble">
+                                Voters
+                                {% if review.vote_voters %}
+                                    <ul>
+                                        {% for voter in review.vote_voters %}
+                                            <li>{{ voter }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <br>No votes yet.
+                                {% endif %}
+                            </span>
+                        </span>
+                    </div>
                 </article>
             {% empty %}
                 <p class="muted">No published editorial reviews yet.</p>

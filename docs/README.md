@@ -16,6 +16,10 @@ This folder provides 3 depth levels so different audiences can onboard quickly.
    Audience: Maintainers and reviewers.
    Focus: Full inventory of apps, models, views, templates, settings, and operational details.
 
+4. [Object Reference Map](reference/README.md)
+   Audience: Developers needing object-by-object navigation.
+   Focus: Linked documentation for classes, parameters, templates, and cross-app relationships.
+
 ## Visual Diagrams
 
 The diagrams in ../diagrams are updated to match the current codebase:
@@ -30,3 +34,4 @@ The diagrams in ../diagrams are updated to match the current codebase:
 1. Start with beginner.md.
 2. Move to intermediate.md when you begin coding.
 3. Use expert.md as the canonical technical reference.
+4. Use reference/README.md to navigate directly between linked objects.

@@ -1,9 +1,16 @@
 from django.test import TestCase
 from django.urls import reverse
 
+from apps.moderation.models import EditorialReview
 from apps.users.models import User
 from apps.tags.models import Tag
-from apps.theses.models import MiniThesis, Comment, Citation, ThesisReviewHighlight
+from apps.theses.models import (
+    MiniThesis,
+    Comment,
+    Citation,
+    ThesisReviewHighlight,
+    ReviewVote,
+)
 from apps.theses.forms import MiniThesisForm
 
 
@@ -435,3 +442,75 @@ class TestThesisViews(TestCase):
         self.assertContains(response, "review-highlight")
         self.assertContains(response, str(self.review_tag))
         self.assertContains(response, "Tooltip comment")
+
+    def test_authenticated_user_can_vote_on_highlight_review(self):
+        voter = User.objects.create_user(username="voter_user")
+        highlight = ThesisReviewHighlight.objects.create(
+            thesis=self.thesis,
+            reviewer=self.reviewer,
+            section="facts",
+            selected_text="Main facts",
+            tag=self.review_tag,
+            comment="Needs clearer sourcing.",
+        )
+        self.client.force_login(voter)
+
+        response = self.client.post(
+            reverse("theses:review", args=[self.thesis.pk]),
+            {
+                "action": "vote_review",
+                "target_type": "highlight",
+                "target_id": highlight.pk,
+                "vote": "1",
+            },
+            follow=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(
+            ReviewVote.objects.filter(
+                user=voter,
+                highlight_review=highlight,
+                value=ReviewVote.VoteValue.UP,
+            ).exists()
+        )
+        self.assertContains(response, "Score: 1")
+        self.assertContains(response, "voter_user: up")
+
+    def test_authenticated_user_can_vote_on_editorial_review(self):
+        voter = User.objects.create_user(username="voter_editorial")
+        editorial_review = EditorialReview.objects.create(
+            thesis=self.thesis,
+            reviewer=self.reviewer,
+            overall_assessment="Well-structured and concise.",
+            strengths="Clear chain of argument.",
+            weaknesses="Could cite more primary sources.",
+            recommendations="Add source links.",
+            rigor_rating=4,
+            clarity_rating=4,
+            originality_rating=3,
+            status=EditorialReview.Status.PUBLISHED,
+        )
+        self.client.force_login(voter)
+
+        response = self.client.post(
+            reverse("theses:review", args=[self.thesis.pk]),
+            {
+                "action": "vote_review",
+                "target_type": "editorial",
+                "target_id": editorial_review.pk,
+                "vote": "-1",
+            },
+            follow=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(
+            ReviewVote.objects.filter(
+                user=voter,
+                editorial_review=editorial_review,
+                value=ReviewVote.VoteValue.DOWN,
+            ).exists()
+        )
+        self.assertContains(response, "Score: -1")
+        self.assertContains(response, "voter_editorial: down")

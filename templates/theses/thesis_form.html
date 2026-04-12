@@ -4,16 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }} | Hume Social</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f6f3ec;
-            --surface: #fffdf8;
-            --text: #23211d;
-            --muted: #6f665d;
-            --line: #e0d8cb;
-            --accent: #1f6f5f;
-            --accent-soft: #e4f2ee;
-            --danger: #a32020;
+            --bg: #f3efe4;
+            --paper: #fffdf7;
+            --ink: #1f2421;
+            --muted: #5f6b62;
+            --line: #d8d3c4;
+            --teal: #0f766e;
+            --sand: #e7bc77;
+            --berry: #8b3a45;
+            --shadow: 0 14px 40px rgba(31, 36, 33, 0.12);
         }
 
         * {
@@ -22,48 +26,100 @@
 
         body {
             margin: 0;
-            min-height: 100vh;
-            font-family: Georgia, "Times New Roman", serif;
-            color: var(--text);
+            color: var(--ink);
+            font-family: "Space Grotesk", "Segoe UI", sans-serif;
             background:
-                radial-gradient(circle at 15% 0%, #fff4db 0%, transparent 48%),
-                radial-gradient(circle at 90% 20%, #e8f3f0 0%, transparent 42%),
-                var(--bg);
+                radial-gradient(circle at 12% 0%, #fff3d8 0%, transparent 44%),
+                radial-gradient(circle at 92% 20%, #ddeee8 0%, transparent 47%),
+                linear-gradient(140deg, #f8f5ec 0%, #f0ecde 100%);
         }
 
-        .shell {
-            max-width: 980px;
+        .mesh {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.38;
+            background-image:
+                linear-gradient(transparent 96%, rgba(31, 36, 33, 0.08) 96%),
+                linear-gradient(90deg, transparent 96%, rgba(31, 36, 33, 0.08) 96%);
+            background-size: 26px 26px;
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+            max-width: 1120px;
             margin: 0 auto;
-            padding: 32px 18px 56px;
+            padding: 28px 18px 56px;
         }
 
-        .top-actions {
+        .topbar {
             display: flex;
             justify-content: flex-end;
             margin-bottom: 10px;
         }
 
-        .header {
-            margin-bottom: 20px;
+        .pill {
+            text-decoration: none;
+            border-radius: 999px;
+            padding: 10px 14px;
+            border: 1px solid var(--line);
+            background: #fff;
+            color: var(--ink);
+            transition: transform 140ms ease, box-shadow 140ms ease;
         }
 
-        .header h1 {
-            margin: 0;
-            font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+        .pill:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 16px rgba(31, 36, 33, 0.08);
+        }
+
+        .pill.primary {
+            background: var(--teal);
+            color: #fff;
+            border-color: var(--teal);
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        h1, h2, h3 {
+            font-family: "Fraunces", Georgia, serif;
+            letter-spacing: -0.01em;
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            font-size: clamp(1.8rem, 5vw, 2.4rem);
             line-height: 1.1;
         }
 
-        .header p {
-            margin-top: 8px;
+        .header-panel {
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            background: var(--paper);
+            box-shadow: var(--shadow);
+            padding: 32px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .header-panel p {
+            margin: 0;
+            max-width: 70ch;
             color: var(--muted);
+            font-size: 1rem;
+            line-height: 1.6;
         }
 
         .card {
-            background: var(--surface);
+            background: var(--paper);
             border: 1px solid var(--line);
-            border-radius: 18px;
-            padding: 22px;
-            box-shadow: 0 16px 40px rgba(35, 33, 29, 0.08);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: var(--shadow);
         }
 
         .context {
@@ -73,6 +129,7 @@
             border-radius: 12px;
             background: #fff;
             color: var(--muted);
+            font-size: 0.95rem;
         }
 
         .errors {
@@ -81,17 +138,19 @@
             background: #fff3f3;
             border-radius: 12px;
             padding: 12px;
-            color: var(--danger);
+            color: #8b3a45;
         }
 
         .field {
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         label {
             display: block;
             margin-bottom: 7px;
-            font-weight: 700;
+            font-weight: 500;
+            color: var(--muted);
+            font-size: 0.94rem;
         }
 
         input[type="text"],
@@ -99,29 +158,30 @@
         select {
             width: 100%;
             border: 1px solid var(--line);
-            border-radius: 12px;
-            padding: 10px 12px;
+            border-radius: 10px;
+            padding: 10px;
             font: inherit;
             background: #fff;
-            color: inherit;
+            color: var(--ink);
         }
 
         .help {
             color: var(--muted);
-            font-size: 0.94rem;
+            font-size: 0.88rem;
             margin-top: 6px;
         }
 
         .checkboxes {
             border: 1px dashed var(--line);
-            border-radius: 12px;
+            border-radius: 10px;
             padding: 10px;
-            background: var(--accent-soft);
+            background: #fafaf8;
         }
 
         .checkboxes label {
             font-weight: 400;
             margin-bottom: 6px;
+            color: var(--ink);
         }
 
         .actions {
@@ -131,69 +191,62 @@
             margin-top: 18px;
         }
 
-        .btn {
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            padding: 10px 16px;
-            text-decoration: none;
-            color: inherit;
-            background: #fff;
-            cursor: pointer;
-            font: inherit;
-        }
-
-        .btn.primary {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: #fff;
-        }
-
-        .btn:hover {
-            transform: translateY(-1px);
-        }
-
-        @media (max-width: 640px) {
-            .card {
-                padding: 16px;
+        @media (max-width: 760px) {
+            main {
+                padding: 16px 16px 44px;
             }
 
-            .top-actions {
+            .header-panel {
+                padding: 20px 16px;
+                margin-bottom: 16px;
+            }
+
+            .topbar {
                 justify-content: stretch;
                 gap: 8px;
             }
 
-            .top-actions .btn,
-            .top-actions form,
-            .top-actions button,
-            .actions .btn {
+            .topbar .pill {
                 width: 100%;
                 text-align: center;
+            }
+
+            .card {
+                padding: 16px;
             }
 
             .actions {
                 flex-direction: column;
             }
+
+            .actions .pill {
+                width: 100%;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
-    <main class="shell">
-        <div class="top-actions">
+    <div class="mesh"></div>
+    <main>
+        <div class="topbar">
             {% if user.is_authenticated %}
-                <a class="btn" href="{% url 'users:me' %}">My Profile</a>
+                <a class="pill" href="{% url 'users:me' %}">My Profile</a>
                 <form method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
-                    <button class="btn" type="submit">Disconnect</button>
+                    <button class="pill" type="submit">Disconnect</button>
                 </form>
             {% endif %}
         </div>
 
-        <header class="header">
-            <h1>{{ title }}</h1>
-            <p>Build a structured argument with clear facts, explicit values, and declared limits.</p>
-        </header>
+        <div class="header-panel">
+            <p>Debate with structure, publish with clarity. Build theses from explicit facts and values, follow argument quality in your feed, and explore a transparent community of contributors.</p>
+        </div>
 
         <section class="card">
+            <h1>{{ title }}</h1>
+            <p class="muted">Build a structured argument with clear facts, explicit values, and declared limits.</p>
+
             {% if parent_thesis %}
                 <div class="context">
                     This follow-up responds to:
@@ -231,8 +284,8 @@
                 {% endfor %}
 
                 <div class="actions">
-                    <button class="btn primary" type="submit">Publish thesis</button>
-                    <a class="btn" href="{% url 'theses:list' %}">Back to theses</a>
+                    <button class="pill primary" type="submit">Publish thesis</button>
+                    <a class="pill" href="{% url 'theses:list' %}">Back to theses</a>
                 </div>
             </form>
         </section>

@@ -10,7 +10,7 @@ from django.utils.safestring import mark_safe
 from apps.moderation.models import EditorialReview
 from apps.tags.models import TagApplication
 
-from .models import MiniThesis, ThesisReviewHighlight
+from .models import MiniThesis, ThesisReviewHighlight, ReviewVote
 from .forms import MiniThesisForm, ThesisReviewHighlightForm
 
 
@@ -172,11 +172,59 @@ def thesis_review(request, pk):
         return redirect(f"{reverse('login')}?next={request.path}")
 
     form = None
+    action = request.POST.get("action") if request.method == "POST" else None
+
+    if request.method == "POST" and action == "vote_review":
+        vote_value = request.POST.get("vote")
+        target_type = request.POST.get("target_type")
+        target_id = request.POST.get("target_id")
+
+        try:
+            vote_value = int(vote_value)
+            if vote_value not in (
+                ReviewVote.VoteValue.UP,
+                ReviewVote.VoteValue.DOWN,
+            ):
+                raise ValueError
+        except (TypeError, ValueError):
+            messages.error(request, "Invalid vote value.")
+            return redirect("theses:review", pk=thesis.pk)
+
+        if target_type == "editorial":
+            target_review = get_object_or_404(
+                EditorialReview,
+                pk=target_id,
+                thesis=thesis,
+                status=EditorialReview.Status.PUBLISHED,
+            )
+            ReviewVote.objects.update_or_create(
+                user=request.user,
+                editorial_review=target_review,
+                defaults={"value": vote_value, "highlight_review": None},
+            )
+        elif target_type == "highlight":
+            target_review = get_object_or_404(
+                ThesisReviewHighlight,
+                pk=target_id,
+                thesis=thesis,
+            )
+            ReviewVote.objects.update_or_create(
+                user=request.user,
+                highlight_review=target_review,
+                defaults={"value": vote_value, "editorial_review": None},
+            )
+        else:
+            messages.error(request, "Invalid vote target.")
+            return redirect("theses:review", pk=thesis.pk)
+
+        messages.success(request, "Your vote has been recorded.")
+        return redirect("theses:review", pk=thesis.pk)
+
     can_submit_highlight_review = request.user.is_authenticated and (
         request.user.can_review() or request.user.is_staff or request.user.is_superuser
     )
     if can_submit_highlight_review:
-        if request.method == "POST":
+        if request.method == "POST" and action != "vote_review":
             form = ThesisReviewHighlightForm(request.POST)
             if form.is_valid():
                 section = form.cleaned_data["section"]
@@ -202,10 +250,55 @@ def thesis_review(request, pk):
         return redirect("theses:review", pk=thesis.pk)
 
     tag_applications = thesis.tags.select_related("tag", "applied_by", "resolved_by")
-    editorial_reviews = thesis.reviews.filter(
+    editorial_reviews = list(
+        thesis.reviews.filter(
         status=EditorialReview.Status.PUBLISHED
     ).select_related("reviewer")
-    highlight_reviews = thesis.review_highlights.select_related("tag", "reviewer")
+    )
+    highlight_reviews = list(
+        thesis.review_highlights.select_related("tag", "reviewer")
+    )
+
+    editorial_votes = ReviewVote.objects.filter(
+        editorial_review__in=editorial_reviews
+    ).select_related("user", "editorial_review")
+    highlight_votes = ReviewVote.objects.filter(
+        highlight_review__in=highlight_reviews
+    ).select_related("user", "highlight_review")
+
+    editorial_vote_data = {}
+    for vote in editorial_votes:
+        data = editorial_vote_data.setdefault(
+            vote.editorial_review_id,
+            {"score": 0, "voters": [], "user_vote": 0},
+        )
+        data["score"] += vote.value
+        data["voters"].append(f"{vote.user}: {'up' if vote.value > 0 else 'down'}")
+        if request.user.is_authenticated and vote.user_id == request.user.id:
+            data["user_vote"] = vote.value
+
+    highlight_vote_data = {}
+    for vote in highlight_votes:
+        data = highlight_vote_data.setdefault(
+            vote.highlight_review_id,
+            {"score": 0, "voters": [], "user_vote": 0},
+        )
+        data["score"] += vote.value
+        data["voters"].append(f"{vote.user}: {'up' if vote.value > 0 else 'down'}")
+        if request.user.is_authenticated and vote.user_id == request.user.id:
+            data["user_vote"] = vote.value
+
+    for review in editorial_reviews:
+        data = editorial_vote_data.get(review.id, {"score": 0, "voters": [], "user_vote": 0})
+        review.vote_score = data["score"]
+        review.vote_voters = data["voters"]
+        review.user_vote = data["user_vote"]
+
+    for review in highlight_reviews:
+        data = highlight_vote_data.get(review.id, {"score": 0, "voters": [], "user_vote": 0})
+        review.vote_score = data["score"]
+        review.vote_voters = data["voters"]
+        review.user_vote = data["user_vote"]
 
     return render(
         request,

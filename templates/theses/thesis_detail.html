@@ -4,85 +4,146 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thesis Detail | Hume Social</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f6f3ec;
-            --surface: #fffdf8;
-            --text: #23211d;
-            --muted: #6f665d;
-            --line: #e0d8cb;
-            --accent: #1f6f5f;
+            --bg: #f3efe4;
+            --paper: #fffdf7;
+            --ink: #1f2421;
+            --muted: #5f6b62;
+            --line: #d8d3c4;
+            --teal: #0f766e;
+            --sand: #e7bc77;
+            --berry: #8b3a45;
+            --shadow: 0 14px 40px rgba(31, 36, 33, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
             margin: 0;
-            font-family: Georgia, "Times New Roman", serif;
-            background: var(--bg);
-            color: var(--text);
+            color: var(--ink);
+            font-family: "Space Grotesk", "Segoe UI", sans-serif;
+            background:
+                radial-gradient(circle at 12% 0%, #fff3d8 0%, transparent 44%),
+                radial-gradient(circle at 92% 20%, #ddeee8 0%, transparent 47%),
+                linear-gradient(140deg, #f8f5ec 0%, #f0ecde 100%);
         }
 
-        .wrap {
-            max-width: 900px;
+        .mesh {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.38;
+            background-image:
+                linear-gradient(transparent 96%, rgba(31, 36, 33, 0.08) 96%),
+                linear-gradient(90deg, transparent 96%, rgba(31, 36, 33, 0.08) 96%);
+            background-size: 26px 26px;
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+            max-width: 1120px;
             margin: 0 auto;
-            padding: 28px 16px 44px;
+            padding: 28px 18px 56px;
         }
 
-        .top-actions {
+        .topbar {
             display: flex;
             justify-content: flex-end;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+        }
+
+        .pill {
+            text-decoration: none;
+            border-radius: 999px;
+            padding: 10px 14px;
+            border: 1px solid var(--line);
+            background: #fff;
+            color: var(--ink);
+            transition: transform 140ms ease, box-shadow 140ms ease;
+        }
+
+        .pill:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 16px rgba(31, 36, 33, 0.08);
+        }
+
+        .pill.primary {
+            background: var(--teal);
+            color: #fff;
+            border-color: var(--teal);
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        h1, h2, h3 {
+            font-family: "Fraunces", Georgia, serif;
+            letter-spacing: -0.01em;
+        }
+
+        h2 {
+            margin: 0 0 12px;
+            font-size: 1.3rem;
+        }
+
+        h3 {
+            margin: 0 0 8px;
+            font-size: 1.05rem;
+        }
+
+        .header-panel {
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            background: var(--paper);
+            box-shadow: var(--shadow);
+            padding: 32px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .header-panel p {
+            margin: 0;
+            max-width: 70ch;
+            color: var(--muted);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .actions, .tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
         }
 
         .panel {
             border: 1px solid var(--line);
             border-radius: 14px;
-            background: var(--surface);
+            background: var(--paper);
             padding: 16px;
             margin-bottom: 12px;
         }
 
         .k {
             color: var(--muted);
-            margin-bottom: 4px;
+            margin-bottom: 8px;
             font-size: 0.92rem;
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 0.08em;
         }
 
-        .actions {
-            margin-bottom: 12px;
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            text-decoration: none;
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            padding: 8px 14px;
-            color: var(--text);
-            background: #fff;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-        }
-
-        .tab {
-            text-decoration: none;
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            padding: 8px 14px;
-            background: #fff;
-            color: var(--text);
-        }
-
-        .tab.active {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
+        .muted {
+            color: var(--muted);
         }
 
         .follow-up-item {
@@ -92,6 +153,19 @@
 
         .follow-up-item:first-child {
             border-top: 0;
+        }
+
+        .follow-up-item p {
+            margin: 4px 0;
+        }
+
+        .follow-up-item a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .follow-up-item a:hover {
+            text-decoration: underline;
         }
 
         .review-highlight {
@@ -129,19 +203,27 @@
         }
 
         @media (max-width: 760px) {
-            .top-actions {
+            main {
+                padding: 16px 16px 44px;
+            }
+
+            .header-panel {
+                padding: 20px 16px;
+                margin-bottom: 16px;
+            }
+
+            .topbar {
                 justify-content: stretch;
                 gap: 8px;
             }
 
-            .top-actions .btn,
-            .top-actions form,
-            .top-actions button {
+            .topbar .pill {
                 width: 100%;
+                text-align: center;
             }
 
-            .actions .btn,
-            .tabs .tab {
+            .actions .pill,
+            .tabs .pill {
                 width: 100%;
                 text-align: center;
             }
@@ -160,27 +242,32 @@
     </style>
 </head>
 <body>
-    <main class="wrap">
-        <div class="top-actions">
+    <div class="mesh"></div>
+    <main>
+        <div class="topbar">
             {% if user.is_authenticated %}
-                <a class="btn" href="{% url 'users:me' %}">My Profile</a>
+                <a class="pill" href="{% url 'users:me' %}">My Profile</a>
                 <form method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
-                    <button class="btn" type="submit">Disconnect</button>
+                    <button class="pill" type="submit">Disconnect</button>
                 </form>
             {% endif %}
         </div>
 
+        <div class="header-panel">
+            <p>Debate with structure, publish with clarity. Build theses from explicit facts and values, follow argument quality in your feed, and explore a transparent community of contributors.</p>
+        </div>
+
         <div class="actions">
-            <a class="btn" href="{% url 'theses:list' %}">Back to list</a>
+            <a class="pill" href="{% url 'theses:list' %}">Back to list</a>
             {% if user.is_authenticated and user.can_write_theses %}
-                <a class="btn" href="{% url 'theses:follow_up' thesis.pk %}">Write follow-up thesis</a>
+                <a class="pill" href="{% url 'theses:follow_up' thesis.pk %}">Write follow-up thesis</a>
             {% endif %}
         </div>
 
         <div class="tabs">
-            <a class="tab active" href="{% url 'theses:detail' thesis.pk %}">Thesis</a>
-            <a class="tab" href="{% url 'theses:review' thesis.pk %}">Review ({{ review_count }} reviews, {{ tag_count }} tags)</a>
+            <a class="pill" href="{% url 'theses:detail' thesis.pk %}">Thesis</a>
+            <a class="pill" href="{% url 'theses:review' thesis.pk %}">Review ({{ review_count }} reviews, {{ tag_count }} tags)</a>
         </div>
 
         <section class="panel">

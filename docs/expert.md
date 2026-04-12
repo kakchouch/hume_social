@@ -1,5 +1,7 @@
 # Expert Reference
 
+For class-by-class, parameter-level linked navigation, see [reference/README.md](reference/README.md).
+
 ## 1. System Overview
 
 Hume Social is a server-rendered Django platform with selective HTMX enhancement.

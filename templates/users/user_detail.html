@@ -4,64 +4,136 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ profile_user.real_name|default:profile_user.username }} | Hume Social</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f3f0ea;
-            --surface: #fffdf9;
-            --ink: #24211e;
-            --muted: #6f675d;
-            --line: #e3dacd;
-            --accent: #0f766e;
+            --bg: #f3efe4;
+            --paper: #fffdf7;
+            --ink: #1f2421;
+            --muted: #5f6b62;
+            --line: #d8d3c4;
+            --teal: #0f766e;
+            --berry: #8b3a45;
+            --shadow: 0 14px 40px rgba(31, 36, 33, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
             margin: 0;
-            font-family: Georgia, "Times New Roman", serif;
             color: var(--ink);
-            background: var(--bg);
+            font-family: "Space Grotesk", "Segoe UI", sans-serif;
+            background:
+                radial-gradient(circle at 12% 0%, #fff3d8 0%, transparent 44%),
+                radial-gradient(circle at 92% 20%, #ddeee8 0%, transparent 47%),
+                linear-gradient(140deg, #f8f5ec 0%, #f0ecde 100%);
         }
 
-        .wrap {
-            max-width: 840px;
+        .mesh {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.38;
+            background-image:
+                linear-gradient(transparent 96%, rgba(31, 36, 33, 0.08) 96%),
+                linear-gradient(90deg, transparent 96%, rgba(31, 36, 33, 0.08) 96%);
+            background-size: 26px 26px;
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+            max-width: 1120px;
             margin: 0 auto;
-            padding: 28px 16px 42px;
+            padding: 28px 18px 56px;
         }
 
-        .top-actions {
+        .topbar {
             display: flex;
             justify-content: flex-end;
+            gap: 8px;
+            flex-wrap: wrap;
             margin-bottom: 8px;
         }
 
-        .top {
-            margin-bottom: 12px;
-        }
-
-        .btn {
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            padding: 9px 14px;
+        .pill {
             text-decoration: none;
-            color: var(--ink);
+            border-radius: 999px;
+            padding: 10px 14px;
+            border: 1px solid var(--line);
             background: #fff;
-            display: inline-block;
+            color: var(--ink);
+            transition: transform 140ms ease, box-shadow 140ms ease;
         }
 
-        .panel {
-            background: var(--surface);
+        .pill:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 16px rgba(31, 36, 33, 0.08);
+        }
+
+        .pill.teal {
+            background: var(--teal);
+            border-color: var(--teal);
+            color: #fff;
+        }
+
+        button.pill {
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .header-panel {
             border: 1px solid var(--line);
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 12px;
+            border-radius: 28px;
+            background: var(--paper);
+            box-shadow: var(--shadow);
+            padding: 32px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .header-panel p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
         }
 
         h1 {
-            margin: 0;
-            font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+            margin: 0 0 8px;
+            font-family: "Fraunces", Georgia, serif;
+            font-size: clamp(1.7rem, 4vw, 2.2rem);
+            line-height: 1.1;
+            letter-spacing: -0.01em;
+        }
+
+        h2 {
+            margin: 0 0 10px;
+            font-family: "Fraunces", Georgia, serif;
+            font-size: 1.25rem;
+            letter-spacing: -0.01em;
         }
 
         .muted {
             color: var(--muted);
+        }
+
+        .panel {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .meta-line {
+            margin-top: 0;
+            margin-bottom: 10px;
         }
 
         .list {
@@ -71,9 +143,18 @@
 
         .chip {
             border: 1px solid var(--line);
-            border-radius: 12px;
-            padding: 8px;
+            border-radius: 10px;
+            padding: 10px;
             background: #fff;
+        }
+
+        .chip a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .chip a:hover {
+            text-decoration: underline;
         }
 
         .contact-links {
@@ -83,8 +164,12 @@
         }
 
         .contact-links a {
-            color: var(--accent);
+            color: var(--teal);
             text-decoration: none;
+        }
+
+        .contact-links a:hover {
+            text-decoration: underline;
         }
 
         .actions {
@@ -103,17 +188,31 @@
             color: var(--muted);
         }
 
+        .status.pending {
+            background: #fffbeb;
+            border-color: #fcd34d;
+            color: #92400e;
+        }
+
         @media (max-width: 760px) {
-            .top-actions {
+            main {
+                padding: 16px 16px 44px;
+            }
+
+            .header-panel {
+                padding: 20px 16px;
+                margin-bottom: 16px;
+            }
+
+            .topbar {
                 justify-content: stretch;
                 gap: 8px;
             }
 
-            .top-actions .btn,
-            .top-actions form,
-            .top-actions button,
-            .top .btn,
-            .actions .btn {
+            .topbar .pill,
+            .topbar form,
+            .topbar button,
+            .actions .pill {
                 width: 100%;
                 text-align: center;
             }
@@ -121,24 +220,26 @@
     </style>
 </head>
 <body>
-    <main class="wrap">
-        <div class="top-actions">
+    <div class="mesh"></div>
+    <main>
+        <div class="topbar">
+            <a class="pill" href="{% url 'users:list' %}">Back to users</a>
             {% if user.is_authenticated %}
-                <a class="btn" href="{% url 'users:me' %}">My Profile</a>
+                <a class="pill" href="{% url 'users:me' %}">My Profile</a>
                 <form method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
-                    <button class="btn" type="submit">Disconnect</button>
+                    <button class="pill" type="submit">Disconnect</button>
                 </form>
             {% endif %}
         </div>
 
-        <div class="top">
-            <a class="btn" href="{% url 'users:list' %}">Back to users</a>
+        <div class="header-panel">
+            <p>Debate with structure, publish with clarity. Build theses from explicit facts and values, follow argument quality in your feed, and explore a transparent community of contributors.</p>
         </div>
 
         <section class="panel">
             <h1>{{ profile_user.real_name|default:profile_user.username }}</h1>
-            <p class="muted">@{{ profile_user.username }} | {{ profile_user.get_level_display }}</p>
+            <p class="muted meta-line">@{{ profile_user.username }} | {{ profile_user.get_level_display }}</p>
             {% if profile_user.bio %}
                 <p>{{ profile_user.bio }}</p>
             {% endif %}
@@ -147,19 +248,19 @@
                     {% if contact_state == 'connected' %}
                         <span class="status">Already in your contacts</span>
                     {% elif contact_state == 'sent' %}
-                        <span class="status">Contact request sent</span>
+                        <span class="status pending">Contact request sent</span>
                     {% elif contact_state == 'received' and incoming_request %}
-                        <a class="btn" href="{% url 'users:contact_requests' %}">Respond to contact request</a>
+                        <a class="pill" href="{% url 'users:contact_requests' %}">Respond to contact request</a>
                     {% else %}
                         <form method="post" action="{% url 'users:send_contact_request' profile_user.pk %}">
                             {% csrf_token %}
-                            <button class="btn" type="submit">Send contact request</button>
+                            <button class="pill teal" type="submit">Send contact request</button>
                         </form>
                     {% endif %}
                 </div>
             {% elif user == profile_user %}
                 <div class="actions">
-                    <a class="btn" href="{% url 'users:contact_requests' %}">View contact requests</a>
+                    <a class="pill" href="{% url 'users:contact_requests' %}">View contact requests</a>
                 </div>
             {% endif %}
         </section>

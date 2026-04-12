@@ -140,3 +140,66 @@ class ThesisReviewHighlight(models.Model):
 
     def __str__(self):
         return f"{self.reviewer} highlighted {self.get_section_display()} on thesis {self.thesis_id}"
+
+
+class ReviewVote(models.Model):
+    """User vote on a highlighted segment review or an editorial review."""
+
+    class VoteValue(models.IntegerChoices):
+        DOWN = -1, "Thumbs down"
+        UP = 1, "Thumbs up"
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="review_votes",
+    )
+    editorial_review = models.ForeignKey(
+        "moderation.EditorialReview",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="votes",
+    )
+    highlight_review = models.ForeignKey(
+        ThesisReviewHighlight,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="votes",
+    )
+    value = models.SmallIntegerField(choices=VoteValue.choices)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                check=(
+                    (
+                        models.Q(editorial_review__isnull=False)
+                        & models.Q(highlight_review__isnull=True)
+                    )
+                    |
+                    (
+                        models.Q(editorial_review__isnull=True)
+                        & models.Q(highlight_review__isnull=False)
+                    )
+                ),
+                name="review_vote_exactly_one_target",
+            ),
+            models.UniqueConstraint(
+                fields=["user", "editorial_review"],
+                condition=models.Q(editorial_review__isnull=False),
+                name="unique_editorial_review_vote_per_user",
+            ),
+            models.UniqueConstraint(
+                fields=["user", "highlight_review"],
+                condition=models.Q(highlight_review__isnull=False),
+                name="unique_highlight_review_vote_per_user",
+            ),
+        ]
+
+    def __str__(self):
+        target = self.editorial_review_id or self.highlight_review_id
+        return f"{self.user} voted {self.value} on review {target}"
