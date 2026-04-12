@@ -28,10 +28,10 @@ This folder provides 3 depth levels so different audiences can onboard quickly.
 
 The diagrams in /diagrams are updated to match the current codebase:
 
-- [Architecture Overview]({{< relref "/diagrams/architecture-overview.md" >}})
-- [Content Validation Flow]({{< relref "/diagrams/content-validation-flow.md" >}})
-- [Database Relationships]({{< relref "/diagrams/database-relationships.md" >}})
-- [User Progression System]({{< relref "/diagrams/user-progression-system.md" >}})
+- [Architecture Overview](https://github.com/kakchouch/hume_social/blob/main/diagrams/architecture_overview.md)
+- [Content Validation Flow](https://github.com/kakchouch/hume_social/blob/main/diagrams/content_validation_flow.md)
+- [Database Relationships](https://github.com/kakchouch/hume_social/blob/main/diagrams/database_relationships.md)
+- [User Progression System](https://github.com/kakchouch/hume_social/blob/main/diagrams/user_progression_system.md)
 
 ## Suggested Reading Path
 

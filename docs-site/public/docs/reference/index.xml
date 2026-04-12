@@ -1,257 +1,60 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Reference Map on Hume Social Documentation</title><link>https://kakchouch.github.io/hume_social/docs/reference/</link><description>Recent content in Reference Map on Hume Social Documentation</description><generator>Hugo</generator><language>en-us</language><atom:link href="https://kakchouch.github.io/hume_social/docs/reference/index.xml" rel="self" type="application/rss+xml"/><item><title>Feed App Reference</title><link>https://kakchouch.github.io/hume_social/docs/reference/feed/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/docs/reference/feed/</guid><description>&lt;h1 id="feed-app-reference"&gt;Feed App Reference&lt;/h1&gt;
-&lt;p&gt;Source folder: &lt;code&gt;src/apps/feed&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id="human-readable-summary"&gt;Human-Readable Summary&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Aim of the objects: customize and rank what each user sees in the argument feed.&lt;/li&gt;
-&lt;li&gt;Broader role: feed objects transform thesis/review activity into user-specific discovery order and quality filtering.&lt;/li&gt;
-&lt;li&gt;Specific role: &lt;code&gt;UserFeedPreference&lt;/code&gt; stores filtering and blocking preferences; &lt;code&gt;FeedItem&lt;/code&gt; stores computed score components; &lt;code&gt;FeedHomeView&lt;/code&gt; preserves route compatibility by redirecting to the active homepage feed.&lt;/li&gt;
-&lt;li&gt;Inputs and outputs:
-&lt;ul&gt;
-&lt;li&gt;Inputs: user preferences (tags, blocked users, minimum rigor), thesis metadata, review counts, recency values.&lt;/li&gt;
-&lt;li&gt;Outputs: score tuples (&lt;code&gt;rigor&lt;/code&gt;, &lt;code&gt;engagement&lt;/code&gt;, &lt;code&gt;recency&lt;/code&gt;, &lt;code&gt;total&lt;/code&gt;), ordered feed candidate sets, route-level redirect responses.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="app-config"&gt;App Config&lt;/h2&gt;
-&lt;h3 id="feedconfig"&gt;FeedConfig&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Source: &lt;code&gt;src/apps/feed/apps.py&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="models"&gt;Models&lt;/h2&gt;
-&lt;h3 id="userfeedpreference"&gt;UserFeedPreference&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Source: &lt;code&gt;src/apps/feed/models.py&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Parameters (fields):&lt;/p&gt;</description></item><item><title>Moderation App Reference</title><link>https://kakchouch.github.io/hume_social/docs/reference/moderation/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/docs/reference/moderation/</guid><description>&lt;h1 id="moderation-app-reference"&gt;Moderation App Reference&lt;/h1&gt;
-&lt;p&gt;Source folder: &lt;code&gt;src/apps/moderation&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id="human-readable-summary"&gt;Human-Readable Summary&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Aim of the objects: structure editorial assessments and log moderation interventions over content and users.&lt;/li&gt;
-&lt;li&gt;Broader role: moderation is the governance layer that converts community review activity into accountable quality control.&lt;/li&gt;
-&lt;li&gt;Specific role: &lt;code&gt;EditorialReview&lt;/code&gt; captures expert evaluation with ratings and narrative feedback, while &lt;code&gt;ModerationAction&lt;/code&gt; provides an auditable record of enforcement actions.&lt;/li&gt;
-&lt;li&gt;Inputs and outputs:
-&lt;ul&gt;
-&lt;li&gt;Inputs: thesis references, reviewer/moderator identity, rating values, moderation reasons, action targets.&lt;/li&gt;
-&lt;li&gt;Outputs: published review data consumed by thesis review UI and feed scoring, historical action records for transparency and operations.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="app-config"&gt;App Config&lt;/h2&gt;
-&lt;h3 id="moderationconfig"&gt;ModerationConfig&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Source: &lt;code&gt;src/apps/moderation/apps.py&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="models"&gt;Models&lt;/h2&gt;
-&lt;h3 id="editorialreview"&gt;EditorialReview&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Source: &lt;code&gt;src/apps/moderation/models.py&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Parameters (fields):&lt;/p&gt;</description></item><item><title>Sponsorship App Reference</title><link>https://kakchouch.github.io/hume_social/docs/reference/sponsorship/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/docs/reference/sponsorship/</guid><description>&lt;h1 id="sponsorship-app-reference"&gt;Sponsorship App Reference&lt;/h1&gt;
-&lt;p&gt;Source folder: &lt;code&gt;src/apps/sponsorship&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id="human-readable-summary"&gt;Human-Readable Summary&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Aim of the objects: model sponsor relationships and cohort membership constraints.&lt;/li&gt;
-&lt;li&gt;Broader role: sponsorship defines trust onboarding and long-term contributor progression boundaries.&lt;/li&gt;
-&lt;li&gt;Specific role: &lt;code&gt;Sponsorship&lt;/code&gt; records one sponsor-to-sponsored relationship with lifecycle state and optional evaluation; &lt;code&gt;FounderCohort&lt;/code&gt; tracks capped cohort membership and activation state.&lt;/li&gt;
-&lt;li&gt;Inputs and outputs:
-&lt;ul&gt;
-&lt;li&gt;Inputs: sponsor/sponsored user identities, status transitions, optional sponsor ratings, cohort capacity settings.&lt;/li&gt;
-&lt;li&gt;Outputs: persisted sponsorship states and cohort membership checks used by user progression and governance workflows.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="app-config"&gt;App Config&lt;/h2&gt;
-&lt;h3 id="sponsorshipconfig"&gt;SponsorshipConfig&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Source: &lt;code&gt;src/apps/sponsorship/apps.py&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="models"&gt;Models&lt;/h2&gt;
-&lt;h3 id="sponsorship"&gt;Sponsorship&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Source: &lt;code&gt;src/apps/sponsorship/models.py&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Parameters (fields):&lt;/p&gt;</description></item><item><title>Tags App Reference</title><link>https://kakchouch.github.io/hume_social/docs/reference/tags/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/docs/reference/tags/</guid><description>&lt;h1 id="tags-app-reference"&gt;Tags App Reference&lt;/h1&gt;
-&lt;p&gt;Source folder: &lt;code&gt;src/apps/tags&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id="human-readable-summary"&gt;Human-Readable Summary&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Aim of the objects: provide a shared taxonomy for factual/logical/normative issues and track community validation around those labels.&lt;/li&gt;
-&lt;li&gt;Broader role: tags are the platform&amp;rsquo;s quality annotation layer, linking thesis quality signals to moderation and ranking.&lt;/li&gt;
-&lt;li&gt;Specific role: &lt;code&gt;Tag&lt;/code&gt; defines label semantics, &lt;code&gt;TagApplication&lt;/code&gt; records a claim that a label applies to a thesis, and &lt;code&gt;TagVote&lt;/code&gt; records agreement/disagreement from the community.&lt;/li&gt;
-&lt;li&gt;Inputs and outputs:
-&lt;ul&gt;
-&lt;li&gt;Inputs: selected tag type, thesis linkage, user justification, vote direction, resolver decisions.&lt;/li&gt;
-&lt;li&gt;Outputs: updated tag application status, reputation adjustments for taggers, vote aggregates used by downstream quality logic.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="app-config"&gt;App Config&lt;/h2&gt;
-&lt;h3 id="tagsconfig"&gt;TagsConfig&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Source: &lt;code&gt;src/apps/tags/apps.py&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="models"&gt;Models&lt;/h2&gt;
-&lt;h3 id="tag"&gt;Tag&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Source: &lt;code&gt;src/apps/tags/models.py&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Parameters (fields):&lt;/p&gt;</description></item><item><title>Template Reference</title><link>https://kakchouch.github.io/hume_social/docs/reference/templates/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/docs/reference/templates/</guid><description>&lt;h1 id="template-catalog-and-context-contracts"&gt;Template Catalog and Context Contracts&lt;/h1&gt;
-&lt;p&gt;This document maps each rendered template to the view that calls it and the expected context keys.&lt;/p&gt;
-&lt;h2 id="human-readable-summary"&gt;Human-Readable Summary&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Aim of the objects: document UI templates as runtime objects with clear contracts.&lt;/li&gt;
-&lt;li&gt;Broader role: templates are the presentation boundary between backend domain logic and user-visible workflows.&lt;/li&gt;
-&lt;li&gt;Specific role: each template section describes which view calls it and which context keys it expects so contributors can safely evolve view/template pairs.&lt;/li&gt;
-&lt;li&gt;Inputs and outputs:
-&lt;ul&gt;
-&lt;li&gt;Inputs: context dictionaries from views, auth/session state, HTMX request shape (for fragment templates).&lt;/li&gt;
-&lt;li&gt;Outputs: rendered HTML pages/fragments, form surfaces, action links and buttons that trigger subsequent endpoints.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="global-templates"&gt;Global Templates&lt;/h2&gt;
-&lt;h3 id="templatesindexhtml"&gt;&lt;code&gt;templates/index.html&lt;/code&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="https://kakchouch.github.io/hume_social/docs/reference/users/#landing_pagerequest"&gt;users.landing_page&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Context keys: &lt;code&gt;signup_form&lt;/code&gt;, &lt;code&gt;feed_items&lt;/code&gt;, &lt;code&gt;min_rigor_threshold&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="templatesregistrationloginhtml"&gt;&lt;code&gt;templates/registration/login.html&lt;/code&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Called by: Django &lt;code&gt;LoginView&lt;/code&gt; configured in root URLs&lt;/li&gt;
-&lt;li&gt;Context keys: Django auth defaults (&lt;code&gt;form&lt;/code&gt;, &lt;code&gt;next&lt;/code&gt;, &lt;code&gt;site&lt;/code&gt;, etc.)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="templatespartials_home_buttonhtml"&gt;&lt;code&gt;templates/partials/_home_button.html&lt;/code&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Included by: most pages as shared nav/home control&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="templatespartials_cookie_bannerhtml"&gt;&lt;code&gt;templates/partials/_cookie_banner.html&lt;/code&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Included by: most pages&lt;/li&gt;
-&lt;li&gt;Posts to: &lt;a href="https://kakchouch.github.io/hume_social/docs/reference/users/#cookie_consentrequest"&gt;users.cookie_consent&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="users-templates"&gt;Users Templates&lt;/h2&gt;
-&lt;h3 id="templatesusersuser_listhtml"&gt;&lt;code&gt;templates/users/user_list.html&lt;/code&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="https://kakchouch.github.io/hume_social/docs/reference/users/#user_listrequest"&gt;users.user_list&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Context keys: &lt;code&gt;users&lt;/code&gt;, &lt;code&gt;search_query&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="templatesusersuser_detailhtml"&gt;&lt;code&gt;templates/users/user_detail.html&lt;/code&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="https://kakchouch.github.io/hume_social/docs/reference/users/#user_detailrequest-pk"&gt;users.user_detail&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Context keys: &lt;code&gt;profile_user&lt;/code&gt;, &lt;code&gt;sponsored_users&lt;/code&gt;, &lt;code&gt;contacts&lt;/code&gt;, &lt;code&gt;contact_state&lt;/code&gt;, &lt;code&gt;incoming_request&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="templatesusersmy_profilehtml"&gt;&lt;code&gt;templates/users/my_profile.html&lt;/code&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="https://kakchouch.github.io/hume_social/docs/reference/users/#my_profilerequest"&gt;users.my_profile&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Context keys: &lt;code&gt;form&lt;/code&gt;, &lt;code&gt;profile_user&lt;/code&gt;, &lt;code&gt;sponsored_users&lt;/code&gt;, &lt;code&gt;contacts&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="templatesuserscontact_requestshtml"&gt;&lt;code&gt;templates/users/contact_requests.html&lt;/code&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="https://kakchouch.github.io/hume_social/docs/reference/users/#contact_requestsrequest"&gt;users.contact_requests&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Context keys: &lt;code&gt;incoming_requests&lt;/code&gt;, &lt;code&gt;outgoing_requests&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="templatesuserssponsorship_requestshtml"&gt;&lt;code&gt;templates/users/sponsorship_requests.html&lt;/code&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="https://kakchouch.github.io/hume_social/docs/reference/users/#sponsorship_requestsrequest"&gt;users.sponsorship_requests&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Context keys: &lt;code&gt;pending_users&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="templatesusersdelete_account_confirmhtml"&gt;&lt;code&gt;templates/users/delete_account_confirm.html&lt;/code&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="https://kakchouch.github.io/hume_social/docs/reference/users/#delete_accountrequest"&gt;users.delete_account&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Context keys: &lt;code&gt;form&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="templatesusersaccount_deletedhtml"&gt;&lt;code&gt;templates/users/account_deleted.html&lt;/code&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="https://kakchouch.github.io/hume_social/docs/reference/users/#account_deletedrequest"&gt;users.account_deleted&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Context keys: none required&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="theses-templates"&gt;Theses Templates&lt;/h2&gt;
-&lt;h3 id="templatesthesesthesis_listhtml"&gt;&lt;code&gt;templates/theses/thesis_list.html&lt;/code&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="https://kakchouch.github.io/hume_social/docs/reference/theses/#thesis_listrequest"&gt;theses.thesis_list&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Context keys: &lt;code&gt;page_obj&lt;/code&gt;, &lt;code&gt;search_query&lt;/code&gt;, &lt;code&gt;can_write_theses&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Includes HTMX partial: &lt;code&gt;templates/theses/_thesis_cards.html&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="templatestheses_thesis_cardshtml"&gt;&lt;code&gt;templates/theses/_thesis_cards.html&lt;/code&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Called by: &lt;code&gt;thesis_list&lt;/code&gt; HTMX response and full-page include&lt;/li&gt;
-&lt;li&gt;Context keys: &lt;code&gt;page_obj&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="templatesthesesthesis_detailhtml"&gt;&lt;code&gt;templates/theses/thesis_detail.html&lt;/code&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="https://kakchouch.github.io/hume_social/docs/reference/theses/#thesis_detailrequest-pk"&gt;theses.thesis_detail&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Context keys: &lt;code&gt;thesis&lt;/code&gt;, &lt;code&gt;follow_up_theses&lt;/code&gt;, &lt;code&gt;review_count&lt;/code&gt;, &lt;code&gt;tag_count&lt;/code&gt;, &lt;code&gt;highlighted_sections&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="templatesthesesthesis_reviewhtml"&gt;&lt;code&gt;templates/theses/thesis_review.html&lt;/code&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="https://kakchouch.github.io/hume_social/docs/reference/theses/#thesis_reviewrequest-pk"&gt;theses.thesis_review&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Context keys: &lt;code&gt;thesis&lt;/code&gt;, &lt;code&gt;tag_applications&lt;/code&gt;, &lt;code&gt;editorial_reviews&lt;/code&gt;, &lt;code&gt;highlight_reviews&lt;/code&gt;, &lt;code&gt;review_highlight_form&lt;/code&gt;, &lt;code&gt;can_add_highlight_review&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="templatesthesesthesis_formhtml"&gt;&lt;code&gt;templates/theses/thesis_form.html&lt;/code&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="https://kakchouch.github.io/hume_social/docs/reference/theses/#thesis_createrequest-parent_pknone"&gt;theses.thesis_create&lt;/a&gt;, &lt;a href="https://kakchouch.github.io/hume_social/docs/reference/theses/#thesis_editrequest-pk"&gt;theses.thesis_edit&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Context keys: &lt;code&gt;form&lt;/code&gt;, &lt;code&gt;title&lt;/code&gt;, &lt;code&gt;parent_thesis&lt;/code&gt; (create only)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="feed-template"&gt;Feed Template&lt;/h2&gt;
-&lt;h3 id="srcappsfeedtemplatesfeedindexhtml"&gt;&lt;code&gt;src/apps/feed/templates/feed/index.html&lt;/code&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Legacy template; active &lt;code&gt;/feed/&lt;/code&gt; route currently redirects to index&lt;/li&gt;
-&lt;li&gt;Related view: &lt;a href="https://kakchouch.github.io/hume_social/docs/reference/feed/#feedhomeview"&gt;FeedHomeView&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="related-documentation"&gt;Related Documentation&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href="https://kakchouch.github.io/hume_social/docs/reference/users/"&gt;Users App&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://kakchouch.github.io/hume_social/docs/reference/theses/"&gt;Theses App&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://kakchouch.github.io/hume_social/docs/expert/"&gt;Expert overview&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</description></item><item><title>Theses App Reference</title><link>https://kakchouch.github.io/hume_social/docs/reference/theses/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/docs/reference/theses/</guid><description>&lt;h1 id="theses-app-reference"&gt;Theses App Reference&lt;/h1&gt;
-&lt;p&gt;Source folder: &lt;code&gt;src/apps/theses&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id="human-readable-summary"&gt;Human-Readable Summary&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Aim of the objects: represent structured arguments, allow follow-up debate, and provide review surfaces for quality improvement.&lt;/li&gt;
-&lt;li&gt;Broader role: this is the domain core; it connects users, tags, editorial review, and feed scoring around thesis content.&lt;/li&gt;
-&lt;li&gt;Specific role: &lt;code&gt;MiniThesis&lt;/code&gt; stores argument structure, &lt;code&gt;ThesisReviewHighlight&lt;/code&gt; anchors section-level review, &lt;code&gt;ReviewVote&lt;/code&gt; captures community sentiment, forms normalize author/reviewer input, and views orchestrate list/detail/review workflows.&lt;/li&gt;
-&lt;li&gt;Inputs and outputs:
-&lt;ul&gt;
-&lt;li&gt;Inputs: request query/body data (&lt;code&gt;q&lt;/code&gt;, pagination, selected text, vote target/value), authored text fields, related objects from users/tags/moderation.&lt;/li&gt;
-&lt;li&gt;Outputs: thesis list/detail/review/form templates, persisted thesis/review/vote records, redirects with workflow feedback messages.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="app-config"&gt;App Config&lt;/h2&gt;
-&lt;h3 id="thesesconfig"&gt;ThesesConfig&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Source: &lt;code&gt;src/apps/theses/apps.py&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Purpose: Registers app as &lt;code&gt;apps.theses&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="models"&gt;Models&lt;/h2&gt;
-&lt;h3 id="minithesis"&gt;MiniThesis&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Source: &lt;code&gt;src/apps/theses/models.py&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Parameters (fields):&lt;/p&gt;</description></item><item><title>Users App Reference</title><link>https://kakchouch.github.io/hume_social/docs/reference/users/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/docs/reference/users/</guid><description>&lt;h1 id="users-app-reference"&gt;Users App Reference&lt;/h1&gt;
-&lt;p&gt;Source folder: &lt;code&gt;src/apps/users&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id="human-readable-summary"&gt;Human-Readable Summary&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Aim of the objects: manage identity, profile data, social graph (contacts), sponsorship decisions, and GDPR user rights.&lt;/li&gt;
-&lt;li&gt;Broader role: this app is the account and trust gateway for the entire platform; it determines who can access advanced actions in other apps.&lt;/li&gt;
-&lt;li&gt;Specific role: &lt;code&gt;User&lt;/code&gt; stores capability state, &lt;code&gt;ContactRequest&lt;/code&gt; manages relationship workflows, forms validate account/profile operations, and views expose profile/contact/sponsorship/GDPR endpoints.&lt;/li&gt;
-&lt;li&gt;Inputs and outputs:
-&lt;ul&gt;
-&lt;li&gt;Inputs: HTTP request parameters (&lt;code&gt;q&lt;/code&gt;, &lt;code&gt;pk&lt;/code&gt;, decision flags), authenticated user context, form fields (signup, profile edits, deletion password), model relations.&lt;/li&gt;
-&lt;li&gt;Outputs: rendered user/index templates, redirects after workflow actions, JSON export payload for portability, persisted user/contact state changes.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="app-config"&gt;App Config&lt;/h2&gt;
-&lt;h3 id="usersconfig"&gt;UsersConfig&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Source: &lt;code&gt;src/apps/users/apps.py&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Purpose: Registers the app as &lt;code&gt;apps.users&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Related: &lt;a href="https://kakchouch.github.io/hume_social/docs/reference/theses/"&gt;Theses App&lt;/a&gt;, &lt;a href="https://kakchouch.github.io/hume_social/docs/reference/feed/"&gt;Feed App&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="models"&gt;Models&lt;/h2&gt;
-&lt;h3 id="user-inherits-abstractuser"&gt;User (inherits AbstractUser)&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Source: &lt;code&gt;src/apps/users/models.py&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Inherits: &lt;code&gt;django.contrib.auth.models.AbstractUser&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Parameters (fields):&lt;/p&gt;</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Reference Map on Hume Social Documentation</title>
+    <link>http://localhost:1313/hume_social/docs/reference/</link>
+    <description>Recent content in Reference Map on Hume Social Documentation</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <atom:link href="http://localhost:1313/hume_social/docs/reference/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Feed App Reference</title>
+      <link>http://localhost:1313/hume_social/docs/reference/feed/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/hume_social/docs/reference/feed/</guid>
+      <description>&lt;h1 id=&#34;feed-app-reference&#34;&gt;Feed App Reference&lt;/h1&gt;&#xA;&lt;p&gt;Source folder: &lt;code&gt;src/apps/feed&lt;/code&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;human-readable-summary&#34;&gt;Human-Readable Summary&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Aim of the objects: customize and rank what each user sees in the argument feed.&lt;/li&gt;&#xA;&lt;li&gt;Broader role: feed objects transform thesis/review activity into user-specific discovery order and quality filtering.&lt;/li&gt;&#xA;&lt;li&gt;Specific role: &lt;code&gt;UserFeedPreference&lt;/code&gt; stores filtering and blocking preferences; &lt;code&gt;FeedItem&lt;/code&gt; stores computed score components; &lt;code&gt;FeedHomeView&lt;/code&gt; preserves route compatibility by redirecting to the active homepage feed.&lt;/li&gt;&#xA;&lt;li&gt;Inputs and outputs:&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Inputs: user preferences (tags, blocked users, minimum rigor), thesis metadata, review counts, recency values.&lt;/li&gt;&#xA;&lt;li&gt;Outputs: score tuples (&lt;code&gt;rigor&lt;/code&gt;, &lt;code&gt;engagement&lt;/code&gt;, &lt;code&gt;recency&lt;/code&gt;, &lt;code&gt;total&lt;/code&gt;), ordered feed candidate sets, route-level redirect responses.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;app-config&#34;&gt;App Config&lt;/h2&gt;&#xA;&lt;h3 id=&#34;feedconfig&#34;&gt;FeedConfig&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Source: &lt;code&gt;src/apps/feed/apps.py&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;models&#34;&gt;Models&lt;/h2&gt;&#xA;&lt;h3 id=&#34;userfeedpreference&#34;&gt;UserFeedPreference&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Source: &lt;code&gt;src/apps/feed/models.py&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Parameters (fields):&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Moderation App Reference</title>
+      <link>http://localhost:1313/hume_social/docs/reference/moderation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/hume_social/docs/reference/moderation/</guid>
+      <description>&lt;h1 id=&#34;moderation-app-reference&#34;&gt;Moderation App Reference&lt;/h1&gt;&#xA;&lt;p&gt;Source folder: &lt;code&gt;src/apps/moderation&lt;/code&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;human-readable-summary&#34;&gt;Human-Readable Summary&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Aim of the objects: structure editorial assessments and log moderation interventions over content and users.&lt;/li&gt;&#xA;&lt;li&gt;Broader role: moderation is the governance layer that converts community review activity into accountable quality control.&lt;/li&gt;&#xA;&lt;li&gt;Specific role: &lt;code&gt;EditorialReview&lt;/code&gt; captures expert evaluation with ratings and narrative feedback, while &lt;code&gt;ModerationAction&lt;/code&gt; provides an auditable record of enforcement actions.&lt;/li&gt;&#xA;&lt;li&gt;Inputs and outputs:&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Inputs: thesis references, reviewer/moderator identity, rating values, moderation reasons, action targets.&lt;/li&gt;&#xA;&lt;li&gt;Outputs: published review data consumed by thesis review UI and feed scoring, historical action records for transparency and operations.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;app-config&#34;&gt;App Config&lt;/h2&gt;&#xA;&lt;h3 id=&#34;moderationconfig&#34;&gt;ModerationConfig&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Source: &lt;code&gt;src/apps/moderation/apps.py&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;models&#34;&gt;Models&lt;/h2&gt;&#xA;&lt;h3 id=&#34;editorialreview&#34;&gt;EditorialReview&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Source: &lt;code&gt;src/apps/moderation/models.py&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Parameters (fields):&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Sponsorship App Reference</title>
+      <link>http://localhost:1313/hume_social/docs/reference/sponsorship/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/hume_social/docs/reference/sponsorship/</guid>
+      <description>&lt;h1 id=&#34;sponsorship-app-reference&#34;&gt;Sponsorship App Reference&lt;/h1&gt;&#xA;&lt;p&gt;Source folder: &lt;code&gt;src/apps/sponsorship&lt;/code&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;human-readable-summary&#34;&gt;Human-Readable Summary&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Aim of the objects: model sponsor relationships and cohort membership constraints.&lt;/li&gt;&#xA;&lt;li&gt;Broader role: sponsorship defines trust onboarding and long-term contributor progression boundaries.&lt;/li&gt;&#xA;&lt;li&gt;Specific role: &lt;code&gt;Sponsorship&lt;/code&gt; records one sponsor-to-sponsored relationship with lifecycle state and optional evaluation; &lt;code&gt;FounderCohort&lt;/code&gt; tracks capped cohort membership and activation state.&lt;/li&gt;&#xA;&lt;li&gt;Inputs and outputs:&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Inputs: sponsor/sponsored user identities, status transitions, optional sponsor ratings, cohort capacity settings.&lt;/li&gt;&#xA;&lt;li&gt;Outputs: persisted sponsorship states and cohort membership checks used by user progression and governance workflows.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;app-config&#34;&gt;App Config&lt;/h2&gt;&#xA;&lt;h3 id=&#34;sponsorshipconfig&#34;&gt;SponsorshipConfig&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Source: &lt;code&gt;src/apps/sponsorship/apps.py&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;models&#34;&gt;Models&lt;/h2&gt;&#xA;&lt;h3 id=&#34;sponsorship&#34;&gt;Sponsorship&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Source: &lt;code&gt;src/apps/sponsorship/models.py&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Parameters (fields):&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Tags App Reference</title>
+      <link>http://localhost:1313/hume_social/docs/reference/tags/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/hume_social/docs/reference/tags/</guid>
+      <description>&lt;h1 id=&#34;tags-app-reference&#34;&gt;Tags App Reference&lt;/h1&gt;&#xA;&lt;p&gt;Source folder: &lt;code&gt;src/apps/tags&lt;/code&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;human-readable-summary&#34;&gt;Human-Readable Summary&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Aim of the objects: provide a shared taxonomy for factual/logical/normative issues and track community validation around those labels.&lt;/li&gt;&#xA;&lt;li&gt;Broader role: tags are the platform&amp;rsquo;s quality annotation layer, linking thesis quality signals to moderation and ranking.&lt;/li&gt;&#xA;&lt;li&gt;Specific role: &lt;code&gt;Tag&lt;/code&gt; defines label semantics, &lt;code&gt;TagApplication&lt;/code&gt; records a claim that a label applies to a thesis, and &lt;code&gt;TagVote&lt;/code&gt; records agreement/disagreement from the community.&lt;/li&gt;&#xA;&lt;li&gt;Inputs and outputs:&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Inputs: selected tag type, thesis linkage, user justification, vote direction, resolver decisions.&lt;/li&gt;&#xA;&lt;li&gt;Outputs: updated tag application status, reputation adjustments for taggers, vote aggregates used by downstream quality logic.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;app-config&#34;&gt;App Config&lt;/h2&gt;&#xA;&lt;h3 id=&#34;tagsconfig&#34;&gt;TagsConfig&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Source: &lt;code&gt;src/apps/tags/apps.py&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;models&#34;&gt;Models&lt;/h2&gt;&#xA;&lt;h3 id=&#34;tag&#34;&gt;Tag&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Source: &lt;code&gt;src/apps/tags/models.py&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Parameters (fields):&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Template Reference</title>
+      <link>http://localhost:1313/hume_social/docs/reference/templates/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/hume_social/docs/reference/templates/</guid>
+      <description>&lt;h1 id=&#34;template-catalog-and-context-contracts&#34;&gt;Template Catalog and Context Contracts&lt;/h1&gt;&#xA;&lt;p&gt;This document maps each rendered template to the view that calls it and the expected context keys.&lt;/p&gt;&#xA;&lt;h2 id=&#34;human-readable-summary&#34;&gt;Human-Readable Summary&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Aim of the objects: document UI templates as runtime objects with clear contracts.&lt;/li&gt;&#xA;&lt;li&gt;Broader role: templates are the presentation boundary between backend domain logic and user-visible workflows.&lt;/li&gt;&#xA;&lt;li&gt;Specific role: each template section describes which view calls it and which context keys it expects so contributors can safely evolve view/template pairs.&lt;/li&gt;&#xA;&lt;li&gt;Inputs and outputs:&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Inputs: context dictionaries from views, auth/session state, HTMX request shape (for fragment templates).&lt;/li&gt;&#xA;&lt;li&gt;Outputs: rendered HTML pages/fragments, form surfaces, action links and buttons that trigger subsequent endpoints.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;global-templates&#34;&gt;Global Templates&lt;/h2&gt;&#xA;&lt;h3 id=&#34;templatesindexhtml&#34;&gt;&lt;code&gt;templates/index.html&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Called by: &lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/users/#landing_pagerequest&#34;&gt;users.landing_page&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Context keys: &lt;code&gt;signup_form&lt;/code&gt;, &lt;code&gt;feed_items&lt;/code&gt;, &lt;code&gt;min_rigor_threshold&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;templatesregistrationloginhtml&#34;&gt;&lt;code&gt;templates/registration/login.html&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Called by: Django &lt;code&gt;LoginView&lt;/code&gt; configured in root URLs&lt;/li&gt;&#xA;&lt;li&gt;Context keys: Django auth defaults (&lt;code&gt;form&lt;/code&gt;, &lt;code&gt;next&lt;/code&gt;, &lt;code&gt;site&lt;/code&gt;, etc.)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;templatespartials_home_buttonhtml&#34;&gt;&lt;code&gt;templates/partials/_home_button.html&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Included by: most pages as shared nav/home control&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;templatespartials_cookie_bannerhtml&#34;&gt;&lt;code&gt;templates/partials/_cookie_banner.html&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Included by: most pages&lt;/li&gt;&#xA;&lt;li&gt;Posts to: &lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/users/#cookie_consentrequest&#34;&gt;users.cookie_consent&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;users-templates&#34;&gt;Users Templates&lt;/h2&gt;&#xA;&lt;h3 id=&#34;templatesusersuser_listhtml&#34;&gt;&lt;code&gt;templates/users/user_list.html&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Called by: &lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/users/#user_listrequest&#34;&gt;users.user_list&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Context keys: &lt;code&gt;users&lt;/code&gt;, &lt;code&gt;search_query&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;templatesusersuser_detailhtml&#34;&gt;&lt;code&gt;templates/users/user_detail.html&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Called by: &lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/users/#user_detailrequest-pk&#34;&gt;users.user_detail&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Context keys: &lt;code&gt;profile_user&lt;/code&gt;, &lt;code&gt;sponsored_users&lt;/code&gt;, &lt;code&gt;contacts&lt;/code&gt;, &lt;code&gt;contact_state&lt;/code&gt;, &lt;code&gt;incoming_request&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;templatesusersmy_profilehtml&#34;&gt;&lt;code&gt;templates/users/my_profile.html&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Called by: &lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/users/#my_profilerequest&#34;&gt;users.my_profile&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Context keys: &lt;code&gt;form&lt;/code&gt;, &lt;code&gt;profile_user&lt;/code&gt;, &lt;code&gt;sponsored_users&lt;/code&gt;, &lt;code&gt;contacts&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;templatesuserscontact_requestshtml&#34;&gt;&lt;code&gt;templates/users/contact_requests.html&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Called by: &lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/users/#contact_requestsrequest&#34;&gt;users.contact_requests&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Context keys: &lt;code&gt;incoming_requests&lt;/code&gt;, &lt;code&gt;outgoing_requests&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;templatesuserssponsorship_requestshtml&#34;&gt;&lt;code&gt;templates/users/sponsorship_requests.html&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Called by: &lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/users/#sponsorship_requestsrequest&#34;&gt;users.sponsorship_requests&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Context keys: &lt;code&gt;pending_users&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;templatesusersdelete_account_confirmhtml&#34;&gt;&lt;code&gt;templates/users/delete_account_confirm.html&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Called by: &lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/users/#delete_accountrequest&#34;&gt;users.delete_account&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Context keys: &lt;code&gt;form&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;templatesusersaccount_deletedhtml&#34;&gt;&lt;code&gt;templates/users/account_deleted.html&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Called by: &lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/users/#account_deletedrequest&#34;&gt;users.account_deleted&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Context keys: none required&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;theses-templates&#34;&gt;Theses Templates&lt;/h2&gt;&#xA;&lt;h3 id=&#34;templatesthesesthesis_listhtml&#34;&gt;&lt;code&gt;templates/theses/thesis_list.html&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Called by: &lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/theses/#thesis_listrequest&#34;&gt;theses.thesis_list&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Context keys: &lt;code&gt;page_obj&lt;/code&gt;, &lt;code&gt;search_query&lt;/code&gt;, &lt;code&gt;can_write_theses&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;Includes HTMX partial: &lt;code&gt;templates/theses/_thesis_cards.html&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;templatestheses_thesis_cardshtml&#34;&gt;&lt;code&gt;templates/theses/_thesis_cards.html&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Called by: &lt;code&gt;thesis_list&lt;/code&gt; HTMX response and full-page include&lt;/li&gt;&#xA;&lt;li&gt;Context keys: &lt;code&gt;page_obj&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;templatesthesesthesis_detailhtml&#34;&gt;&lt;code&gt;templates/theses/thesis_detail.html&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Called by: &lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/theses/#thesis_detailrequest-pk&#34;&gt;theses.thesis_detail&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Context keys: &lt;code&gt;thesis&lt;/code&gt;, &lt;code&gt;follow_up_theses&lt;/code&gt;, &lt;code&gt;review_count&lt;/code&gt;, &lt;code&gt;tag_count&lt;/code&gt;, &lt;code&gt;highlighted_sections&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;templatesthesesthesis_reviewhtml&#34;&gt;&lt;code&gt;templates/theses/thesis_review.html&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Called by: &lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/theses/#thesis_reviewrequest-pk&#34;&gt;theses.thesis_review&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Context keys: &lt;code&gt;thesis&lt;/code&gt;, &lt;code&gt;tag_applications&lt;/code&gt;, &lt;code&gt;editorial_reviews&lt;/code&gt;, &lt;code&gt;highlight_reviews&lt;/code&gt;, &lt;code&gt;review_highlight_form&lt;/code&gt;, &lt;code&gt;can_add_highlight_review&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;templatesthesesthesis_formhtml&#34;&gt;&lt;code&gt;templates/theses/thesis_form.html&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Called by: &lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/theses/#thesis_createrequest-parent_pknone&#34;&gt;theses.thesis_create&lt;/a&gt;, &lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/theses/#thesis_editrequest-pk&#34;&gt;theses.thesis_edit&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Context keys: &lt;code&gt;form&lt;/code&gt;, &lt;code&gt;title&lt;/code&gt;, &lt;code&gt;parent_thesis&lt;/code&gt; (create only)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;feed-template&#34;&gt;Feed Template&lt;/h2&gt;&#xA;&lt;h3 id=&#34;srcappsfeedtemplatesfeedindexhtml&#34;&gt;&lt;code&gt;src/apps/feed/templates/feed/index.html&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Legacy template; active &lt;code&gt;/feed/&lt;/code&gt; route currently redirects to index&lt;/li&gt;&#xA;&lt;li&gt;Related view: &lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/feed/#feedhomeview&#34;&gt;FeedHomeView&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;related-documentation&#34;&gt;Related Documentation&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/users/&#34;&gt;Users App&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/theses/&#34;&gt;Theses App&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;http://localhost:1313/hume_social/docs/expert/&#34;&gt;Expert overview&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+    <item>
+      <title>Theses App Reference</title>
+      <link>http://localhost:1313/hume_social/docs/reference/theses/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/hume_social/docs/reference/theses/</guid>
+      <description>&lt;h1 id=&#34;theses-app-reference&#34;&gt;Theses App Reference&lt;/h1&gt;&#xA;&lt;p&gt;Source folder: &lt;code&gt;src/apps/theses&lt;/code&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;human-readable-summary&#34;&gt;Human-Readable Summary&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Aim of the objects: represent structured arguments, allow follow-up debate, and provide review surfaces for quality improvement.&lt;/li&gt;&#xA;&lt;li&gt;Broader role: this is the domain core; it connects users, tags, editorial review, and feed scoring around thesis content.&lt;/li&gt;&#xA;&lt;li&gt;Specific role: &lt;code&gt;MiniThesis&lt;/code&gt; stores argument structure, &lt;code&gt;ThesisReviewHighlight&lt;/code&gt; anchors section-level review, &lt;code&gt;ReviewVote&lt;/code&gt; captures community sentiment, forms normalize author/reviewer input, and views orchestrate list/detail/review workflows.&lt;/li&gt;&#xA;&lt;li&gt;Inputs and outputs:&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Inputs: request query/body data (&lt;code&gt;q&lt;/code&gt;, pagination, selected text, vote target/value), authored text fields, related objects from users/tags/moderation.&lt;/li&gt;&#xA;&lt;li&gt;Outputs: thesis list/detail/review/form templates, persisted thesis/review/vote records, redirects with workflow feedback messages.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;app-config&#34;&gt;App Config&lt;/h2&gt;&#xA;&lt;h3 id=&#34;thesesconfig&#34;&gt;ThesesConfig&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Source: &lt;code&gt;src/apps/theses/apps.py&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;Purpose: Registers app as &lt;code&gt;apps.theses&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;models&#34;&gt;Models&lt;/h2&gt;&#xA;&lt;h3 id=&#34;minithesis&#34;&gt;MiniThesis&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Source: &lt;code&gt;src/apps/theses/models.py&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Parameters (fields):&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Users App Reference</title>
+      <link>http://localhost:1313/hume_social/docs/reference/users/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/hume_social/docs/reference/users/</guid>
+      <description>&lt;h1 id=&#34;users-app-reference&#34;&gt;Users App Reference&lt;/h1&gt;&#xA;&lt;p&gt;Source folder: &lt;code&gt;src/apps/users&lt;/code&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;human-readable-summary&#34;&gt;Human-Readable Summary&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Aim of the objects: manage identity, profile data, social graph (contacts), sponsorship decisions, and GDPR user rights.&lt;/li&gt;&#xA;&lt;li&gt;Broader role: this app is the account and trust gateway for the entire platform; it determines who can access advanced actions in other apps.&lt;/li&gt;&#xA;&lt;li&gt;Specific role: &lt;code&gt;User&lt;/code&gt; stores capability state, &lt;code&gt;ContactRequest&lt;/code&gt; manages relationship workflows, forms validate account/profile operations, and views expose profile/contact/sponsorship/GDPR endpoints.&lt;/li&gt;&#xA;&lt;li&gt;Inputs and outputs:&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Inputs: HTTP request parameters (&lt;code&gt;q&lt;/code&gt;, &lt;code&gt;pk&lt;/code&gt;, decision flags), authenticated user context, form fields (signup, profile edits, deletion password), model relations.&lt;/li&gt;&#xA;&lt;li&gt;Outputs: rendered user/index templates, redirects after workflow actions, JSON export payload for portability, persisted user/contact state changes.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;app-config&#34;&gt;App Config&lt;/h2&gt;&#xA;&lt;h3 id=&#34;usersconfig&#34;&gt;UsersConfig&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Source: &lt;code&gt;src/apps/users/apps.py&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;Purpose: Registers the app as &lt;code&gt;apps.users&lt;/code&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Related: &lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/theses/&#34;&gt;Theses App&lt;/a&gt;, &lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/feed/&#34;&gt;Feed App&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;models&#34;&gt;Models&lt;/h2&gt;&#xA;&lt;h3 id=&#34;user-inherits-abstractuser&#34;&gt;User (inherits AbstractUser)&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Source: &lt;code&gt;src/apps/users/models.py&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;Inherits: &lt;code&gt;django.contrib.auth.models.AbstractUser&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Parameters (fields):&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

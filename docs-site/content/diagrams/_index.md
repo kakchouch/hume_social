@@ -1,5 +1,6 @@
 ---
 title: "Diagrams Home"
+layout: "single"
 ---
 
 # Hume Social Platform Diagrams
@@ -8,10 +9,10 @@ This folder contains visual diagrams explaining the inner workings of the Hume S
 
 ## Diagrams
 
-1. **[Architecture Overview]({{< relref "/diagrams/architecture-overview.md" >}})** - High-level architecture showing all major components and their relationships
-2. **[Content Validation Flow]({{< relref "/diagrams/content-validation-flow.md" >}})** - Sequence diagram of content creation and community validation process
-3. **[User Progression System]({{< relref "/diagrams/user-progression-system.md" >}})** - State diagram showing user permission levels and progression
-4. **[Database Relationships]({{< relref "/diagrams/database-relationships.md" >}})** - Entity-Relationship diagram of all model relationships
+1. **[Architecture Overview](https://github.com/kakchouch/hume_social/blob/main/diagrams/architecture_overview.md)** - High-level architecture showing all major components and their relationships
+2. **[Content Validation Flow](https://github.com/kakchouch/hume_social/blob/main/diagrams/content_validation_flow.md)** - Sequence diagram of content creation and community validation process
+3. **[User Progression System](https://github.com/kakchouch/hume_social/blob/main/diagrams/user_progression_system.md)** - State diagram showing user permission levels and progression
+4. **[Database Relationships](https://github.com/kakchouch/hume_social/blob/main/diagrams/database_relationships.md)** - Entity-Relationship diagram of all model relationships
 
 These diagrams are synchronized with the 3-level documentation in `docs/`:
 - Beginner: platform concepts and user-facing flow

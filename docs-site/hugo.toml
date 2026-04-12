@@ -35,5 +35,5 @@ description = "Structured discourse documentation portal"
     weight = 3
   [[menu.main]]
     name = "Diagrams"
-    url = "/diagrams/"
+    url = "https://github.com/kakchouch/hume_social/tree/main/diagrams"
     weight = 4

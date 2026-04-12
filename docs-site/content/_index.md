@@ -24,4 +24,4 @@ Hume Social is a platform for structured intellectual discourse where quality em
 
 - [Documentation levels]({{< relref "/docs/_index.md" >}})
 - [Object reference map]({{< relref "/docs/reference/_index.md" >}})
-- [Diagrams]({{< relref "/diagrams/_index.md" >}})
+- [Diagrams](https://github.com/kakchouch/hume_social/tree/main/diagrams)

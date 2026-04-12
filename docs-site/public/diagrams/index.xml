@@ -1,301 +1,39 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Diagrams Home on Hume Social Documentation</title><link>https://kakchouch.github.io/hume_social/diagrams/</link><description>Recent content in Diagrams Home on Hume Social Documentation</description><generator>Hugo</generator><language>en-us</language><atom:link href="https://kakchouch.github.io/hume_social/diagrams/index.xml" rel="self" type="application/rss+xml"/><item><title>Architecture Overview</title><link>https://kakchouch.github.io/hume_social/diagrams/architecture-overview/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/diagrams/architecture-overview/</guid><description>&lt;h1 id="hume-social-platform-architecture"&gt;Hume Social Platform Architecture&lt;/h1&gt;
-&lt;pre tabindex="0"&gt;&lt;code class="language-mermaid" data-lang="mermaid"&gt;flowchart TB
- subgraph CLIENT[Client Layer]
- B[Browser]
- HTMX[htmx.min.js]
- CSS[Template CSS]
- B --&amp;gt; HTMX
- B --&amp;gt; CSS
- end
-
- subgraph WEB[Django Web Layer]
- URL[config.urls]
- MW[Security and App Middleware\nSecurityMiddleware\nCSPMiddleware\nSessionMiddleware\nHtmxMiddleware\nCSRFMiddleware\nAuthMiddleware\nMessagesMiddleware\nUpdateLastActivityMiddleware]
- TV[Template Rendering]
- URL --&amp;gt; MW
- MW --&amp;gt; TV
- end
-
- subgraph APPS[Domain Apps]
- UV[users views]
- THV[theses views]
- FV[feed views]
- UV --&amp;gt; UM
- THV --&amp;gt; TM
- FV --&amp;gt; FM
- end
-
- subgraph UM[users models]
- U[User]
- CR[ContactRequest]
- end
-
- subgraph TM[theses and review models]
- MT[MiniThesis]
- THR[ThesisReviewHighlight]
- ER[EditorialReview]
- end
-
- subgraph TAGM[tags models]
- TG[Tag]
- TA[TagApplication]
- TVOTE[TagVote]
- end
-
- subgraph FM[feed models]
- FP[UserFeedPreference]
- FI[FeedItem]
- end
-
- subgraph SPM[sponsorship models]
- SP[Sponsorship]
- FC[FounderCohort]
- end
-
- subgraph DB[Database]
- SQLITE[(SQLite or PostgreSQL)]
- end
-
- B --&amp;gt; URL
- HTMX --&amp;gt; URL
- TV --&amp;gt; B
-
- TV --&amp;gt; UV
- TV --&amp;gt; THV
- TV --&amp;gt; FV
-
- TM --&amp;gt; TAGM
- U --&amp;gt; TM
- U --&amp;gt; TAGM
- U --&amp;gt; FM
- U --&amp;gt; SPM
-
- UM --&amp;gt; SQLITE
- TM --&amp;gt; SQLITE
- TAGM --&amp;gt; SQLITE
- FM --&amp;gt; SQLITE
- SPM --&amp;gt; SQLITE
-
- classDef layer fill:#1f6f5f,stroke:#ffffff,stroke-width:2px,color:#ffffff
- classDef model fill:#8b3a45,stroke:#ffffff,stroke-width:2px,color:#ffffff
- classDef storage fill:#39424e,stroke:#ffffff,stroke-width:2px,color:#ffffff
-
- class B,HTMX,CSS,URL,MW,TV,UV,THV,FV layer
- class U,CR,MT,THR,ER,TG,TA,TVOTE,FP,FI,SP,FC model
- class SQLITE storage
-&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>Content Validation Flow</title><link>https://kakchouch.github.io/hume_social/diagrams/content-validation-flow/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/diagrams/content-validation-flow/</guid><description>&lt;h1 id="content-creation-and-validation-sequence"&gt;Content Creation and Validation Sequence&lt;/h1&gt;
-&lt;pre tabindex="0"&gt;&lt;code class="language-mermaid" data-lang="mermaid"&gt;sequenceDiagram
- participant Browser
- participant Middleware as Django Middleware Stack
- participant UserView as users.landing_page
- participant ThesisCreate as theses.thesis_create
- participant ThesisList as theses.thesis_list
- participant MiniThesis as MiniThesis
- participant TagApplication as TagApplication
- participant TagVote as TagVote
- participant EditorialReview as EditorialReview
- participant FeedScore as FeedItem.calculate_scores
-
- Note over Browser,FeedScore: Live runtime flow with HTMX + security middleware
-
- Browser-&amp;gt;&amp;gt;Middleware: GET / (or /theses/)
- Middleware-&amp;gt;&amp;gt;UserView: Route dispatch after security, session, CSRF, auth, HTMX middleware
- UserView--&amp;gt;&amp;gt;Browser: Landing page (or authenticated feed preview)
-
- Browser-&amp;gt;&amp;gt;Middleware: POST /theses/create/
- Middleware-&amp;gt;&amp;gt;ThesisCreate: Authenticated request
- ThesisCreate-&amp;gt;&amp;gt;ThesisCreate: can_write_theses() sponsorship gate
- ThesisCreate-&amp;gt;&amp;gt;MiniThesis: Persist thesis if valid
- ThesisCreate--&amp;gt;&amp;gt;Browser: Redirect to thesis detail
-
- Browser-&amp;gt;&amp;gt;Middleware: GET /theses/?q=... (hx-request optional)
- Middleware-&amp;gt;&amp;gt;ThesisList: request.htmx available
- ThesisList-&amp;gt;&amp;gt;MiniThesis: Query + rank by rigor_score
- ThesisList--&amp;gt;&amp;gt;Browser: Full page or _thesis_cards fragment
-
- Browser-&amp;gt;&amp;gt;TagApplication: Apply quality tag
- Browser-&amp;gt;&amp;gt;TagVote: Vote on application validity
- TagVote-&amp;gt;&amp;gt;TagApplication: Update vote counters
-
- Browser-&amp;gt;&amp;gt;EditorialReview: Publish editorial review
-
- Browser-&amp;gt;&amp;gt;Middleware: Open feed/landing as authenticated user
- Middleware-&amp;gt;&amp;gt;UserView: Compute feed candidates
- UserView-&amp;gt;&amp;gt;FeedScore: calculate_scores(thesis, user)
- FeedScore--&amp;gt;&amp;gt;UserView: rigor + engagement + recency + total
- UserView--&amp;gt;&amp;gt;Browser: Ranked feed items
-&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>Database Relationships</title><link>https://kakchouch.github.io/hume_social/diagrams/database-relationships/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/diagrams/database-relationships/</guid><description>&lt;h1 id="database-relationships-entity-relationship-diagram"&gt;Database Relationships (Entity-Relationship Diagram)&lt;/h1&gt;
-&lt;pre tabindex="0"&gt;&lt;code class="language-mermaid" data-lang="mermaid"&gt;erDiagram
- User ||--o{ MiniThesis : authors
- User ||--o{ Comment : writes
- User ||--o{ TagApplication : applies
- User ||--o{ TagVote : votes
- User ||--o| UserFeedPreference : owns
- User ||--o{ FeedItem : receives
- User ||--o{ EditorialReview : reviews
- User ||--o{ ModerationAction : moderates
- User ||--o{ Sponsorship : sponsors
- User ||--o{ Sponsorship : sponsored
- User ||--o{ ContactRequest : sends
- User ||--o{ ContactRequest : receives
- User ||--o{ ThesisReviewHighlight : highlights
- User ||--o{ User : sponsors
- User }o--o{ User : contacts
-
- MiniThesis ||--o{ Comment : has
- MiniThesis ||--o{ Citation : citing_side
- MiniThesis ||--o{ Citation : cited_side
- MiniThesis ||--o{ TagApplication : tagged_with
- MiniThesis ||--o{ FeedItem : appears_in
- MiniThesis ||--o{ EditorialReview : reviewed_by
- MiniThesis ||--o{ ModerationAction : moderated_target
- MiniThesis ||--o{ ThesisReviewHighlight : highlighted_by
- MiniThesis ||--o{ MiniThesis : follow_up_parent
-
- Tag ||--o{ TagApplication : used_by
- Tag ||--o{ ThesisReviewHighlight : attached_to
- TagApplication ||--o{ TagVote : voted_on
- UserFeedPreference }o--o{ Tag : preferred_tags
- UserFeedPreference }o--o{ User : blocked_users
- FounderCohort }o--o{ User : members
-
- User {
- string username
- string email
- string level
- string sponsorship_status
- float tag_accuracy_score
- datetime last_activity_at
- datetime cookies_consented_at
- }
-
- MiniThesis {
- text thesis
- text facts
- text normative_premises
- text conclusion
- text declared_limits
- datetime created_at
- bool is_published
- int citation_count
- }
-
- ThesisReviewHighlight {
- string section
- text selected_text
- text comment
- datetime created_at
- }
-
- Comment {
- text content
- datetime created_at
- }
-
- Citation {
- text context
- }
-
- Tag {
- string name
- text description
- }
-
- TagApplication {
- text justification
- string status
- int upvotes
- int downvotes
- }
-
- TagVote {
- bool is_upvote
- datetime created_at
- }
-
- UserFeedPreference {
- float min_rigor_threshold
- }
-
- FeedItem {
- float rigor_score
- float engagement_score
- float recency_score
- float total_score
- datetime cached_at
- bool is_visible
- }
-
- EditorialReview {
- text overall_assessment
- int rigor_rating
- int clarity_rating
- int originality_rating
- string status
- }
-
- ModerationAction {
- string action_type
- text reason
- bool is_reversible
- datetime created_at
- }
-
- Sponsorship {
- string status
- int sponsor_rating
- datetime created_at
- }
-
- FounderCohort {
- string name
- int max_size
- bool is_active
- datetime created_at
- }
-
- ContactRequest {
- string status
- datetime created_at
- }
-&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>User Progression System</title><link>https://kakchouch.github.io/hume_social/diagrams/user-progression-system/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/diagrams/user-progression-system/</guid><description>&lt;h1 id="user-progression-and-permission-system"&gt;User Progression and Permission System&lt;/h1&gt;
-&lt;pre tabindex="0"&gt;&lt;code class="language-mermaid" data-lang="mermaid"&gt;stateDiagram-v2
- [*] --&amp;gt; Registered: Account created
- Registered --&amp;gt; SponsorshipPending: Sponsor selected at signup
-
- state SponsorshipValidation {
- SponsorshipPending --&amp;gt; SponsorshipApproved: Sponsor approves
- SponsorshipPending --&amp;gt; SponsorshipRejected: Sponsor rejects
- SponsorshipRejected --&amp;gt; SponsorshipPending: User obtains a new sponsor
- }
-
- SponsorshipApproved --&amp;gt; Reader: Baseline access
-
- Reader --&amp;gt; Commentator: Level grant by policy
- Commentator --&amp;gt; Tagger: Level grant by policy
- Tagger --&amp;gt; EditorialReviewer: Level grant by policy
-
- Reader: Can read platform content
- Commentator: Reader + can_comment()
- Tagger: Commentator + can_tag()
- EditorialReviewer: Tagger + can_review()
-
- note right of SponsorshipValidation
- thesis_create and thesis_edit are blocked
- while sponsorship_status == pending
- end note
-
- note right of Tagger
- tag_accuracy_score is clamped to [0,2]
- and updated by tag resolution outcomes
- end note
-
- state GDPRLifecycle {
- Active --&amp;gt; DataExported: /users/me/data/
- Active --&amp;gt; DeletionRequested: /users/me/delete/
- DeletionRequested --&amp;gt; Anonymized: account deactivated and personal fields erased
- }
-
- EditorialReviewer --&amp;gt; Active: Continues normal usage
- Active --&amp;gt; [*]: Unrecoverable delete or admin deactivation
-&lt;/code&gt;&lt;/pre&gt;</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Diagrams Home on Hume Social Documentation</title>
+    <link>http://localhost:1313/hume_social/diagrams/</link>
+    <description>Recent content in Diagrams Home on Hume Social Documentation</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <atom:link href="http://localhost:1313/hume_social/diagrams/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Architecture Overview</title>
+      <link>http://localhost:1313/hume_social/diagrams/architecture-overview/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/hume_social/diagrams/architecture-overview/</guid>
+      <description>&lt;h1 id=&#34;hume-social-platform-architecture&#34;&gt;Hume Social Platform Architecture&lt;/h1&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;flowchart TB&#xD;&#xA;    subgraph CLIENT[Client Layer]&#xD;&#xA;        B[Browser]&#xD;&#xA;        HTMX[htmx.min.js]&#xD;&#xA;        CSS[Template CSS]&#xD;&#xA;        B --&amp;gt; HTMX&#xD;&#xA;        B --&amp;gt; CSS&#xD;&#xA;    end&#xD;&#xA;&#xD;&#xA;    subgraph WEB[Django Web Layer]&#xD;&#xA;        URL[config.urls]&#xD;&#xA;        MW[Security and App Middleware\nSecurityMiddleware\nCSPMiddleware\nSessionMiddleware\nHtmxMiddleware\nCSRFMiddleware\nAuthMiddleware\nMessagesMiddleware\nUpdateLastActivityMiddleware]&#xD;&#xA;        TV[Template Rendering]&#xD;&#xA;        URL --&amp;gt; MW&#xD;&#xA;        MW --&amp;gt; TV&#xD;&#xA;    end&#xD;&#xA;&#xD;&#xA;    subgraph APPS[Domain Apps]&#xD;&#xA;        UV[users views]&#xD;&#xA;        THV[theses views]&#xD;&#xA;        FV[feed views]&#xD;&#xA;        UV --&amp;gt; UM&#xD;&#xA;        THV --&amp;gt; TM&#xD;&#xA;        FV --&amp;gt; FM&#xD;&#xA;    end&#xD;&#xA;&#xD;&#xA;    subgraph UM[users models]&#xD;&#xA;        U[User]&#xD;&#xA;        CR[ContactRequest]&#xD;&#xA;    end&#xD;&#xA;&#xD;&#xA;    subgraph TM[theses and review models]&#xD;&#xA;        MT[MiniThesis]&#xD;&#xA;        THR[ThesisReviewHighlight]&#xD;&#xA;        ER[EditorialReview]&#xD;&#xA;    end&#xD;&#xA;&#xD;&#xA;    subgraph TAGM[tags models]&#xD;&#xA;        TG[Tag]&#xD;&#xA;        TA[TagApplication]&#xD;&#xA;        TVOTE[TagVote]&#xD;&#xA;    end&#xD;&#xA;&#xD;&#xA;    subgraph FM[feed models]&#xD;&#xA;        FP[UserFeedPreference]&#xD;&#xA;        FI[FeedItem]&#xD;&#xA;    end&#xD;&#xA;&#xD;&#xA;    subgraph SPM[sponsorship models]&#xD;&#xA;        SP[Sponsorship]&#xD;&#xA;        FC[FounderCohort]&#xD;&#xA;    end&#xD;&#xA;&#xD;&#xA;    subgraph DB[Database]&#xD;&#xA;        SQLITE[(SQLite or PostgreSQL)]&#xD;&#xA;    end&#xD;&#xA;&#xD;&#xA;    B --&amp;gt; URL&#xD;&#xA;    HTMX --&amp;gt; URL&#xD;&#xA;    TV --&amp;gt; B&#xD;&#xA;&#xD;&#xA;    TV --&amp;gt; UV&#xD;&#xA;    TV --&amp;gt; THV&#xD;&#xA;    TV --&amp;gt; FV&#xD;&#xA;&#xD;&#xA;    TM --&amp;gt; TAGM&#xD;&#xA;    U --&amp;gt; TM&#xD;&#xA;    U --&amp;gt; TAGM&#xD;&#xA;    U --&amp;gt; FM&#xD;&#xA;    U --&amp;gt; SPM&#xD;&#xA;&#xD;&#xA;    UM --&amp;gt; SQLITE&#xD;&#xA;    TM --&amp;gt; SQLITE&#xD;&#xA;    TAGM --&amp;gt; SQLITE&#xD;&#xA;    FM --&amp;gt; SQLITE&#xD;&#xA;    SPM --&amp;gt; SQLITE&#xD;&#xA;&#xD;&#xA;    classDef layer fill:#1f6f5f,stroke:#ffffff,stroke-width:2px,color:#ffffff&#xD;&#xA;    classDef model fill:#8b3a45,stroke:#ffffff,stroke-width:2px,color:#ffffff&#xD;&#xA;    classDef storage fill:#39424e,stroke:#ffffff,stroke-width:2px,color:#ffffff&#xD;&#xA;&#xD;&#xA;    class B,HTMX,CSS,URL,MW,TV,UV,THV,FV layer&#xD;&#xA;    class U,CR,MT,THR,ER,TG,TA,TVOTE,FP,FI,SP,FC model&#xD;&#xA;    class SQLITE storage&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title>Content Validation Flow</title>
+      <link>http://localhost:1313/hume_social/diagrams/content-validation-flow/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/hume_social/diagrams/content-validation-flow/</guid>
+      <description>&lt;h1 id=&#34;content-creation-and-validation-sequence&#34;&gt;Content Creation and Validation Sequence&lt;/h1&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;sequenceDiagram&#xD;&#xA;    participant Browser&#xD;&#xA;    participant Middleware as Django Middleware Stack&#xD;&#xA;    participant UserView as users.landing_page&#xD;&#xA;    participant ThesisCreate as theses.thesis_create&#xD;&#xA;    participant ThesisList as theses.thesis_list&#xD;&#xA;    participant MiniThesis as MiniThesis&#xD;&#xA;    participant TagApplication as TagApplication&#xD;&#xA;    participant TagVote as TagVote&#xD;&#xA;    participant EditorialReview as EditorialReview&#xD;&#xA;    participant FeedScore as FeedItem.calculate_scores&#xD;&#xA;&#xD;&#xA;    Note over Browser,FeedScore: Live runtime flow with HTMX + security middleware&#xD;&#xA;&#xD;&#xA;    Browser-&amp;gt;&amp;gt;Middleware: GET / (or /theses/)&#xD;&#xA;    Middleware-&amp;gt;&amp;gt;UserView: Route dispatch after security, session, CSRF, auth, HTMX middleware&#xD;&#xA;    UserView--&amp;gt;&amp;gt;Browser: Landing page (or authenticated feed preview)&#xD;&#xA;&#xD;&#xA;    Browser-&amp;gt;&amp;gt;Middleware: POST /theses/create/&#xD;&#xA;    Middleware-&amp;gt;&amp;gt;ThesisCreate: Authenticated request&#xD;&#xA;    ThesisCreate-&amp;gt;&amp;gt;ThesisCreate: can_write_theses() sponsorship gate&#xD;&#xA;    ThesisCreate-&amp;gt;&amp;gt;MiniThesis: Persist thesis if valid&#xD;&#xA;    ThesisCreate--&amp;gt;&amp;gt;Browser: Redirect to thesis detail&#xD;&#xA;&#xD;&#xA;    Browser-&amp;gt;&amp;gt;Middleware: GET /theses/?q=... (hx-request optional)&#xD;&#xA;    Middleware-&amp;gt;&amp;gt;ThesisList: request.htmx available&#xD;&#xA;    ThesisList-&amp;gt;&amp;gt;MiniThesis: Query + rank by rigor_score&#xD;&#xA;    ThesisList--&amp;gt;&amp;gt;Browser: Full page or _thesis_cards fragment&#xD;&#xA;&#xD;&#xA;    Browser-&amp;gt;&amp;gt;TagApplication: Apply quality tag&#xD;&#xA;    Browser-&amp;gt;&amp;gt;TagVote: Vote on application validity&#xD;&#xA;    TagVote-&amp;gt;&amp;gt;TagApplication: Update vote counters&#xD;&#xA;&#xD;&#xA;    Browser-&amp;gt;&amp;gt;EditorialReview: Publish editorial review&#xD;&#xA;&#xD;&#xA;    Browser-&amp;gt;&amp;gt;Middleware: Open feed/landing as authenticated user&#xD;&#xA;    Middleware-&amp;gt;&amp;gt;UserView: Compute feed candidates&#xD;&#xA;    UserView-&amp;gt;&amp;gt;FeedScore: calculate_scores(thesis, user)&#xD;&#xA;    FeedScore--&amp;gt;&amp;gt;UserView: rigor + engagement + recency + total&#xD;&#xA;    UserView--&amp;gt;&amp;gt;Browser: Ranked feed items&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title>Database Relationships</title>
+      <link>http://localhost:1313/hume_social/diagrams/database-relationships/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/hume_social/diagrams/database-relationships/</guid>
+      <description>&lt;h1 id=&#34;database-relationships-entity-relationship-diagram&#34;&gt;Database Relationships (Entity-Relationship Diagram)&lt;/h1&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;erDiagram&#xD;&#xA;    User ||--o{ MiniThesis : authors&#xD;&#xA;    User ||--o{ Comment : writes&#xD;&#xA;    User ||--o{ TagApplication : applies&#xD;&#xA;    User ||--o{ TagVote : votes&#xD;&#xA;    User ||--o| UserFeedPreference : owns&#xD;&#xA;    User ||--o{ FeedItem : receives&#xD;&#xA;    User ||--o{ EditorialReview : reviews&#xD;&#xA;    User ||--o{ ModerationAction : moderates&#xD;&#xA;    User ||--o{ Sponsorship : sponsors&#xD;&#xA;    User ||--o{ Sponsorship : sponsored&#xD;&#xA;    User ||--o{ ContactRequest : sends&#xD;&#xA;    User ||--o{ ContactRequest : receives&#xD;&#xA;    User ||--o{ ThesisReviewHighlight : highlights&#xD;&#xA;    User ||--o{ User : sponsors&#xD;&#xA;    User }o--o{ User : contacts&#xD;&#xA;&#xD;&#xA;    MiniThesis ||--o{ Comment : has&#xD;&#xA;    MiniThesis ||--o{ Citation : citing_side&#xD;&#xA;    MiniThesis ||--o{ Citation : cited_side&#xD;&#xA;    MiniThesis ||--o{ TagApplication : tagged_with&#xD;&#xA;    MiniThesis ||--o{ FeedItem : appears_in&#xD;&#xA;    MiniThesis ||--o{ EditorialReview : reviewed_by&#xD;&#xA;    MiniThesis ||--o{ ModerationAction : moderated_target&#xD;&#xA;    MiniThesis ||--o{ ThesisReviewHighlight : highlighted_by&#xD;&#xA;    MiniThesis ||--o{ MiniThesis : follow_up_parent&#xD;&#xA;&#xD;&#xA;    Tag ||--o{ TagApplication : used_by&#xD;&#xA;    Tag ||--o{ ThesisReviewHighlight : attached_to&#xD;&#xA;    TagApplication ||--o{ TagVote : voted_on&#xD;&#xA;    UserFeedPreference }o--o{ Tag : preferred_tags&#xD;&#xA;    UserFeedPreference }o--o{ User : blocked_users&#xD;&#xA;    FounderCohort }o--o{ User : members&#xD;&#xA;&#xD;&#xA;    User {&#xD;&#xA;        string username&#xD;&#xA;        string email&#xD;&#xA;        string level&#xD;&#xA;        string sponsorship_status&#xD;&#xA;        float tag_accuracy_score&#xD;&#xA;        datetime last_activity_at&#xD;&#xA;        datetime cookies_consented_at&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    MiniThesis {&#xD;&#xA;        text thesis&#xD;&#xA;        text facts&#xD;&#xA;        text normative_premises&#xD;&#xA;        text conclusion&#xD;&#xA;        text declared_limits&#xD;&#xA;        datetime created_at&#xD;&#xA;        bool is_published&#xD;&#xA;        int citation_count&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    ThesisReviewHighlight {&#xD;&#xA;        string section&#xD;&#xA;        text selected_text&#xD;&#xA;        text comment&#xD;&#xA;        datetime created_at&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    Comment {&#xD;&#xA;        text content&#xD;&#xA;        datetime created_at&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    Citation {&#xD;&#xA;        text context&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    Tag {&#xD;&#xA;        string name&#xD;&#xA;        text description&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    TagApplication {&#xD;&#xA;        text justification&#xD;&#xA;        string status&#xD;&#xA;        int upvotes&#xD;&#xA;        int downvotes&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    TagVote {&#xD;&#xA;        bool is_upvote&#xD;&#xA;        datetime created_at&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    UserFeedPreference {&#xD;&#xA;        float min_rigor_threshold&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    FeedItem {&#xD;&#xA;        float rigor_score&#xD;&#xA;        float engagement_score&#xD;&#xA;        float recency_score&#xD;&#xA;        float total_score&#xD;&#xA;        datetime cached_at&#xD;&#xA;        bool is_visible&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    EditorialReview {&#xD;&#xA;        text overall_assessment&#xD;&#xA;        int rigor_rating&#xD;&#xA;        int clarity_rating&#xD;&#xA;        int originality_rating&#xD;&#xA;        string status&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    ModerationAction {&#xD;&#xA;        string action_type&#xD;&#xA;        text reason&#xD;&#xA;        bool is_reversible&#xD;&#xA;        datetime created_at&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    Sponsorship {&#xD;&#xA;        string status&#xD;&#xA;        int sponsor_rating&#xD;&#xA;        datetime created_at&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    FounderCohort {&#xD;&#xA;        string name&#xD;&#xA;        int max_size&#xD;&#xA;        bool is_active&#xD;&#xA;        datetime created_at&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    ContactRequest {&#xD;&#xA;        string status&#xD;&#xA;        datetime created_at&#xD;&#xA;    }&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title>User Progression System</title>
+      <link>http://localhost:1313/hume_social/diagrams/user-progression-system/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/hume_social/diagrams/user-progression-system/</guid>
+      <description>&lt;h1 id=&#34;user-progression-and-permission-system&#34;&gt;User Progression and Permission System&lt;/h1&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;stateDiagram-v2&#xD;&#xA;    [*] --&amp;gt; Registered: Account created&#xD;&#xA;    Registered --&amp;gt; SponsorshipPending: Sponsor selected at signup&#xD;&#xA;&#xD;&#xA;    state SponsorshipValidation {&#xD;&#xA;        SponsorshipPending --&amp;gt; SponsorshipApproved: Sponsor approves&#xD;&#xA;        SponsorshipPending --&amp;gt; SponsorshipRejected: Sponsor rejects&#xD;&#xA;        SponsorshipRejected --&amp;gt; SponsorshipPending: User obtains a new sponsor&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    SponsorshipApproved --&amp;gt; Reader: Baseline access&#xD;&#xA;&#xD;&#xA;    Reader --&amp;gt; Commentator: Level grant by policy&#xD;&#xA;    Commentator --&amp;gt; Tagger: Level grant by policy&#xD;&#xA;    Tagger --&amp;gt; EditorialReviewer: Level grant by policy&#xD;&#xA;&#xD;&#xA;    Reader: Can read platform content&#xD;&#xA;    Commentator: Reader + can_comment()&#xD;&#xA;    Tagger: Commentator + can_tag()&#xD;&#xA;    EditorialReviewer: Tagger + can_review()&#xD;&#xA;&#xD;&#xA;    note right of SponsorshipValidation&#xD;&#xA;        thesis_create and thesis_edit are blocked&#xD;&#xA;        while sponsorship_status == pending&#xD;&#xA;    end note&#xD;&#xA;&#xD;&#xA;    note right of Tagger&#xD;&#xA;        tag_accuracy_score is clamped to [0,2]&#xD;&#xA;        and updated by tag resolution outcomes&#xD;&#xA;    end note&#xD;&#xA;&#xD;&#xA;    state GDPRLifecycle {&#xD;&#xA;        Active --&amp;gt; DataExported: /users/me/data/&#xD;&#xA;        Active --&amp;gt; DeletionRequested: /users/me/delete/&#xD;&#xA;        DeletionRequested --&amp;gt; Anonymized: account deactivated and personal fields erased&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    EditorialReviewer --&amp;gt; Active: Continues normal usage&#xD;&#xA;    Active --&amp;gt; [*]: Unrecoverable delete or admin deactivation&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+  </channel>
+</rss>

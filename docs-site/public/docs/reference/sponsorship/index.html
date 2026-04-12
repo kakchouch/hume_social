@@ -1,1 +1,200 @@
-<!doctype html><html lang=en><head><title>Sponsorship App Reference &ndash; Hume Social Documentation</title><meta name=description content="Structured discourse documentation portal"><meta name=viewport content="width=device-width,initial-scale=1"><meta charset=UTF-8><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin=anonymous referrerpolicy=no-referrer><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css integrity="sha512-IW0nhlW5MgNydsXJO40En2EoCkTTjZhI3yuODrZIc8cQ4h1XcF53PsqDHa09NqnkXuIe0Oiyyj171BqZFwISBw==" crossorigin=anonymous referrerpolicy=no-referrer><link rel=stylesheet href=/hume_social/css/palettes/hume-social.css><link rel=stylesheet href=/hume_social/css/risotto.css><link rel=stylesheet href=/hume_social/css/custom.css><meta property="og:title" content="Sponsorship App Reference &ndash; Hume Social Documentation"><meta property="og:url" content="https://kakchouch.github.io/hume_social/docs/reference/sponsorship/"><meta property="og:description" content="Structured discourse documentation portal"><meta property="og:locale" content="en-us"><meta property="og:image" content></head><body><div class=page><header class=page__header><nav class="page__nav main-nav"><ul><li class=nomarker><h1 class=page__logo><a href=/hume_social/ class=page__logo-inner>Hume Social Documentation</a></h1></li><li class=main-nav__item><a class=nav-main-item href=/hume_social/ title>Home</a></li><li class=main-nav__item><a class=nav-main-item href=/hume_social/docs/ title>Docs</a></li><li class=main-nav__item><a class=nav-main-item href=/hume_social/docs/reference/ title>Reference</a></li><li class=main-nav__item><a class=nav-main-item href=/hume_social/diagrams/ title>Diagrams</a></li></ul></nav></header><section class=page__body><header class=content__header><h1>Sponsorship App Reference</h1></header><div class=content__body><h1 id=sponsorship-app-reference>Sponsorship App Reference</h1><p>Source folder: <code>src/apps/sponsorship</code></p><h2 id=human-readable-summary>Human-Readable Summary</h2><ul><li>Aim of the objects: model sponsor relationships and cohort membership constraints.</li><li>Broader role: sponsorship defines trust onboarding and long-term contributor progression boundaries.</li><li>Specific role: <code>Sponsorship</code> records one sponsor-to-sponsored relationship with lifecycle state and optional evaluation; <code>FounderCohort</code> tracks capped cohort membership and activation state.</li><li>Inputs and outputs:<ul><li>Inputs: sponsor/sponsored user identities, status transitions, optional sponsor ratings, cohort capacity settings.</li><li>Outputs: persisted sponsorship states and cohort membership checks used by user progression and governance workflows.</li></ul></li></ul><h2 id=app-config>App Config</h2><h3 id=sponsorshipconfig>SponsorshipConfig</h3><ul><li>Source: <code>src/apps/sponsorship/apps.py</code></li></ul><h2 id=models>Models</h2><h3 id=sponsorship>Sponsorship</h3><ul><li>Source: <code>src/apps/sponsorship/models.py</code></li></ul><p>Parameters (fields):</p><ul><li><code>sponsor: ForeignKey(User, related_name='sponsorships_given')</code></li><li><code>sponsored: ForeignKey(User, related_name='sponsorships_received')</code></li><li><code>message: TextField(blank=True)</code></li><li><code>created_at: DateTimeField(default=timezone.now)</code></li><li><code>status: CharField(choices=Status)</code></li><li><code>sponsor_rating: PositiveSmallIntegerField(1..5, null=True, blank=True)</code></li></ul><p>Related:</p><ul><li>User lifecycle status: <a href=/hume_social/docs/reference/users/#user-inherits-abstractuser>User.sponsorship_status</a></li></ul><h3 id=foundercohort>FounderCohort</h3><ul><li>Source: <code>src/apps/sponsorship/models.py</code></li></ul><p>Parameters (fields):</p><ul><li><code>name: CharField(max_length=100)</code></li><li><code>description: TextField(blank=True)</code></li><li><code>created_at: DateTimeField(default=timezone.now)</code></li><li><code>members: ManyToManyField(User, related_name='founder_cohorts')</code></li><li><code>max_size: PositiveIntegerField(default=150)</code></li><li><code>is_active: BooleanField(default=True)</code></li></ul><p>Methods:</p><ul><li><code>current_size</code> property</li><li><code>can_add_member()</code></li></ul><h2 id=url-endpoints>URL Endpoints</h2><ul><li>Source: <code>src/apps/sponsorship/urls.py</code></li><li>Current state: namespace only, no public routes yet.</li></ul><h2 id=related-documentation>Related Documentation</h2><ul><li><a href=/hume_social/docs/reference/users/>Users App</a></li></ul></div><footer class=content__footer></footer></section><section class=page__aside><div class=aside__about><div class=aside__about><h1 class=about__title>Hume Social</h1><p class=about__description>Structured discourse documentation portal</p></div><ul class=aside__social-links></ul></div><hr><div class=aside__content></div></section><footer class=page__footer><p><br><span class=active>$ echo $LANG<br><b></b></span><br></p><br><br><p class=copyright></p><p class=advertisement>Powered by <a href=https://gohugo.io/>hugo</a> and <a href=https://github.com/joeroe/risotto>risotto</a>.</p></footer></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+
+    <head><script src="/hume_social/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=hume_social/livereload" data-no-instant defer></script><title>Sponsorship App Reference &ndash; Hume Social Documentation</title>
+<meta name="description" content="Structured discourse documentation portal">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8"/>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css" integrity="sha512-IW0nhlW5MgNydsXJO40En2EoCkTTjZhI3yuODrZIc8cQ4h1XcF53PsqDHa09NqnkXuIe0Oiyyj171BqZFwISBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="/hume_social/css/palettes/hume-social.css">
+<link rel="stylesheet" href="/hume_social/css/risotto.css">
+<link rel="stylesheet" href="/hume_social/css/custom.css">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Sponsorship App Reference &ndash; Hume Social Documentation" />
+<meta property="og:url" content="http://localhost:1313/hume_social/docs/reference/sponsorship/" />
+
+  
+    <meta property="og:description" content="Structured discourse documentation portal"/> 
+  
+
+<meta property="og:locale" content="en-us" />
+<meta property="og:image" content="" /></head>
+
+    <body>
+        <div class="page">
+
+            <header class="page__header"><nav class="page__nav main-nav">
+    <ul>
+      <li class="nomarker"><h1 class="page__logo"><a href="/hume_social/" class="page__logo-inner">Hume Social Documentation</a></h1></li>
+    
+    
+    <li class="main-nav__item"><a class="nav-main-item" href="/hume_social/" title="">Home</a></li>
+    
+    <li class="main-nav__item"><a class="nav-main-item" href="/hume_social/docs/" title="">Docs</a></li>
+    
+    <li class="main-nav__item"><a class="nav-main-item" href="/hume_social/docs/reference/" title="">Reference</a></li>
+    
+    <li class="main-nav__item"><a class="nav-main-item" href="https://github.com/kakchouch/hume_social/tree/main/diagrams" title="">Diagrams</a></li>
+    
+    </ul>
+</nav>
+
+</header>
+
+            <section class="page__body">
+    <header class="content__header">
+        <h1>Sponsorship App Reference</h1>
+    </header>
+    <div class="content__body">
+        <h1 id="sponsorship-app-reference">Sponsorship App Reference</h1>
+<p>Source folder: <code>src/apps/sponsorship</code></p>
+<h2 id="human-readable-summary">Human-Readable Summary</h2>
+<ul>
+<li>Aim of the objects: model sponsor relationships and cohort membership constraints.</li>
+<li>Broader role: sponsorship defines trust onboarding and long-term contributor progression boundaries.</li>
+<li>Specific role: <code>Sponsorship</code> records one sponsor-to-sponsored relationship with lifecycle state and optional evaluation; <code>FounderCohort</code> tracks capped cohort membership and activation state.</li>
+<li>Inputs and outputs:
+<ul>
+<li>Inputs: sponsor/sponsored user identities, status transitions, optional sponsor ratings, cohort capacity settings.</li>
+<li>Outputs: persisted sponsorship states and cohort membership checks used by user progression and governance workflows.</li>
+</ul>
+</li>
+</ul>
+<h2 id="app-config">App Config</h2>
+<h3 id="sponsorshipconfig">SponsorshipConfig</h3>
+<ul>
+<li>Source: <code>src/apps/sponsorship/apps.py</code></li>
+</ul>
+<h2 id="models">Models</h2>
+<h3 id="sponsorship">Sponsorship</h3>
+<ul>
+<li>Source: <code>src/apps/sponsorship/models.py</code></li>
+</ul>
+<p>Parameters (fields):</p>
+<ul>
+<li><code>sponsor: ForeignKey(User, related_name='sponsorships_given')</code></li>
+<li><code>sponsored: ForeignKey(User, related_name='sponsorships_received')</code></li>
+<li><code>message: TextField(blank=True)</code></li>
+<li><code>created_at: DateTimeField(default=timezone.now)</code></li>
+<li><code>status: CharField(choices=Status)</code></li>
+<li><code>sponsor_rating: PositiveSmallIntegerField(1..5, null=True, blank=True)</code></li>
+</ul>
+<p>Related:</p>
+<ul>
+<li>User lifecycle status: <a href="/hume_social/docs/reference/users/#user-inherits-abstractuser">User.sponsorship_status</a></li>
+</ul>
+<h3 id="foundercohort">FounderCohort</h3>
+<ul>
+<li>Source: <code>src/apps/sponsorship/models.py</code></li>
+</ul>
+<p>Parameters (fields):</p>
+<ul>
+<li><code>name: CharField(max_length=100)</code></li>
+<li><code>description: TextField(blank=True)</code></li>
+<li><code>created_at: DateTimeField(default=timezone.now)</code></li>
+<li><code>members: ManyToManyField(User, related_name='founder_cohorts')</code></li>
+<li><code>max_size: PositiveIntegerField(default=150)</code></li>
+<li><code>is_active: BooleanField(default=True)</code></li>
+</ul>
+<p>Methods:</p>
+<ul>
+<li><code>current_size</code> property</li>
+<li><code>can_add_member()</code></li>
+</ul>
+<h2 id="url-endpoints">URL Endpoints</h2>
+<ul>
+<li>Source: <code>src/apps/sponsorship/urls.py</code></li>
+<li>Current state: namespace only, no public routes yet.</li>
+</ul>
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="/hume_social/docs/reference/users/">Users App</a></li>
+</ul>
+
+    </div>
+    <footer class="content__footer"></footer>
+
+            </section>
+
+            <section class="page__aside">
+                <div class="aside__about">
+<div class="aside__about">
+    
+    
+<h1 class="about__title">Hume Social</h1>
+<p class="about__description">Structured discourse documentation portal</p>
+</div>
+
+
+<ul class="aside__social-links">
+    
+</ul>
+</div>
+                <hr>
+                <div class="aside__content">
+    
+    
+
+    
+
+                </div>
+            </section>
+
+            <footer class="page__footer"><p>
+    
+    
+    
+    
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      
+          
+            
+            
+                <br/><span class="active">$ echo $LANG<br/><b></b></span><br/>
+
+            
+          
+      
+    
+</p>
+<br /><br />
+<p class="copyright"></p>
+<p class="advertisement">Powered by <a href="https://gohugo.io/">hugo</a> and <a href="https://github.com/joeroe/risotto">risotto</a>.</p>
+</footer>
+
+        </div>
+    </body>
+
+</html>

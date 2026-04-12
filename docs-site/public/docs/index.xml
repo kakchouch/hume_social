@@ -1,92 +1,32 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Documentation Home on Hume Social Documentation</title><link>https://kakchouch.github.io/hume_social/docs/</link><description>Recent content in Documentation Home on Hume Social Documentation</description><generator>Hugo</generator><language>en-us</language><atom:link href="https://kakchouch.github.io/hume_social/docs/index.xml" rel="self" type="application/rss+xml"/><item><title>Beginner Guide</title><link>https://kakchouch.github.io/hume_social/docs/beginner/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/docs/beginner/</guid><description>&lt;h1 id="beginner-guide"&gt;Beginner Guide&lt;/h1&gt;
-&lt;h2 id="1-what-hume-social-is"&gt;1. What Hume Social Is&lt;/h2&gt;
-&lt;p&gt;Hume Social is a structured-discussion platform where people publish mini-theses and the community evaluates quality through tags and reviews.&lt;/p&gt;
-&lt;p&gt;Unlike conventional social media, content is shaped around argument structure:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Thesis&lt;/li&gt;
-&lt;li&gt;Facts&lt;/li&gt;
-&lt;li&gt;Normative premises&lt;/li&gt;
-&lt;li&gt;Conclusion&lt;/li&gt;
-&lt;li&gt;Declared limits&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="2-overall-working"&gt;2. Overall Working&lt;/h2&gt;
-&lt;p&gt;At a high level:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;A user signs up with a sponsor username.&lt;/li&gt;
-&lt;li&gt;Sponsored users can write theses once sponsorship is approved.&lt;/li&gt;
-&lt;li&gt;Other users can apply quality tags and reviewers can publish editorial reviews.&lt;/li&gt;
-&lt;li&gt;The feed ranks content using rigor, engagement, and recency.&lt;/li&gt;
-&lt;li&gt;Users progress by trust and competence (reader -&amp;gt; commentator -&amp;gt; tagger -&amp;gt; editorial reviewer).&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id="3-main-screens"&gt;3. Main Screens&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Home: public landing + authenticated feed preview.&lt;/li&gt;
-&lt;li&gt;Theses list: searchable, paginated, HTMX-enhanced updates.&lt;/li&gt;
-&lt;li&gt;Thesis detail: full structured argument and highlighted review segments.&lt;/li&gt;
-&lt;li&gt;Thesis review tab: tags, editorial reviews, and highlight review form.&lt;/li&gt;
-&lt;li&gt;User pages: directory, profile, sponsorship requests, contact requests, GDPR actions.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="4-tech-stack-simple-view"&gt;4. Tech Stack (Simple View)&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Backend: Python 3.12, Django 4.2.&lt;/li&gt;
-&lt;li&gt;Frontend: Django templates + HTMX + CSS.&lt;/li&gt;
-&lt;li&gt;Database: SQLite in local/dev; PostgreSQL intended for production.&lt;/li&gt;
-&lt;li&gt;Testing: pytest + Django TestCase.&lt;/li&gt;
-&lt;li&gt;Security baseline: CSRF, CSP, secure cookie policies, frame protection, referrer policy.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="5-how-to-run-locally"&gt;5. How to Run Locally&lt;/h2&gt;
-&lt;ol&gt;
-&lt;li&gt;Create and activate virtual environment.&lt;/li&gt;
-&lt;li&gt;Install dependencies from requirements/local.txt.&lt;/li&gt;
-&lt;li&gt;Run migrations in src/.&lt;/li&gt;
-&lt;li&gt;Start server from src/.&lt;/li&gt;
-&lt;li&gt;Run tests from repository root with pytest.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id="6-core-concepts-to-learn-next"&gt;6. Core Concepts To Learn Next&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Sponsorship status gates thesis creation/edit.&lt;/li&gt;
-&lt;li&gt;Tag applications are not the same as editorial reviews.&lt;/li&gt;
-&lt;li&gt;Feed score is a weighted combination, not raw chronology.&lt;/li&gt;
-&lt;li&gt;HTMX is used for partial page updates while keeping server-rendered templates.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;For implementation details, continue with intermediate.md.&lt;/p&gt;</description></item><item><title>Expert Reference</title><link>https://kakchouch.github.io/hume_social/docs/expert/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/docs/expert/</guid><description>&lt;h1 id="expert-reference"&gt;Expert Reference&lt;/h1&gt;
-&lt;p&gt;For class-by-class, parameter-level linked navigation, see &lt;a href="https://kakchouch.github.io/hume_social/docs/reference/"&gt;Object Reference Map&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id="1-system-overview"&gt;1. System Overview&lt;/h2&gt;
-&lt;p&gt;Hume Social is a server-rendered Django platform with selective HTMX enhancement.
-Primary domain object is MiniThesis; trust and quality layers are applied through sponsorship, tagging, and editorial review.&lt;/p&gt;
-&lt;h2 id="2-technology-stack-detailed"&gt;2. Technology Stack (Detailed)&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Runtime: Python 3.12.&lt;/li&gt;
-&lt;li&gt;Web framework: Django 4.2.&lt;/li&gt;
-&lt;li&gt;API package present: djangorestframework.&lt;/li&gt;
-&lt;li&gt;Progressive enhancement: django-htmx + htmx 2.0.4 (self-hosted static asset).&lt;/li&gt;
-&lt;li&gt;Security headers/CSP: django-csp + Django security settings.&lt;/li&gt;
-&lt;li&gt;Database adapters: SQLite default in codebase; psycopg2-binary for PostgreSQL usage.&lt;/li&gt;
-&lt;li&gt;Testing: pytest, Django TestCase, project-level tests in src/apps and tests/.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="3-url-topology"&gt;3. URL Topology&lt;/h2&gt;
-&lt;p&gt;Root router (src/config/urls.py):&lt;/p&gt;</description></item><item><title>Intermediate Guide</title><link>https://kakchouch.github.io/hume_social/docs/intermediate/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/docs/intermediate/</guid><description>&lt;h1 id="intermediate-guide"&gt;Intermediate Guide&lt;/h1&gt;
-&lt;h2 id="1-architecture-in-practice"&gt;1. Architecture In Practice&lt;/h2&gt;
-&lt;p&gt;The project is a Django monolith with domain apps under src/apps.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;users: identity, profile, sponsorship status, contact graph, GDPR workflows.&lt;/li&gt;
-&lt;li&gt;theses: authoring, listing, detail/review display, follow-ups.&lt;/li&gt;
-&lt;li&gt;tags: community tag taxonomy, tag applications, votes.&lt;/li&gt;
-&lt;li&gt;moderation: editorial reviews and moderation actions.&lt;/li&gt;
-&lt;li&gt;feed: preference model + score calculation + legacy feed route.&lt;/li&gt;
-&lt;li&gt;sponsorship: sponsorship and founder cohort models.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="2-request-lifecycle"&gt;2. Request Lifecycle&lt;/h2&gt;
-&lt;p&gt;A typical request goes through:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Django security middleware.&lt;/li&gt;
-&lt;li&gt;CSP middleware.&lt;/li&gt;
-&lt;li&gt;Session middleware.&lt;/li&gt;
-&lt;li&gt;HTMX middleware (adds request.htmx context).&lt;/li&gt;
-&lt;li&gt;CSRF/auth/message middleware.&lt;/li&gt;
-&lt;li&gt;UpdateLastActivityMiddleware (daily touch for authenticated users).&lt;/li&gt;
-&lt;li&gt;Target app view.&lt;/li&gt;
-&lt;li&gt;Template render (full page or HTMX fragment).&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id="3-htmx-integration-pattern"&gt;3. HTMX Integration Pattern&lt;/h2&gt;
-&lt;p&gt;Current pattern is implemented in thesis list:&lt;/p&gt;</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Documentation Home on Hume Social Documentation</title>
+    <link>http://localhost:1313/hume_social/docs/</link>
+    <description>Recent content in Documentation Home on Hume Social Documentation</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <atom:link href="http://localhost:1313/hume_social/docs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Beginner Guide</title>
+      <link>http://localhost:1313/hume_social/docs/beginner/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/hume_social/docs/beginner/</guid>
+      <description>&lt;h1 id=&#34;beginner-guide&#34;&gt;Beginner Guide&lt;/h1&gt;&#xA;&lt;h2 id=&#34;1-what-hume-social-is&#34;&gt;1. What Hume Social Is&lt;/h2&gt;&#xA;&lt;p&gt;Hume Social is a structured-discussion platform where people publish mini-theses and the community evaluates quality through tags and reviews.&lt;/p&gt;&#xA;&lt;p&gt;Unlike conventional social media, content is shaped around argument structure:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Thesis&lt;/li&gt;&#xA;&lt;li&gt;Facts&lt;/li&gt;&#xA;&lt;li&gt;Normative premises&lt;/li&gt;&#xA;&lt;li&gt;Conclusion&lt;/li&gt;&#xA;&lt;li&gt;Declared limits&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;2-overall-working&#34;&gt;2. Overall Working&lt;/h2&gt;&#xA;&lt;p&gt;At a high level:&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;A user signs up with a sponsor username.&lt;/li&gt;&#xA;&lt;li&gt;Sponsored users can write theses once sponsorship is approved.&lt;/li&gt;&#xA;&lt;li&gt;Other users can apply quality tags and reviewers can publish editorial reviews.&lt;/li&gt;&#xA;&lt;li&gt;The feed ranks content using rigor, engagement, and recency.&lt;/li&gt;&#xA;&lt;li&gt;Users progress by trust and competence (reader -&amp;gt; commentator -&amp;gt; tagger -&amp;gt; editorial reviewer).&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h2 id=&#34;3-main-screens&#34;&gt;3. Main Screens&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Home: public landing + authenticated feed preview.&lt;/li&gt;&#xA;&lt;li&gt;Theses list: searchable, paginated, HTMX-enhanced updates.&lt;/li&gt;&#xA;&lt;li&gt;Thesis detail: full structured argument and highlighted review segments.&lt;/li&gt;&#xA;&lt;li&gt;Thesis review tab: tags, editorial reviews, and highlight review form.&lt;/li&gt;&#xA;&lt;li&gt;User pages: directory, profile, sponsorship requests, contact requests, GDPR actions.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;4-tech-stack-simple-view&#34;&gt;4. Tech Stack (Simple View)&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Backend: Python 3.12, Django 4.2.&lt;/li&gt;&#xA;&lt;li&gt;Frontend: Django templates + HTMX + CSS.&lt;/li&gt;&#xA;&lt;li&gt;Database: SQLite in local/dev; PostgreSQL intended for production.&lt;/li&gt;&#xA;&lt;li&gt;Testing: pytest + Django TestCase.&lt;/li&gt;&#xA;&lt;li&gt;Security baseline: CSRF, CSP, secure cookie policies, frame protection, referrer policy.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;5-how-to-run-locally&#34;&gt;5. How to Run Locally&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;Create and activate virtual environment.&lt;/li&gt;&#xA;&lt;li&gt;Install dependencies from requirements/local.txt.&lt;/li&gt;&#xA;&lt;li&gt;Run migrations in src/.&lt;/li&gt;&#xA;&lt;li&gt;Start server from src/.&lt;/li&gt;&#xA;&lt;li&gt;Run tests from repository root with pytest.&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h2 id=&#34;6-core-concepts-to-learn-next&#34;&gt;6. Core Concepts To Learn Next&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Sponsorship status gates thesis creation/edit.&lt;/li&gt;&#xA;&lt;li&gt;Tag applications are not the same as editorial reviews.&lt;/li&gt;&#xA;&lt;li&gt;Feed score is a weighted combination, not raw chronology.&lt;/li&gt;&#xA;&lt;li&gt;HTMX is used for partial page updates while keeping server-rendered templates.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;For implementation details, continue with intermediate.md.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Expert Reference</title>
+      <link>http://localhost:1313/hume_social/docs/expert/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/hume_social/docs/expert/</guid>
+      <description>&lt;h1 id=&#34;expert-reference&#34;&gt;Expert Reference&lt;/h1&gt;&#xA;&lt;p&gt;For class-by-class, parameter-level linked navigation, see &lt;a href=&#34;http://localhost:1313/hume_social/docs/reference/&#34;&gt;Object Reference Map&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;1-system-overview&#34;&gt;1. System Overview&lt;/h2&gt;&#xA;&lt;p&gt;Hume Social is a server-rendered Django platform with selective HTMX enhancement.&#xA;Primary domain object is MiniThesis; trust and quality layers are applied through sponsorship, tagging, and editorial review.&lt;/p&gt;&#xA;&lt;h2 id=&#34;2-technology-stack-detailed&#34;&gt;2. Technology Stack (Detailed)&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Runtime: Python 3.12.&lt;/li&gt;&#xA;&lt;li&gt;Web framework: Django 4.2.&lt;/li&gt;&#xA;&lt;li&gt;API package present: djangorestframework.&lt;/li&gt;&#xA;&lt;li&gt;Progressive enhancement: django-htmx + htmx 2.0.4 (self-hosted static asset).&lt;/li&gt;&#xA;&lt;li&gt;Security headers/CSP: django-csp + Django security settings.&lt;/li&gt;&#xA;&lt;li&gt;Database adapters: SQLite default in codebase; psycopg2-binary for PostgreSQL usage.&lt;/li&gt;&#xA;&lt;li&gt;Testing: pytest, Django TestCase, project-level tests in src/apps and tests/.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;3-url-topology&#34;&gt;3. URL Topology&lt;/h2&gt;&#xA;&lt;p&gt;Root router (src/config/urls.py):&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Intermediate Guide</title>
+      <link>http://localhost:1313/hume_social/docs/intermediate/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/hume_social/docs/intermediate/</guid>
+      <description>&lt;h1 id=&#34;intermediate-guide&#34;&gt;Intermediate Guide&lt;/h1&gt;&#xA;&lt;h2 id=&#34;1-architecture-in-practice&#34;&gt;1. Architecture In Practice&lt;/h2&gt;&#xA;&lt;p&gt;The project is a Django monolith with domain apps under src/apps.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;users: identity, profile, sponsorship status, contact graph, GDPR workflows.&lt;/li&gt;&#xA;&lt;li&gt;theses: authoring, listing, detail/review display, follow-ups.&lt;/li&gt;&#xA;&lt;li&gt;tags: community tag taxonomy, tag applications, votes.&lt;/li&gt;&#xA;&lt;li&gt;moderation: editorial reviews and moderation actions.&lt;/li&gt;&#xA;&lt;li&gt;feed: preference model + score calculation + legacy feed route.&lt;/li&gt;&#xA;&lt;li&gt;sponsorship: sponsorship and founder cohort models.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;2-request-lifecycle&#34;&gt;2. Request Lifecycle&lt;/h2&gt;&#xA;&lt;p&gt;A typical request goes through:&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;Django security middleware.&lt;/li&gt;&#xA;&lt;li&gt;CSP middleware.&lt;/li&gt;&#xA;&lt;li&gt;Session middleware.&lt;/li&gt;&#xA;&lt;li&gt;HTMX middleware (adds request.htmx context).&lt;/li&gt;&#xA;&lt;li&gt;CSRF/auth/message middleware.&lt;/li&gt;&#xA;&lt;li&gt;UpdateLastActivityMiddleware (daily touch for authenticated users).&lt;/li&gt;&#xA;&lt;li&gt;Target app view.&lt;/li&gt;&#xA;&lt;li&gt;Template render (full page or HTMX fragment).&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h2 id=&#34;3-htmx-integration-pattern&#34;&gt;3. HTMX Integration Pattern&lt;/h2&gt;&#xA;&lt;p&gt;Current pattern is implemented in thesis list:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
