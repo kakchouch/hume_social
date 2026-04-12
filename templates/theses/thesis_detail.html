@@ -127,6 +127,36 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        @media (max-width: 760px) {
+            .top-actions {
+                justify-content: stretch;
+                gap: 8px;
+            }
+
+            .top-actions .btn,
+            .top-actions form,
+            .top-actions button {
+                width: 100%;
+            }
+
+            .actions .btn,
+            .tabs .tab {
+                width: 100%;
+                text-align: center;
+            }
+
+            .review-tooltip {
+                left: 50%;
+                transform: translate(-50%, 6px);
+                width: min(280px, calc(100vw - 40px));
+            }
+
+            .review-highlight:hover .review-tooltip,
+            .review-highlight:focus-within .review-tooltip {
+                transform: translate(-50%, 0);
+            }
+        }
     </style>
 </head>
 <body>

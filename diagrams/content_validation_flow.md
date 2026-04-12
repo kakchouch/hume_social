@@ -2,34 +2,43 @@
 
 ```mermaid
 sequenceDiagram
-    participant Author as Author User
-    participant ThesisView as thesis_create view
-    participant MT as MiniThesis
-    participant Tagger as Tagger User
-    participant TA as TagApplication
-    participant TV as TagVote
-    participant Rev as Editorial Reviewer
-    participant ER as EditorialReview
-    participant FeedView as feed view
-    participant FI as FeedItem.calculate_scores
+    participant Browser
+    participant Middleware as Django Middleware Stack
+    participant UserView as users.landing_page
+    participant ThesisCreate as theses.thesis_create
+    participant ThesisList as theses.thesis_list
+    participant MiniThesis as MiniThesis
+    participant TagApplication as TagApplication
+    participant TagVote as TagVote
+    participant EditorialReview as EditorialReview
+    participant FeedScore as FeedItem.calculate_scores
 
-    Note over Author,FI: Current implemented flow across apps
+    Note over Browser,FeedScore: Live runtime flow with HTMX + security middleware
 
-    Author->>ThesisView: Submit thesis form
-    ThesisView->>MT: Create MiniThesis
-    MT-->>Author: Thesis published
+    Browser->>Middleware: GET / (or /theses/)
+    Middleware->>UserView: Route dispatch after security, session, CSRF, auth, HTMX middleware
+    UserView-->>Browser: Landing page (or authenticated feed preview)
 
-    Tagger->>TA: Apply tag with justification
-    Tagger->>TV: Vote on tag application
-    TV->>TA: Update vote totals
-    TA->>TA: Optional resolve() by resolver
+    Browser->>Middleware: POST /theses/create/
+    Middleware->>ThesisCreate: Authenticated request
+    ThesisCreate->>ThesisCreate: can_write_theses() sponsorship gate
+    ThesisCreate->>MiniThesis: Persist thesis if valid
+    ThesisCreate-->>Browser: Redirect to thesis detail
 
-    Rev->>ER: Publish editorial review
+    Browser->>Middleware: GET /theses/?q=... (hx-request optional)
+    Middleware->>ThesisList: request.htmx available
+    ThesisList->>MiniThesis: Query + rank by rigor_score
+    ThesisList-->>Browser: Full page or _thesis_cards fragment
 
-    Author->>FeedView: Open feed page
-    FeedView->>FI: Calculate scores per thesis
-    FI->>MT: Read rigor_score and engagement signals
-    FeedView-->>Author: Ranked feed entries
+    Browser->>TagApplication: Apply quality tag
+    Browser->>TagVote: Vote on application validity
+    TagVote->>TagApplication: Update vote counters
 
-    Note over FeedView,FI: Ranking combines rigor, engagement, and recency
+    Browser->>EditorialReview: Publish editorial review
+
+    Browser->>Middleware: Open feed/landing as authenticated user
+    Middleware->>UserView: Compute feed candidates
+    UserView->>FeedScore: calculate_scores(thesis, user)
+    FeedScore-->>UserView: rigor + engagement + recency + total
+    UserView-->>Browser: Ranked feed items
 ```

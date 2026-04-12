@@ -9,6 +9,11 @@ This folder contains visual diagrams explaining the inner workings of the Hume S
 3. **user_progression_system.md** - State diagram showing user permission levels and progression
 4. **database_relationships.md** - Entity-Relationship diagram of all model relationships
 
+These diagrams are synchronized with the 3-level documentation in `docs/`:
+- Beginner: platform concepts and user-facing flow
+- Intermediate: request and app interaction flow
+- Expert: full app/model/view/template inventory
+
 ## How to View
 
 These diagrams use Mermaid syntax and can be viewed in:

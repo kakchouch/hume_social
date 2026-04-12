@@ -115,6 +115,31 @@
             background: #fff5df;
             color: #7a5f22;
         }
+
+        @media (max-width: 760px) {
+            .top-actions {
+                justify-content: stretch;
+                gap: 8px;
+            }
+
+            .top-actions .btn,
+            .top-actions form,
+            .top-actions button {
+                width: 100%;
+            }
+
+            .search {
+                flex-direction: column;
+            }
+
+            .search button {
+                width: 100%;
+            }
+
+            .card.follow-up {
+                margin-left: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -148,28 +173,21 @@
             </div>
         {% endif %}
 
-        <form class="search" method="get">
+        <form
+            class="search"
+            method="get"
+            hx-get="{% url 'theses:list' %}"
+            hx-target="#thesis-results"
+            hx-push-url="true"
+            hx-trigger="input changed delay:350ms from:input[name='q'], submit"
+        >
             <input type="text" name="q" value="{{ search_query|default:'' }}" placeholder="Search theses">
             <button class="btn" type="submit">Search</button>
         </form>
 
-        {% for thesis in page_obj %}
-            <article class="card {% if thesis.parent_thesis_id %}follow-up{% endif %}">
-                {% if thesis.parent_thesis_id %}
-                    <p class="thread-note">
-                        Follow-up to
-                        <a href="{% url 'theses:detail' thesis.parent_thesis_id %}">thesis #{{ thesis.parent_thesis_id }}</a>
-                    </p>
-                {% endif %}
-                <h2><a href="{% url 'theses:detail' thesis.pk %}">{{ thesis.thesis|truncatechars:130 }}</a></h2>
-                <p class="muted">By {{ thesis.author }} | {{ thesis.created_at }}</p>
-                <p>{{ thesis.conclusion|truncatechars:220 }}</p>
-            </article>
-        {% empty %}
-            <article class="card">
-                <p>No theses found yet.</p>
-            </article>
-        {% endfor %}
+        <section id="thesis-results">
+            {% include 'theses/_thesis_cards.html' %}
+        </section>
     </main>
     {% include 'partials/_home_button.html' %}
     {% include 'partials/_cookie_banner.html' %}

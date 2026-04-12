@@ -2,81 +2,87 @@
 
 ```mermaid
 flowchart TB
-    subgraph UMG[users app]
+    subgraph CLIENT[Client Layer]
+        B[Browser]
+        HTMX[htmx.min.js]
+        CSS[Template CSS]
+        B --> HTMX
+        B --> CSS
+    end
+
+    subgraph WEB[Django Web Layer]
+        URL[config.urls]
+        MW[Security and App Middleware\nSecurityMiddleware\nCSPMiddleware\nSessionMiddleware\nHtmxMiddleware\nCSRFMiddleware\nAuthMiddleware\nMessagesMiddleware\nUpdateLastActivityMiddleware]
+        TV[Template Rendering]
+        URL --> MW
+        MW --> TV
+    end
+
+    subgraph APPS[Domain Apps]
+        UV[users views]
+        THV[theses views]
+        FV[feed views]
+        UV --> UM
+        THV --> TM
+        FV --> FM
+    end
+
+    subgraph UM[users models]
         U[User]
         CR[ContactRequest]
     end
 
-    subgraph THM[theses app]
+    subgraph TM[theses and review models]
         MT[MiniThesis]
-        CM[Comment]
-        CT[Citation]
+        THR[ThesisReviewHighlight]
+        ER[EditorialReview]
     end
 
-    subgraph TGM[tags app]
+    subgraph TAGM[tags models]
         TG[Tag]
         TA[TagApplication]
-        TV[TagVote]
+        TVOTE[TagVote]
     end
 
-    subgraph FDM[feed app]
+    subgraph FM[feed models]
         FP[UserFeedPreference]
         FI[FeedItem]
     end
 
-    subgraph MDM[moderation app]
-        ER[EditorialReview]
-        MA[ModerationAction]
-    end
-
-    subgraph SPM[sponsorship app]
+    subgraph SPM[sponsorship models]
         SP[Sponsorship]
         FC[FounderCohort]
     end
 
-    UI[Templates + Browser]
-    VU[users views]
-    VT[theses views]
-    VF[feed views]
+    subgraph DB[Database]
+        SQLITE[(SQLite or PostgreSQL)]
+    end
 
-    UI --> VU
-    UI --> VT
-    UI --> VF
+    B --> URL
+    HTMX --> URL
+    TV --> B
 
-    VU --> U
-    VU --> CR
-    VT --> MT
-    VT --> ER
-    VT --> TA
-    VF --> FP
-    VF --> FI
+    TV --> UV
+    TV --> THV
+    TV --> FV
 
-    U --> MT
-    U --> CM
-    U --> TA
-    U --> TV
-    U --> ER
-    U --> MA
-    U --> SP
-    U --> FC
-    U --> CR
+    TM --> TAGM
+    U --> TM
+    U --> TAGM
+    U --> FM
+    U --> SPM
 
-    MT --> CM
-    MT --> CT
-    MT --> TA
-    MT --> ER
-    MT --> MA
-    MT --> FI
+    UM --> SQLITE
+    TM --> SQLITE
+    TAGM --> SQLITE
+    FM --> SQLITE
+    SPM --> SQLITE
 
-    TG --> TA
-    TA --> TV
-    FP --> FI
+    classDef layer fill:#1f6f5f,stroke:#ffffff,stroke-width:2px,color:#ffffff
+    classDef model fill:#8b3a45,stroke:#ffffff,stroke-width:2px,color:#ffffff
+    classDef storage fill:#39424e,stroke:#ffffff,stroke-width:2px,color:#ffffff
 
-    classDef model fill:#0f766e,stroke:#ffffff,stroke-width:2px,color:#ffffff
-    classDef flow fill:#8b3a45,stroke:#ffffff,stroke-width:2px,color:#ffffff
-    classDef app fill:#39424e,stroke:#ffffff,stroke-width:2px,color:#ffffff
-
-    class U,CR,MT,CM,CT,TG,TA,TV,FP,FI,ER,MA,SP,FC model
-    class VU,VT,VF,UI flow
-    class UMG,THM,TGM,FDM,MDM,SPM app
+    class B,HTMX,CSS,URL,MW,TV,UV,THV,FV layer
+    class U,CR,MT,THR,ER,TG,TA,TVOTE,FP,FI,SP,FC model
+    class SQLITE storage
 ```

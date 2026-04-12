@@ -1,3 +1,4 @@
+{% load static %}
 <style>
     .global-home-btn {
         position: fixed;
@@ -28,3 +29,5 @@
     }
 </style>
 <a class="global-home-btn" href="{% url 'index' %}" aria-label="Go to homepage">Home</a>
+<script src="{% static 'vendor/htmx.min.js' %}" defer></script>
+<script src="{% static 'js/app_htmx.js' %}" defer></script>

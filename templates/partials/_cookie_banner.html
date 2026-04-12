@@ -1,4 +1,16 @@
 {% if not request.session.cookies_consented %}
+<style>
+    @media (max-width: 640px) {
+        #cookie-banner {
+            padding: 12px 12px 14px !important;
+        }
+
+        #cookie-banner form,
+        #cookie-banner button {
+            width: 100%;
+        }
+    }
+</style>
 <div id="cookie-banner" style="
     position: fixed;
     bottom: 0;

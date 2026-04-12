@@ -93,17 +93,18 @@ def thesis_list(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    return render(
-        request,
-        "theses/thesis_list.html",
-        {
-            "page_obj": page_obj,
-            "search_query": search_query,
-            "can_write_theses": (
-                request.user.is_authenticated and request.user.can_write_theses()
-            ),
-        },
-    )
+    context = {
+        "page_obj": page_obj,
+        "search_query": search_query,
+        "can_write_theses": (
+            request.user.is_authenticated and request.user.can_write_theses()
+        ),
+    }
+
+    if getattr(request, "htmx", False):
+        return render(request, "theses/_thesis_cards.html", context)
+
+    return render(request, "theses/thesis_list.html", context)
 
 
 def thesis_detail(request, pk):

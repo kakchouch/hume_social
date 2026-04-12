@@ -1,0 +1,47 @@
+{% for thesis in page_obj %}
+    <article class="card {% if thesis.parent_thesis_id %}follow-up{% endif %}">
+        {% if thesis.parent_thesis_id %}
+            <p class="thread-note">
+                Follow-up to
+                <a href="{% url 'theses:detail' thesis.parent_thesis_id %}">thesis #{{ thesis.parent_thesis_id }}</a>
+            </p>
+        {% endif %}
+        <h2><a href="{% url 'theses:detail' thesis.pk %}">{{ thesis.thesis|truncatechars:130 }}</a></h2>
+        <p class="muted">By {{ thesis.author }} | {{ thesis.created_at }}</p>
+        <p>{{ thesis.conclusion|truncatechars:220 }}</p>
+    </article>
+{% empty %}
+    <article class="card">
+        <p>No theses found yet.</p>
+    </article>
+{% endfor %}
+
+{% if page_obj.paginator.num_pages > 1 %}
+    <nav class="card" aria-label="Thesis pagination">
+        <p class="muted" style="margin-top: 0;">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </p>
+        {% if page_obj.has_previous %}
+            <a
+                class="btn"
+                href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query|urlencode }}{% endif %}"
+                hx-get="{% url 'theses:list' %}?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query|urlencode }}{% endif %}"
+                hx-target="#thesis-results"
+                hx-push-url="true"
+            >
+                Previous
+            </a>
+        {% endif %}
+        {% if page_obj.has_next %}
+            <a
+                class="btn"
+                href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query|urlencode }}{% endif %}"
+                hx-get="{% url 'theses:list' %}?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query|urlencode }}{% endif %}"
+                hx-target="#thesis-results"
+                hx-push-url="true"
+            >
+                Next
+            </a>
+        {% endif %}
+    </nav>
+{% endif %}

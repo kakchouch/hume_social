@@ -132,6 +132,31 @@
             padding: 18px;
             color: var(--muted);
         }
+
+        @media (max-width: 760px) {
+            .header > div,
+            .top-actions,
+            .search {
+                width: 100%;
+            }
+
+            .header .btn,
+            .top-actions form,
+            .top-actions .btn,
+            .top-actions button,
+            .search .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .search {
+                flex-direction: column;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>

@@ -343,6 +343,32 @@ class TestThesisViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Follow-up to")
 
+    def test_thesis_list_includes_htmx_bootstrap_script(self):
+        response = self.client.get(reverse("theses:list"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "vendor/htmx.min.js")
+
+    def test_thesis_list_htmx_request_returns_fragment_only(self):
+        response = self.client.get(
+            reverse("theses:list"),
+            HTTP_HX_REQUEST="true",
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "theses/_thesis_cards.html")
+        self.assertNotContains(response, "<html")
+
+    def test_thesis_list_sets_security_headers(self):
+        response = self.client.get(reverse("theses:list"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers.get("X-Frame-Options"), "DENY")
+        self.assertIn(
+            "strict-origin-when-cross-origin",
+            response.headers.get("Referrer-Policy", ""),
+        )
+
     def test_editorial_reviewer_can_add_highlight_review(self):
         self.client.force_login(self.reviewer)
 

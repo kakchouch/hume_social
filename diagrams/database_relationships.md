@@ -11,22 +11,25 @@ erDiagram
     User ||--o{ EditorialReview : reviews
     User ||--o{ ModerationAction : moderates
     User ||--o{ Sponsorship : sponsors
-    User ||--o{ Sponsorship : sponsored_by
+    User ||--o{ Sponsorship : sponsored
     User ||--o{ ContactRequest : sends
     User ||--o{ ContactRequest : receives
+    User ||--o{ ThesisReviewHighlight : highlights
     User ||--o{ User : sponsors
     User }o--o{ User : contacts
 
     MiniThesis ||--o{ Comment : has
-    MiniThesis ||--o{ Citation : cites_from
-    MiniThesis ||--o{ Citation : cites_to
+    MiniThesis ||--o{ Citation : citing_side
+    MiniThesis ||--o{ Citation : cited_side
     MiniThesis ||--o{ TagApplication : tagged_with
     MiniThesis ||--o{ FeedItem : appears_in
     MiniThesis ||--o{ EditorialReview : reviewed_by
-    MiniThesis ||--o{ ModerationAction : moderated_by
+    MiniThesis ||--o{ ModerationAction : moderated_target
+    MiniThesis ||--o{ ThesisReviewHighlight : highlighted_by
     MiniThesis ||--o{ MiniThesis : follow_up_parent
 
     Tag ||--o{ TagApplication : used_by
+    Tag ||--o{ ThesisReviewHighlight : attached_to
     TagApplication ||--o{ TagVote : voted_on
     UserFeedPreference }o--o{ Tag : preferred_tags
     UserFeedPreference }o--o{ User : blocked_users
@@ -37,7 +40,9 @@ erDiagram
         string email
         string level
         string sponsorship_status
-        int tag_accuracy_score
+        float tag_accuracy_score
+        datetime last_activity_at
+        datetime cookies_consented_at
     }
 
     MiniThesis {
@@ -45,8 +50,17 @@ erDiagram
         text facts
         text normative_premises
         text conclusion
+        text declared_limits
         datetime created_at
         bool is_published
+        int citation_count
+    }
+
+    ThesisReviewHighlight {
+        string section
+        text selected_text
+        text comment
+        datetime created_at
     }
 
     Comment {
@@ -84,7 +98,8 @@ erDiagram
         float engagement_score
         float recency_score
         float total_score
-        datetime created_at
+        datetime cached_at
+        bool is_visible
     }
 
     EditorialReview {
@@ -111,6 +126,7 @@ erDiagram
     FounderCohort {
         string name
         int max_size
+        bool is_active
         datetime created_at
     }
 

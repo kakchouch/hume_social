@@ -132,6 +132,53 @@
             background: #fff;
             margin-right: 6px;
         }
+
+        .review-main-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .review-text-section {
+            grid-column: 1;
+        }
+
+        .review-form-section {
+            grid-column: 1;
+        }
+
+        @media (min-width: 1100px) {
+            .review-main-container {
+                grid-template-columns: 1fr 1fr;
+                align-items: start;
+            }
+
+            .review-text-section {
+                grid-column: 1;
+            }
+
+            .review-form-section {
+                grid-column: 2;
+                position: sticky;
+                top: 20px;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .top-actions {
+                justify-content: stretch;
+                gap: 8px;
+            }
+
+            .top-actions .btn,
+            .top-actions form,
+            .top-actions button,
+            .actions .btn,
+            .tabs .tab {
+                width: 100%;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -161,81 +208,83 @@
             <p class="muted">Wikipedia-style review is handled separately from the thesis text itself.</p>
         </section>
 
-        <section class="panel">
-            <h2>Thesis Text Selection</h2>
-            <p class="selection-hint">Select a part of one block below. It will be auto-filled in the highlight form.</p>
-            <div>
-                <div class="muted">Thesis</div>
-                <p class="selectable" data-section="thesis">{{ thesis.thesis }}</p>
-            </div>
-            <div>
-                <div class="muted">Facts</div>
-                <p class="selectable" data-section="facts">{{ thesis.facts|linebreaksbr }}</p>
-            </div>
-            <div>
-                <div class="muted">Normative premises</div>
-                <p class="selectable" data-section="normative_premises">{{ thesis.normative_premises|linebreaksbr }}</p>
-            </div>
-            <div>
-                <div class="muted">Conclusion</div>
-                <p class="selectable" data-section="conclusion">{{ thesis.conclusion|linebreaksbr }}</p>
-            </div>
-            <div>
-                <div class="muted">Declared limits</div>
-                <p class="selectable" data-section="declared_limits">{{ thesis.declared_limits|linebreaksbr }}</p>
-            </div>
-        </section>
+        <div class="review-main-container">
+            <section class="panel review-text-section">
+                <h2>Thesis Text Selection</h2>
+                <p class="selection-hint">Select a part of one block below. It will be auto-filled in the highlight form.</p>
+                <div>
+                    <div class="muted">Thesis</div>
+                    <p class="selectable" data-section="thesis">{{ thesis.thesis }}</p>
+                </div>
+                <div>
+                    <div class="muted">Facts</div>
+                    <p class="selectable" data-section="facts">{{ thesis.facts|linebreaksbr }}</p>
+                </div>
+                <div>
+                    <div class="muted">Normative premises</div>
+                    <p class="selectable" data-section="normative_premises">{{ thesis.normative_premises|linebreaksbr }}</p>
+                </div>
+                <div>
+                    <div class="muted">Conclusion</div>
+                    <p class="selectable" data-section="conclusion">{{ thesis.conclusion|linebreaksbr }}</p>
+                </div>
+                <div>
+                    <div class="muted">Declared limits</div>
+                    <p class="selectable" data-section="declared_limits">{{ thesis.declared_limits|linebreaksbr }}</p>
+                </div>
+            </section>
 
-        <section class="panel">
-            <h2>Highlighted Segment Reviews</h2>
-            {% if can_add_highlight_review %}
-                <form method="post" action="">
-                    {% csrf_token %}
-                    {% if review_highlight_form.non_field_errors %}
-                        {{ review_highlight_form.non_field_errors }}
-                    {% endif %}
-                    <div class="field">
-                        <label for="{{ review_highlight_form.section.id_for_label }}">Section</label>
-                        {{ review_highlight_form.section }}
-                        {{ review_highlight_form.section.errors }}
-                    </div>
-                    <div class="field">
-                        <label for="{{ review_highlight_form.selected_text.id_for_label }}">Selected text</label>
-                        {{ review_highlight_form.selected_text }}
-                        {{ review_highlight_form.selected_text.errors }}
-                    </div>
-                    <div class="field">
-                        <label for="{{ review_highlight_form.tag.id_for_label }}">Tag</label>
-                        {{ review_highlight_form.tag }}
-                        {{ review_highlight_form.tag.errors }}
-                    </div>
-                    <div class="field">
-                        <label for="{{ review_highlight_form.comment.id_for_label }}">Comment (optional)</label>
-                        {{ review_highlight_form.comment }}
-                        {{ review_highlight_form.comment.errors }}
-                    </div>
-                    <button class="btn" type="submit">Save highlighted review</button>
-                </form>
-            {% else %}
-                <p class="muted">Only editorial reviewers can submit highlighted segment reviews.</p>
-            {% endif %}
+            <section class="panel review-form-section">
+                <h2>Highlighted Segment Reviews</h2>
+                {% if can_add_highlight_review %}
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        {% if review_highlight_form.non_field_errors %}
+                            {{ review_highlight_form.non_field_errors }}
+                        {% endif %}
+                        <div class="field">
+                            <label for="{{ review_highlight_form.section.id_for_label }}">Section</label>
+                            {{ review_highlight_form.section }}
+                            {{ review_highlight_form.section.errors }}
+                        </div>
+                        <div class="field">
+                            <label for="{{ review_highlight_form.selected_text.id_for_label }}">Selected text</label>
+                            {{ review_highlight_form.selected_text }}
+                            {{ review_highlight_form.selected_text.errors }}
+                        </div>
+                        <div class="field">
+                            <label for="{{ review_highlight_form.tag.id_for_label }}">Tag</label>
+                            {{ review_highlight_form.tag }}
+                            {{ review_highlight_form.tag.errors }}
+                        </div>
+                        <div class="field">
+                            <label for="{{ review_highlight_form.comment.id_for_label }}">Comment (optional)</label>
+                            {{ review_highlight_form.comment }}
+                            {{ review_highlight_form.comment.errors }}
+                        </div>
+                        <button class="btn" type="submit">Save highlighted review</button>
+                    </form>
+                {% else %}
+                    <p class="muted">Only editorial reviewers can submit highlighted segment reviews.</p>
+                {% endif %}
 
-            {% for highlight in highlight_reviews %}
-                <article class="item">
-                    <p>
-                        <span class="badge">{{ highlight.get_section_display }}</span>
-                        <strong>{{ highlight.tag }}</strong>
-                        <span class="muted">by {{ highlight.reviewer }}</span>
-                    </p>
-                    <p>"{{ highlight.selected_text }}"</p>
-                    {% if highlight.comment %}
-                        <p class="muted">{{ highlight.comment|linebreaks }}</p>
-                    {% endif %}
-                </article>
-            {% empty %}
-                <p class="muted">No highlighted segment reviews yet.</p>
-            {% endfor %}
-        </section>
+                {% for highlight in highlight_reviews %}
+                    <article class="item">
+                        <p>
+                            <span class="badge">{{ highlight.get_section_display }}</span>
+                            <strong>{{ highlight.tag }}</strong>
+                            <span class="muted">by {{ highlight.reviewer }}</span>
+                        </p>
+                        <p>"{{ highlight.selected_text }}"</p>
+                        {% if highlight.comment %}
+                            <p class="muted">{{ highlight.comment|linebreaks }}</p>
+                        {% endif %}
+                    </article>
+                {% empty %}
+                    <p class="muted">No highlighted segment reviews yet.</p>
+                {% endfor %}
+            </section>
+        </div>
 
         <section class="panel">
             <h2>Community Tags</h2>
@@ -265,34 +314,8 @@
             {% endfor %}
         </section>
     </main>
-    <script>
-        (function () {
-            const sectionInput = document.getElementById('id_section');
-            const selectedTextInput = document.getElementById('id_selected_text');
-            if (!sectionInput || !selectedTextInput) {
-                return;
-            }
-
-            const updateFromSelection = (event) => {
-                const selection = window.getSelection();
-                const text = selection ? selection.toString().trim() : '';
-                if (!text) {
-                    return;
-                }
-
-                selectedTextInput.value = text;
-                const section = event.currentTarget.getAttribute('data-section');
-                if (section) {
-                    sectionInput.value = section;
-                }
-            };
-
-            document.querySelectorAll('.selectable').forEach((node) => {
-                node.addEventListener('mouseup', updateFromSelection);
-                node.addEventListener('touchend', updateFromSelection);
-            });
-        })();
-    </script>
+    {% load static %}
+    <script src="{% static 'js/thesis_review_selection.js' %}" defer></script>
     {% include 'partials/_home_button.html' %}
     {% include 'partials/_cookie_banner.html' %}
 </body>
