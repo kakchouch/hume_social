@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hume Social on Hume Social Documentation</title><link>http://localhost:1313/</link><description>Recent content in Hume Social on Hume Social Documentation</description><generator>Hugo</generator><language>en-us</language><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml"/><item><title>Architecture Overview</title><link>http://localhost:1313/diagrams/architecture-overview/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/diagrams/architecture-overview/</guid><description>&lt;h1 id="hume-social-platform-architecture"&gt;Hume Social Platform Architecture&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hume Social on Hume Social Documentation</title><link>https://example.com/hume_social/</link><description>Recent content in Hume Social on Hume Social Documentation</description><generator>Hugo</generator><language>en-us</language><atom:link href="https://example.com/hume_social/index.xml" rel="self" type="application/rss+xml"/><item><title>Architecture Overview</title><link>https://example.com/hume_social/diagrams/architecture-overview/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/diagrams/architecture-overview/</guid><description>&lt;h1 id="hume-social-platform-architecture"&gt;Hume Social Platform Architecture&lt;/h1&gt;
 &lt;pre tabindex="0"&gt;&lt;code class="language-mermaid" data-lang="mermaid"&gt;flowchart TB
  subgraph CLIENT[Client Layer]
  B[Browser]
@@ -83,7 +83,7 @@
  class B,HTMX,CSS,URL,MW,TV,UV,THV,FV layer
  class U,CR,MT,THR,ER,TG,TA,TVOTE,FP,FI,SP,FC model
  class SQLITE storage
-&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>Beginner Guide</title><link>http://localhost:1313/docs/beginner/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/beginner/</guid><description>&lt;h1 id="beginner-guide"&gt;Beginner Guide&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>Beginner Guide</title><link>https://example.com/hume_social/docs/beginner/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/docs/beginner/</guid><description>&lt;h1 id="beginner-guide"&gt;Beginner Guide&lt;/h1&gt;
 &lt;h2 id="1-what-hume-social-is"&gt;1. What Hume Social Is&lt;/h2&gt;
 &lt;p&gt;Hume Social is a structured-discussion platform where people publish mini-theses and the community evaluates quality through tags and reviews.&lt;/p&gt;
 &lt;p&gt;Unlike conventional social media, content is shaped around argument structure:&lt;/p&gt;
@@ -134,7 +134,7 @@
 &lt;li&gt;Feed score is a weighted combination, not raw chronology.&lt;/li&gt;
 &lt;li&gt;HTMX is used for partial page updates while keeping server-rendered templates.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;For implementation details, continue with intermediate.md.&lt;/p&gt;</description></item><item><title>Content Validation Flow</title><link>http://localhost:1313/diagrams/content-validation-flow/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/diagrams/content-validation-flow/</guid><description>&lt;h1 id="content-creation-and-validation-sequence"&gt;Content Creation and Validation Sequence&lt;/h1&gt;
+&lt;p&gt;For implementation details, continue with intermediate.md.&lt;/p&gt;</description></item><item><title>Content Validation Flow</title><link>https://example.com/hume_social/diagrams/content-validation-flow/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/diagrams/content-validation-flow/</guid><description>&lt;h1 id="content-creation-and-validation-sequence"&gt;Content Creation and Validation Sequence&lt;/h1&gt;
 &lt;pre tabindex="0"&gt;&lt;code class="language-mermaid" data-lang="mermaid"&gt;sequenceDiagram
  participant Browser
  participant Middleware as Django Middleware Stack
@@ -175,7 +175,7 @@
  UserView-&amp;gt;&amp;gt;FeedScore: calculate_scores(thesis, user)
  FeedScore--&amp;gt;&amp;gt;UserView: rigor + engagement + recency + total
  UserView--&amp;gt;&amp;gt;Browser: Ranked feed items
-&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>Database Relationships</title><link>http://localhost:1313/diagrams/database-relationships/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/diagrams/database-relationships/</guid><description>&lt;h1 id="database-relationships-entity-relationship-diagram"&gt;Database Relationships (Entity-Relationship Diagram)&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>Database Relationships</title><link>https://example.com/hume_social/diagrams/database-relationships/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/diagrams/database-relationships/</guid><description>&lt;h1 id="database-relationships-entity-relationship-diagram"&gt;Database Relationships (Entity-Relationship Diagram)&lt;/h1&gt;
 &lt;pre tabindex="0"&gt;&lt;code class="language-mermaid" data-lang="mermaid"&gt;erDiagram
  User ||--o{ MiniThesis : authors
  User ||--o{ Comment : writes
@@ -309,8 +309,8 @@
  string status
  datetime created_at
  }
-&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>Expert Reference</title><link>http://localhost:1313/docs/expert/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/expert/</guid><description>&lt;h1 id="expert-reference"&gt;Expert Reference&lt;/h1&gt;
-&lt;p&gt;For class-by-class, parameter-level linked navigation, see &lt;a href="./docs/reference/"&gt;Object Reference Map&lt;/a&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>Expert Reference</title><link>https://example.com/hume_social/docs/expert/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/docs/expert/</guid><description>&lt;h1 id="expert-reference"&gt;Expert Reference&lt;/h1&gt;
+&lt;p&gt;For class-by-class, parameter-level linked navigation, see &lt;a href="https://example.com/hume_social/docs/reference/"&gt;Object Reference Map&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id="1-system-overview"&gt;1. System Overview&lt;/h2&gt;
 &lt;p&gt;Hume Social is a server-rendered Django platform with selective HTMX enhancement.
 Primary domain object is MiniThesis; trust and quality layers are applied through sponsorship, tagging, and editorial review.&lt;/p&gt;
@@ -325,7 +325,7 @@ Primary domain object is MiniThesis; trust and quality layers are applied throug
 &lt;li&gt;Testing: pytest, Django TestCase, project-level tests in src/apps and tests/.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id="3-url-topology"&gt;3. URL Topology&lt;/h2&gt;
-&lt;p&gt;Root router (src/config/urls.py):&lt;/p&gt;</description></item><item><title>Feed App Reference</title><link>http://localhost:1313/docs/reference/feed/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/reference/feed/</guid><description>&lt;h1 id="feed-app-reference"&gt;Feed App Reference&lt;/h1&gt;
+&lt;p&gt;Root router (src/config/urls.py):&lt;/p&gt;</description></item><item><title>Feed App Reference</title><link>https://example.com/hume_social/docs/reference/feed/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/docs/reference/feed/</guid><description>&lt;h1 id="feed-app-reference"&gt;Feed App Reference&lt;/h1&gt;
 &lt;p&gt;Source folder: &lt;code&gt;src/apps/feed&lt;/code&gt;&lt;/p&gt;
 &lt;h2 id="human-readable-summary"&gt;Human-Readable Summary&lt;/h2&gt;
 &lt;ul&gt;
@@ -349,7 +349,7 @@ Primary domain object is MiniThesis; trust and quality layers are applied throug
 &lt;ul&gt;
 &lt;li&gt;Source: &lt;code&gt;src/apps/feed/models.py&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Parameters (fields):&lt;/p&gt;</description></item><item><title>Intermediate Guide</title><link>http://localhost:1313/docs/intermediate/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/intermediate/</guid><description>&lt;h1 id="intermediate-guide"&gt;Intermediate Guide&lt;/h1&gt;
+&lt;p&gt;Parameters (fields):&lt;/p&gt;</description></item><item><title>Intermediate Guide</title><link>https://example.com/hume_social/docs/intermediate/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/docs/intermediate/</guid><description>&lt;h1 id="intermediate-guide"&gt;Intermediate Guide&lt;/h1&gt;
 &lt;h2 id="1-architecture-in-practice"&gt;1. Architecture In Practice&lt;/h2&gt;
 &lt;p&gt;The project is a Django monolith with domain apps under src/apps.&lt;/p&gt;
 &lt;ul&gt;
@@ -373,7 +373,7 @@ Primary domain object is MiniThesis; trust and quality layers are applied throug
 &lt;li&gt;Template render (full page or HTMX fragment).&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id="3-htmx-integration-pattern"&gt;3. HTMX Integration Pattern&lt;/h2&gt;
-&lt;p&gt;Current pattern is implemented in thesis list:&lt;/p&gt;</description></item><item><title>Moderation App Reference</title><link>http://localhost:1313/docs/reference/moderation/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/reference/moderation/</guid><description>&lt;h1 id="moderation-app-reference"&gt;Moderation App Reference&lt;/h1&gt;
+&lt;p&gt;Current pattern is implemented in thesis list:&lt;/p&gt;</description></item><item><title>Moderation App Reference</title><link>https://example.com/hume_social/docs/reference/moderation/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/docs/reference/moderation/</guid><description>&lt;h1 id="moderation-app-reference"&gt;Moderation App Reference&lt;/h1&gt;
 &lt;p&gt;Source folder: &lt;code&gt;src/apps/moderation&lt;/code&gt;&lt;/p&gt;
 &lt;h2 id="human-readable-summary"&gt;Human-Readable Summary&lt;/h2&gt;
 &lt;ul&gt;
@@ -397,7 +397,7 @@ Primary domain object is MiniThesis; trust and quality layers are applied throug
 &lt;ul&gt;
 &lt;li&gt;Source: &lt;code&gt;src/apps/moderation/models.py&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Parameters (fields):&lt;/p&gt;</description></item><item><title>Sponsorship App Reference</title><link>http://localhost:1313/docs/reference/sponsorship/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/reference/sponsorship/</guid><description>&lt;h1 id="sponsorship-app-reference"&gt;Sponsorship App Reference&lt;/h1&gt;
+&lt;p&gt;Parameters (fields):&lt;/p&gt;</description></item><item><title>Sponsorship App Reference</title><link>https://example.com/hume_social/docs/reference/sponsorship/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/docs/reference/sponsorship/</guid><description>&lt;h1 id="sponsorship-app-reference"&gt;Sponsorship App Reference&lt;/h1&gt;
 &lt;p&gt;Source folder: &lt;code&gt;src/apps/sponsorship&lt;/code&gt;&lt;/p&gt;
 &lt;h2 id="human-readable-summary"&gt;Human-Readable Summary&lt;/h2&gt;
 &lt;ul&gt;
@@ -421,7 +421,7 @@ Primary domain object is MiniThesis; trust and quality layers are applied throug
 &lt;ul&gt;
 &lt;li&gt;Source: &lt;code&gt;src/apps/sponsorship/models.py&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Parameters (fields):&lt;/p&gt;</description></item><item><title>Tags App Reference</title><link>http://localhost:1313/docs/reference/tags/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/reference/tags/</guid><description>&lt;h1 id="tags-app-reference"&gt;Tags App Reference&lt;/h1&gt;
+&lt;p&gt;Parameters (fields):&lt;/p&gt;</description></item><item><title>Tags App Reference</title><link>https://example.com/hume_social/docs/reference/tags/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/docs/reference/tags/</guid><description>&lt;h1 id="tags-app-reference"&gt;Tags App Reference&lt;/h1&gt;
 &lt;p&gt;Source folder: &lt;code&gt;src/apps/tags&lt;/code&gt;&lt;/p&gt;
 &lt;h2 id="human-readable-summary"&gt;Human-Readable Summary&lt;/h2&gt;
 &lt;ul&gt;
@@ -445,7 +445,7 @@ Primary domain object is MiniThesis; trust and quality layers are applied throug
 &lt;ul&gt;
 &lt;li&gt;Source: &lt;code&gt;src/apps/tags/models.py&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Parameters (fields):&lt;/p&gt;</description></item><item><title>Template Reference</title><link>http://localhost:1313/docs/reference/templates/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/reference/templates/</guid><description>&lt;h1 id="template-catalog-and-context-contracts"&gt;Template Catalog and Context Contracts&lt;/h1&gt;
+&lt;p&gt;Parameters (fields):&lt;/p&gt;</description></item><item><title>Template Reference</title><link>https://example.com/hume_social/docs/reference/templates/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/docs/reference/templates/</guid><description>&lt;h1 id="template-catalog-and-context-contracts"&gt;Template Catalog and Context Contracts&lt;/h1&gt;
 &lt;p&gt;This document maps each rendered template to the view that calls it and the expected context keys.&lt;/p&gt;
 &lt;h2 id="human-readable-summary"&gt;Human-Readable Summary&lt;/h2&gt;
 &lt;ul&gt;
@@ -462,7 +462,7 @@ Primary domain object is MiniThesis; trust and quality layers are applied throug
 &lt;h2 id="global-templates"&gt;Global Templates&lt;/h2&gt;
 &lt;h3 id="templatesindexhtml"&gt;&lt;code&gt;templates/index.html&lt;/code&gt;&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="./docs/reference/users/#landing_pagerequest"&gt;users.landing_page&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Called by: &lt;a href="https://example.com/hume_social/docs/reference/users/#landing_pagerequest"&gt;users.landing_page&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Context keys: &lt;code&gt;signup_form&lt;/code&gt;, &lt;code&gt;feed_items&lt;/code&gt;, &lt;code&gt;min_rigor_threshold&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id="templatesregistrationloginhtml"&gt;&lt;code&gt;templates/registration/login.html&lt;/code&gt;&lt;/h3&gt;
@@ -477,48 +477,48 @@ Primary domain object is MiniThesis; trust and quality layers are applied throug
 &lt;h3 id="templatespartials_cookie_bannerhtml"&gt;&lt;code&gt;templates/partials/_cookie_banner.html&lt;/code&gt;&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;Included by: most pages&lt;/li&gt;
-&lt;li&gt;Posts to: &lt;a href="./docs/reference/users/#cookie_consentrequest"&gt;users.cookie_consent&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Posts to: &lt;a href="https://example.com/hume_social/docs/reference/users/#cookie_consentrequest"&gt;users.cookie_consent&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id="users-templates"&gt;Users Templates&lt;/h2&gt;
 &lt;h3 id="templatesusersuser_listhtml"&gt;&lt;code&gt;templates/users/user_list.html&lt;/code&gt;&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="./docs/reference/users/#user_listrequest"&gt;users.user_list&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Called by: &lt;a href="https://example.com/hume_social/docs/reference/users/#user_listrequest"&gt;users.user_list&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Context keys: &lt;code&gt;users&lt;/code&gt;, &lt;code&gt;search_query&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id="templatesusersuser_detailhtml"&gt;&lt;code&gt;templates/users/user_detail.html&lt;/code&gt;&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="./docs/reference/users/#user_detailrequest-pk"&gt;users.user_detail&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Called by: &lt;a href="https://example.com/hume_social/docs/reference/users/#user_detailrequest-pk"&gt;users.user_detail&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Context keys: &lt;code&gt;profile_user&lt;/code&gt;, &lt;code&gt;sponsored_users&lt;/code&gt;, &lt;code&gt;contacts&lt;/code&gt;, &lt;code&gt;contact_state&lt;/code&gt;, &lt;code&gt;incoming_request&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id="templatesusersmy_profilehtml"&gt;&lt;code&gt;templates/users/my_profile.html&lt;/code&gt;&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="./docs/reference/users/#my_profilerequest"&gt;users.my_profile&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Called by: &lt;a href="https://example.com/hume_social/docs/reference/users/#my_profilerequest"&gt;users.my_profile&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Context keys: &lt;code&gt;form&lt;/code&gt;, &lt;code&gt;profile_user&lt;/code&gt;, &lt;code&gt;sponsored_users&lt;/code&gt;, &lt;code&gt;contacts&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id="templatesuserscontact_requestshtml"&gt;&lt;code&gt;templates/users/contact_requests.html&lt;/code&gt;&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="./docs/reference/users/#contact_requestsrequest"&gt;users.contact_requests&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Called by: &lt;a href="https://example.com/hume_social/docs/reference/users/#contact_requestsrequest"&gt;users.contact_requests&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Context keys: &lt;code&gt;incoming_requests&lt;/code&gt;, &lt;code&gt;outgoing_requests&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id="templatesuserssponsorship_requestshtml"&gt;&lt;code&gt;templates/users/sponsorship_requests.html&lt;/code&gt;&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="./docs/reference/users/#sponsorship_requestsrequest"&gt;users.sponsorship_requests&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Called by: &lt;a href="https://example.com/hume_social/docs/reference/users/#sponsorship_requestsrequest"&gt;users.sponsorship_requests&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Context keys: &lt;code&gt;pending_users&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id="templatesusersdelete_account_confirmhtml"&gt;&lt;code&gt;templates/users/delete_account_confirm.html&lt;/code&gt;&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="./docs/reference/users/#delete_accountrequest"&gt;users.delete_account&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Called by: &lt;a href="https://example.com/hume_social/docs/reference/users/#delete_accountrequest"&gt;users.delete_account&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Context keys: &lt;code&gt;form&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id="templatesusersaccount_deletedhtml"&gt;&lt;code&gt;templates/users/account_deleted.html&lt;/code&gt;&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="./docs/reference/users/#account_deletedrequest"&gt;users.account_deleted&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Called by: &lt;a href="https://example.com/hume_social/docs/reference/users/#account_deletedrequest"&gt;users.account_deleted&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Context keys: none required&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id="theses-templates"&gt;Theses Templates&lt;/h2&gt;
 &lt;h3 id="templatesthesesthesis_listhtml"&gt;&lt;code&gt;templates/theses/thesis_list.html&lt;/code&gt;&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="./docs/reference/theses/#thesis_listrequest"&gt;theses.thesis_list&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Called by: &lt;a href="https://example.com/hume_social/docs/reference/theses/#thesis_listrequest"&gt;theses.thesis_list&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Context keys: &lt;code&gt;page_obj&lt;/code&gt;, &lt;code&gt;search_query&lt;/code&gt;, &lt;code&gt;can_write_theses&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Includes HTMX partial: &lt;code&gt;templates/theses/_thesis_cards.html&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -529,31 +529,31 @@ Primary domain object is MiniThesis; trust and quality layers are applied throug
 &lt;/ul&gt;
 &lt;h3 id="templatesthesesthesis_detailhtml"&gt;&lt;code&gt;templates/theses/thesis_detail.html&lt;/code&gt;&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="./docs/reference/theses/#thesis_detailrequest-pk"&gt;theses.thesis_detail&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Called by: &lt;a href="https://example.com/hume_social/docs/reference/theses/#thesis_detailrequest-pk"&gt;theses.thesis_detail&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Context keys: &lt;code&gt;thesis&lt;/code&gt;, &lt;code&gt;follow_up_theses&lt;/code&gt;, &lt;code&gt;review_count&lt;/code&gt;, &lt;code&gt;tag_count&lt;/code&gt;, &lt;code&gt;highlighted_sections&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id="templatesthesesthesis_reviewhtml"&gt;&lt;code&gt;templates/theses/thesis_review.html&lt;/code&gt;&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="./docs/reference/theses/#thesis_reviewrequest-pk"&gt;theses.thesis_review&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Called by: &lt;a href="https://example.com/hume_social/docs/reference/theses/#thesis_reviewrequest-pk"&gt;theses.thesis_review&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Context keys: &lt;code&gt;thesis&lt;/code&gt;, &lt;code&gt;tag_applications&lt;/code&gt;, &lt;code&gt;editorial_reviews&lt;/code&gt;, &lt;code&gt;highlight_reviews&lt;/code&gt;, &lt;code&gt;review_highlight_form&lt;/code&gt;, &lt;code&gt;can_add_highlight_review&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id="templatesthesesthesis_formhtml"&gt;&lt;code&gt;templates/theses/thesis_form.html&lt;/code&gt;&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Called by: &lt;a href="./docs/reference/theses/#thesis_createrequest-parent_pknone"&gt;theses.thesis_create&lt;/a&gt;, &lt;a href="./docs/reference/theses/#thesis_editrequest-pk"&gt;theses.thesis_edit&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Called by: &lt;a href="https://example.com/hume_social/docs/reference/theses/#thesis_createrequest-parent_pknone"&gt;theses.thesis_create&lt;/a&gt;, &lt;a href="https://example.com/hume_social/docs/reference/theses/#thesis_editrequest-pk"&gt;theses.thesis_edit&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Context keys: &lt;code&gt;form&lt;/code&gt;, &lt;code&gt;title&lt;/code&gt;, &lt;code&gt;parent_thesis&lt;/code&gt; (create only)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id="feed-template"&gt;Feed Template&lt;/h2&gt;
 &lt;h3 id="srcappsfeedtemplatesfeedindexhtml"&gt;&lt;code&gt;src/apps/feed/templates/feed/index.html&lt;/code&gt;&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;Legacy template; active &lt;code&gt;/feed/&lt;/code&gt; route currently redirects to index&lt;/li&gt;
-&lt;li&gt;Related view: &lt;a href="./docs/reference/feed/#feedhomeview"&gt;FeedHomeView&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Related view: &lt;a href="https://example.com/hume_social/docs/reference/feed/#feedhomeview"&gt;FeedHomeView&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id="related-documentation"&gt;Related Documentation&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="./docs/reference/users/"&gt;Users App&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="./docs/reference/theses/"&gt;Theses App&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="./docs/expert/"&gt;Expert overview&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</description></item><item><title>Theses App Reference</title><link>http://localhost:1313/docs/reference/theses/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/reference/theses/</guid><description>&lt;h1 id="theses-app-reference"&gt;Theses App Reference&lt;/h1&gt;
+&lt;li&gt;&lt;a href="https://example.com/hume_social/docs/reference/users/"&gt;Users App&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/hume_social/docs/reference/theses/"&gt;Theses App&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/hume_social/docs/expert/"&gt;Expert overview&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>Theses App Reference</title><link>https://example.com/hume_social/docs/reference/theses/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/docs/reference/theses/</guid><description>&lt;h1 id="theses-app-reference"&gt;Theses App Reference&lt;/h1&gt;
 &lt;p&gt;Source folder: &lt;code&gt;src/apps/theses&lt;/code&gt;&lt;/p&gt;
 &lt;h2 id="human-readable-summary"&gt;Human-Readable Summary&lt;/h2&gt;
 &lt;ul&gt;
@@ -578,7 +578,7 @@ Primary domain object is MiniThesis; trust and quality layers are applied throug
 &lt;ul&gt;
 &lt;li&gt;Source: &lt;code&gt;src/apps/theses/models.py&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Parameters (fields):&lt;/p&gt;</description></item><item><title>User Progression System</title><link>http://localhost:1313/diagrams/user-progression-system/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/diagrams/user-progression-system/</guid><description>&lt;h1 id="user-progression-and-permission-system"&gt;User Progression and Permission System&lt;/h1&gt;
+&lt;p&gt;Parameters (fields):&lt;/p&gt;</description></item><item><title>User Progression System</title><link>https://example.com/hume_social/diagrams/user-progression-system/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/diagrams/user-progression-system/</guid><description>&lt;h1 id="user-progression-and-permission-system"&gt;User Progression and Permission System&lt;/h1&gt;
 &lt;pre tabindex="0"&gt;&lt;code class="language-mermaid" data-lang="mermaid"&gt;stateDiagram-v2
  [*] --&amp;gt; Registered: Account created
  Registered --&amp;gt; SponsorshipPending: Sponsor selected at signup
@@ -618,7 +618,7 @@ Primary domain object is MiniThesis; trust and quality layers are applied throug
 
  EditorialReviewer --&amp;gt; Active: Continues normal usage
  Active --&amp;gt; [*]: Unrecoverable delete or admin deactivation
-&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>Users App Reference</title><link>http://localhost:1313/docs/reference/users/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/reference/users/</guid><description>&lt;h1 id="users-app-reference"&gt;Users App Reference&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>Users App Reference</title><link>https://example.com/hume_social/docs/reference/users/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/docs/reference/users/</guid><description>&lt;h1 id="users-app-reference"&gt;Users App Reference&lt;/h1&gt;
 &lt;p&gt;Source folder: &lt;code&gt;src/apps/users&lt;/code&gt;&lt;/p&gt;
 &lt;h2 id="human-readable-summary"&gt;Human-Readable Summary&lt;/h2&gt;
 &lt;ul&gt;
@@ -637,7 +637,7 @@ Primary domain object is MiniThesis; trust and quality layers are applied throug
 &lt;ul&gt;
 &lt;li&gt;Source: &lt;code&gt;src/apps/users/apps.py&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Purpose: Registers the app as &lt;code&gt;apps.users&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Related: &lt;a href="./docs/reference/theses/"&gt;Theses App&lt;/a&gt;, &lt;a href="./docs/reference/feed/"&gt;Feed App&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Related: &lt;a href="https://example.com/hume_social/docs/reference/theses/"&gt;Theses App&lt;/a&gt;, &lt;a href="https://example.com/hume_social/docs/reference/feed/"&gt;Feed App&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id="models"&gt;Models&lt;/h2&gt;
 &lt;h3 id="user-inherits-abstractuser"&gt;User (inherits AbstractUser)&lt;/h3&gt;

@@ -251,13 +251,11 @@ def thesis_review(request, pk):
 
     tag_applications = thesis.tags.select_related("tag", "applied_by", "resolved_by")
     editorial_reviews = list(
-        thesis.reviews.filter(
-        status=EditorialReview.Status.PUBLISHED
-    ).select_related("reviewer")
+        thesis.reviews.filter(status=EditorialReview.Status.PUBLISHED).select_related(
+            "reviewer"
+        )
     )
-    highlight_reviews = list(
-        thesis.review_highlights.select_related("tag", "reviewer")
-    )
+    highlight_reviews = list(thesis.review_highlights.select_related("tag", "reviewer"))
 
     editorial_votes = ReviewVote.objects.filter(
         editorial_review__in=editorial_reviews
@@ -289,13 +287,17 @@ def thesis_review(request, pk):
             data["user_vote"] = vote.value
 
     for review in editorial_reviews:
-        data = editorial_vote_data.get(review.id, {"score": 0, "voters": [], "user_vote": 0})
+        data = editorial_vote_data.get(
+            review.id, {"score": 0, "voters": [], "user_vote": 0}
+        )
         review.vote_score = data["score"]
         review.vote_voters = data["voters"]
         review.user_vote = data["user_vote"]
 
     for review in highlight_reviews:
-        data = highlight_vote_data.get(review.id, {"score": 0, "voters": [], "user_vote": 0})
+        data = highlight_vote_data.get(
+            review.id, {"score": 0, "voters": [], "user_vote": 0}
+        )
         review.vote_score = data["score"]
         review.vote_voters = data["voters"]
         review.user_vote = data["user_vote"]

@@ -5,7 +5,6 @@ import django.utils.timezone
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("moderation", "0003_initial"),
         ("theses", "0004_thesisreviewhighlight"),

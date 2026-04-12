@@ -180,8 +180,7 @@ class ReviewVote(models.Model):
                         models.Q(editorial_review__isnull=False)
                         & models.Q(highlight_review__isnull=True)
                     )
-                    |
-                    (
+                    | (
                         models.Q(editorial_review__isnull=True)
                         & models.Q(highlight_review__isnull=False)
                     )

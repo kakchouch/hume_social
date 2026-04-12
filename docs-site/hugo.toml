@@ -1,8 +1,8 @@
-baseURL = "http://localhost:1313/"
+baseURL = "/"
 languageCode = "en-us"
 title = "Hume Social Documentation"
 theme = "risotto"
-relativeURLs = true
+relativeURLs = false
 canonifyURLs = false
 
 [params]
