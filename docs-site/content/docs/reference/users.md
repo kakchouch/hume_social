@@ -21,7 +21,7 @@ Source folder: `src/apps/users`
 
 - Source: `src/apps/users/apps.py`
 - Purpose: Registers the app as `apps.users`.
-- Related: [Theses App](/docs/reference/theses/), [Feed App](/docs/reference/feed/)
+- Related: [Theses App]({{< relref "/docs/reference/theses.md" >}}), [Feed App]({{< relref "/docs/reference/feed.md" >}})
 
 ## Models
 
@@ -60,10 +60,10 @@ Key methods:
 
 Related objects:
 
-- Used by [MiniThesis](/docs/reference/theses/#minithesis)
-- Used by [TagApplication](/docs/reference/tags/#tagapplication)
-- Used by [EditorialReview](/docs/reference/moderation/#editorialreview)
-- Used by [Sponsorship](/docs/reference/sponsorship/#sponsorship)
+- Used by [MiniThesis]({{< relref "/docs/reference/theses.md" >}}#minithesis)
+- Used by [TagApplication]({{< relref "/docs/reference/tags.md" >}}#tagapplication)
+- Used by [EditorialReview]({{< relref "/docs/reference/moderation.md" >}}#editorialreview)
+- Used by [Sponsorship]({{< relref "/docs/reference/sponsorship.md" >}}#sponsorship)
 
 ### ContactRequest
 
@@ -129,7 +129,7 @@ Source: `src/apps/users/views.py`
 - Renders: `templates/index.html`
 - Parameters: `request`
 - Context keys: `signup_form`, `feed_items`, `min_rigor_threshold`
-- Related: [FeedItem.calculate_scores](/docs/reference/feed/#feeditem)
+- Related: [FeedItem.calculate_scores]({{< relref "/docs/reference/feed.md" >}}#feeditem)
 
 ### user_list(request)
 
@@ -214,5 +214,5 @@ Routes:
 
 ## Related Documentation
 
-- [Theses App](/docs/reference/theses/)
-- [Template contracts](/docs/reference/templates/)
+- [Theses App]({{< relref "/docs/reference/theses.md" >}})
+- [Template contracts]({{< relref "/docs/reference/templates.md" >}})

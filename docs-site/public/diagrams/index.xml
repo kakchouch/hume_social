@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Diagrams Home on Hume Social Documentation</title><link>https://example.com/hume_social/diagrams/</link><description>Recent content in Diagrams Home on Hume Social Documentation</description><generator>Hugo</generator><language>en-us</language><atom:link href="https://example.com/hume_social/diagrams/index.xml" rel="self" type="application/rss+xml"/><item><title>Architecture Overview</title><link>https://example.com/hume_social/diagrams/architecture-overview/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/diagrams/architecture-overview/</guid><description>&lt;h1 id="hume-social-platform-architecture"&gt;Hume Social Platform Architecture&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Diagrams Home on Hume Social Documentation</title><link>https://kakchouch.github.io/hume_social/diagrams/</link><description>Recent content in Diagrams Home on Hume Social Documentation</description><generator>Hugo</generator><language>en-us</language><atom:link href="https://kakchouch.github.io/hume_social/diagrams/index.xml" rel="self" type="application/rss+xml"/><item><title>Architecture Overview</title><link>https://kakchouch.github.io/hume_social/diagrams/architecture-overview/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/diagrams/architecture-overview/</guid><description>&lt;h1 id="hume-social-platform-architecture"&gt;Hume Social Platform Architecture&lt;/h1&gt;
 &lt;pre tabindex="0"&gt;&lt;code class="language-mermaid" data-lang="mermaid"&gt;flowchart TB
  subgraph CLIENT[Client Layer]
  B[Browser]
@@ -83,7 +83,7 @@
  class B,HTMX,CSS,URL,MW,TV,UV,THV,FV layer
  class U,CR,MT,THR,ER,TG,TA,TVOTE,FP,FI,SP,FC model
  class SQLITE storage
-&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>Content Validation Flow</title><link>https://example.com/hume_social/diagrams/content-validation-flow/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/diagrams/content-validation-flow/</guid><description>&lt;h1 id="content-creation-and-validation-sequence"&gt;Content Creation and Validation Sequence&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>Content Validation Flow</title><link>https://kakchouch.github.io/hume_social/diagrams/content-validation-flow/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/diagrams/content-validation-flow/</guid><description>&lt;h1 id="content-creation-and-validation-sequence"&gt;Content Creation and Validation Sequence&lt;/h1&gt;
 &lt;pre tabindex="0"&gt;&lt;code class="language-mermaid" data-lang="mermaid"&gt;sequenceDiagram
  participant Browser
  participant Middleware as Django Middleware Stack
@@ -124,7 +124,7 @@
  UserView-&amp;gt;&amp;gt;FeedScore: calculate_scores(thesis, user)
  FeedScore--&amp;gt;&amp;gt;UserView: rigor + engagement + recency + total
  UserView--&amp;gt;&amp;gt;Browser: Ranked feed items
-&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>Database Relationships</title><link>https://example.com/hume_social/diagrams/database-relationships/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/diagrams/database-relationships/</guid><description>&lt;h1 id="database-relationships-entity-relationship-diagram"&gt;Database Relationships (Entity-Relationship Diagram)&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>Database Relationships</title><link>https://kakchouch.github.io/hume_social/diagrams/database-relationships/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/diagrams/database-relationships/</guid><description>&lt;h1 id="database-relationships-entity-relationship-diagram"&gt;Database Relationships (Entity-Relationship Diagram)&lt;/h1&gt;
 &lt;pre tabindex="0"&gt;&lt;code class="language-mermaid" data-lang="mermaid"&gt;erDiagram
  User ||--o{ MiniThesis : authors
  User ||--o{ Comment : writes
@@ -258,7 +258,7 @@
  string status
  datetime created_at
  }
-&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>User Progression System</title><link>https://example.com/hume_social/diagrams/user-progression-system/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/diagrams/user-progression-system/</guid><description>&lt;h1 id="user-progression-and-permission-system"&gt;User Progression and Permission System&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>User Progression System</title><link>https://kakchouch.github.io/hume_social/diagrams/user-progression-system/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/diagrams/user-progression-system/</guid><description>&lt;h1 id="user-progression-and-permission-system"&gt;User Progression and Permission System&lt;/h1&gt;
 &lt;pre tabindex="0"&gt;&lt;code class="language-mermaid" data-lang="mermaid"&gt;stateDiagram-v2
  [*] --&amp;gt; Registered: Account created
  Registered --&amp;gt; SponsorshipPending: Sponsor selected at signup

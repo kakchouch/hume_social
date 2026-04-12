@@ -15,22 +15,22 @@ This reference is object-level documentation for apps, classes, parameters, and 
 
 ## App References
 
-- [Users App](/docs/reference/users/)
-- [Theses App](/docs/reference/theses/)
-- [Tags App](/docs/reference/tags/)
-- [Moderation App](/docs/reference/moderation/)
-- [Feed App](/docs/reference/feed/)
-- [Sponsorship App](/docs/reference/sponsorship/)
+- [Users App]({{< relref "/docs/reference/users.md" >}})
+- [Theses App]({{< relref "/docs/reference/theses.md" >}})
+- [Tags App]({{< relref "/docs/reference/tags.md" >}})
+- [Moderation App]({{< relref "/docs/reference/moderation.md" >}})
+- [Feed App]({{< relref "/docs/reference/feed.md" >}})
+- [Sponsorship App]({{< relref "/docs/reference/sponsorship.md" >}})
 
 ## Template Reference
 
-- [Template Catalog and Context Contracts](/docs/reference/templates/)
+- [Template Catalog and Context Contracts]({{< relref "/docs/reference/templates.md" >}})
 
 ## Cross-App Navigation
 
-- Entry routes and app boundaries: [Expert Reference](/docs/expert/)
-- High-level onboarding: [Beginner Guide](/docs/beginner/)
-- Runtime flow and HTMX patterns: [Intermediate Guide](/docs/intermediate/)
+- Entry routes and app boundaries: [Expert Reference]({{< relref "/docs/expert.md" >}})
+- High-level onboarding: [Beginner Guide]({{< relref "/docs/beginner.md" >}})
+- Runtime flow and HTMX patterns: [Intermediate Guide]({{< relref "/docs/intermediate.md" >}})
 
 ## Linking Rules Used In This Reference
 

@@ -51,10 +51,10 @@ Computed properties:
 
 Related objects:
 
-- Author is [User](/docs/reference/users/#user-inherits-abstractuser)
-- Reviews are [EditorialReview](/docs/reference/moderation/#editorialreview)
-- Tags are [TagApplication](/docs/reference/tags/#tagapplication)
-- Feed scoring uses [FeedItem.calculate_scores](/docs/reference/feed/#feeditem)
+- Author is [User]({{< relref "/docs/reference/users.md" >}}#user-inherits-abstractuser)
+- Reviews are [EditorialReview]({{< relref "/docs/reference/moderation.md" >}}#editorialreview)
+- Tags are [TagApplication]({{< relref "/docs/reference/tags.md" >}}#tagapplication)
+- Feed scoring uses [FeedItem.calculate_scores]({{< relref "/docs/reference/feed.md" >}}#feeditem)
 
 ### Comment
 
@@ -190,7 +190,7 @@ Routes:
 
 ## Related Documentation
 
-- [Users App](/docs/reference/users/)
-- [Tags App](/docs/reference/tags/)
-- [Moderation App](/docs/reference/moderation/)
-- [Template contracts](/docs/reference/templates/)
+- [Users App]({{< relref "/docs/reference/users.md" >}})
+- [Tags App]({{< relref "/docs/reference/tags.md" >}})
+- [Moderation App]({{< relref "/docs/reference/moderation.md" >}})
+- [Template contracts]({{< relref "/docs/reference/templates.md" >}})

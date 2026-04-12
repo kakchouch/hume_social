@@ -1,4 +1,4 @@
-baseURL = "/"
+baseURL = "https://kakchouch.github.io/hume_social/"
 languageCode = "en-us"
 title = "Hume Social Documentation"
 theme = "risotto"

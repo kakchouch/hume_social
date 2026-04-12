@@ -48,7 +48,7 @@ Computed properties:
 
 Related:
 
-- Review votes: [ReviewVote](/docs/reference/theses/#reviewvote)
+- Review votes: [ReviewVote]({{< relref "/docs/reference/theses.md" >}}#reviewvote)
 - Displayed on `templates/theses/thesis_review.html`
 
 ### ModerationAction
@@ -77,5 +77,5 @@ Methods:
 
 ## Related Documentation
 
-- [Theses App](/docs/reference/theses/)
-- [Users App](/docs/reference/users/)
+- [Theses App]({{< relref "/docs/reference/theses.md" >}})
+- [Users App]({{< relref "/docs/reference/users.md" >}})

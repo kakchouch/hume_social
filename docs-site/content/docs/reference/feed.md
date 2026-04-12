@@ -37,7 +37,7 @@ Parameters (fields):
 Related:
 
 - Consumed by `users.views.landing_page`
-- Uses [Tag](/docs/reference/tags/#tag)
+- Uses [Tag]({{< relref "/docs/reference/tags.md" >}}#tag)
 
 ### FeedItem
 
@@ -60,8 +60,8 @@ Methods:
 
 Related:
 
-- Thesis source: [MiniThesis](/docs/reference/theses/#minithesis)
-- Review signal: [EditorialReview](/docs/reference/moderation/#editorialreview)
+- Thesis source: [MiniThesis]({{< relref "/docs/reference/theses.md" >}}#minithesis)
+- Review signal: [EditorialReview]({{< relref "/docs/reference/moderation.md" >}}#editorialreview)
 
 ## Views
 
@@ -81,5 +81,5 @@ Routes:
 
 ## Related Documentation
 
-- [Users App](/docs/reference/users/)
-- [Theses App](/docs/reference/theses/)
+- [Users App]({{< relref "/docs/reference/users.md" >}})
+- [Theses App]({{< relref "/docs/reference/theses.md" >}})

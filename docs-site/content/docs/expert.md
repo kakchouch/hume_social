@@ -4,7 +4,7 @@ title: "Expert Reference"
 
 # Expert Reference
 
-For class-by-class, parameter-level linked navigation, see [Object Reference Map](/docs/reference/).
+For class-by-class, parameter-level linked navigation, see [Object Reference Map]({{< relref "/docs/reference/_index.md" >}}).
 
 ## 1. System Overview
 

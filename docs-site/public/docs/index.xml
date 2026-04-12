@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Documentation Home on Hume Social Documentation</title><link>https://example.com/hume_social/docs/</link><description>Recent content in Documentation Home on Hume Social Documentation</description><generator>Hugo</generator><language>en-us</language><atom:link href="https://example.com/hume_social/docs/index.xml" rel="self" type="application/rss+xml"/><item><title>Beginner Guide</title><link>https://example.com/hume_social/docs/beginner/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/docs/beginner/</guid><description>&lt;h1 id="beginner-guide"&gt;Beginner Guide&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Documentation Home on Hume Social Documentation</title><link>https://kakchouch.github.io/hume_social/docs/</link><description>Recent content in Documentation Home on Hume Social Documentation</description><generator>Hugo</generator><language>en-us</language><atom:link href="https://kakchouch.github.io/hume_social/docs/index.xml" rel="self" type="application/rss+xml"/><item><title>Beginner Guide</title><link>https://kakchouch.github.io/hume_social/docs/beginner/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/docs/beginner/</guid><description>&lt;h1 id="beginner-guide"&gt;Beginner Guide&lt;/h1&gt;
 &lt;h2 id="1-what-hume-social-is"&gt;1. What Hume Social Is&lt;/h2&gt;
 &lt;p&gt;Hume Social is a structured-discussion platform where people publish mini-theses and the community evaluates quality through tags and reviews.&lt;/p&gt;
 &lt;p&gt;Unlike conventional social media, content is shaped around argument structure:&lt;/p&gt;
@@ -49,8 +49,8 @@
 &lt;li&gt;Feed score is a weighted combination, not raw chronology.&lt;/li&gt;
 &lt;li&gt;HTMX is used for partial page updates while keeping server-rendered templates.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;For implementation details, continue with intermediate.md.&lt;/p&gt;</description></item><item><title>Expert Reference</title><link>https://example.com/hume_social/docs/expert/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/docs/expert/</guid><description>&lt;h1 id="expert-reference"&gt;Expert Reference&lt;/h1&gt;
-&lt;p&gt;For class-by-class, parameter-level linked navigation, see &lt;a href="https://example.com/hume_social/docs/reference/"&gt;Object Reference Map&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For implementation details, continue with intermediate.md.&lt;/p&gt;</description></item><item><title>Expert Reference</title><link>https://kakchouch.github.io/hume_social/docs/expert/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/docs/expert/</guid><description>&lt;h1 id="expert-reference"&gt;Expert Reference&lt;/h1&gt;
+&lt;p&gt;For class-by-class, parameter-level linked navigation, see &lt;a href="https://kakchouch.github.io/hume_social/docs/reference/"&gt;Object Reference Map&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id="1-system-overview"&gt;1. System Overview&lt;/h2&gt;
 &lt;p&gt;Hume Social is a server-rendered Django platform with selective HTMX enhancement.
 Primary domain object is MiniThesis; trust and quality layers are applied through sponsorship, tagging, and editorial review.&lt;/p&gt;
@@ -65,7 +65,7 @@ Primary domain object is MiniThesis; trust and quality layers are applied throug
 &lt;li&gt;Testing: pytest, Django TestCase, project-level tests in src/apps and tests/.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id="3-url-topology"&gt;3. URL Topology&lt;/h2&gt;
-&lt;p&gt;Root router (src/config/urls.py):&lt;/p&gt;</description></item><item><title>Intermediate Guide</title><link>https://example.com/hume_social/docs/intermediate/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.com/hume_social/docs/intermediate/</guid><description>&lt;h1 id="intermediate-guide"&gt;Intermediate Guide&lt;/h1&gt;
+&lt;p&gt;Root router (src/config/urls.py):&lt;/p&gt;</description></item><item><title>Intermediate Guide</title><link>https://kakchouch.github.io/hume_social/docs/intermediate/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kakchouch.github.io/hume_social/docs/intermediate/</guid><description>&lt;h1 id="intermediate-guide"&gt;Intermediate Guide&lt;/h1&gt;
 &lt;h2 id="1-architecture-in-practice"&gt;1. Architecture In Practice&lt;/h2&gt;
 &lt;p&gt;The project is a Django monolith with domain apps under src/apps.&lt;/p&gt;
 &lt;ul&gt;

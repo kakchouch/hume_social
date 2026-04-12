@@ -34,9 +34,9 @@ Parameters (fields):
 
 Related:
 
-- Referenced by [ThesisReviewHighlight](/docs/reference/theses/#thesisreviewhighlight)
-- Referenced by [TagApplication](/docs/reference/tags/#tagapplication)
-- Referenced by [UserFeedPreference.preferred_tags](/docs/reference/feed/#userfeedpreference)
+- Referenced by [ThesisReviewHighlight]({{< relref "/docs/reference/theses.md" >}}#thesisreviewhighlight)
+- Referenced by [TagApplication]({{< relref "/docs/reference/tags.md" >}}#tagapplication)
+- Referenced by [UserFeedPreference.preferred_tags]({{< relref "/docs/reference/feed.md" >}}#userfeedpreference)
 
 ### TagApplication
 
@@ -64,8 +64,8 @@ Methods:
 
 Related:
 
-- Thesis side: [MiniThesis](/docs/reference/theses/#minithesis)
-- User side: [User](/docs/reference/users/#user-inherits-abstractuser)
+- Thesis side: [MiniThesis]({{< relref "/docs/reference/theses.md" >}}#minithesis)
+- User side: [User]({{< relref "/docs/reference/users.md" >}}#user-inherits-abstractuser)
 
 ### TagVote
 
@@ -85,6 +85,6 @@ Parameters (fields):
 
 ## Related Documentation
 
-- [Theses App](/docs/reference/theses/)
-- [Feed App](/docs/reference/feed/)
-- [Moderation App](/docs/reference/moderation/)
+- [Theses App]({{< relref "/docs/reference/theses.md" >}})
+- [Feed App]({{< relref "/docs/reference/feed.md" >}})
+- [Moderation App]({{< relref "/docs/reference/moderation.md" >}})

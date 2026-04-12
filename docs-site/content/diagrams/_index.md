@@ -8,10 +8,10 @@ This folder contains visual diagrams explaining the inner workings of the Hume S
 
 ## Diagrams
 
-1. **[Architecture Overview](/diagrams/architecture-overview/)** - High-level architecture showing all major components and their relationships
-2. **[Content Validation Flow](/diagrams/content-validation-flow/)** - Sequence diagram of content creation and community validation process
-3. **[User Progression System](/diagrams/user-progression-system/)** - State diagram showing user permission levels and progression
-4. **[Database Relationships](/diagrams/database-relationships/)** - Entity-Relationship diagram of all model relationships
+1. **[Architecture Overview]({{< relref "/diagrams/architecture-overview.md" >}})** - High-level architecture showing all major components and their relationships
+2. **[Content Validation Flow]({{< relref "/diagrams/content-validation-flow.md" >}})** - Sequence diagram of content creation and community validation process
+3. **[User Progression System]({{< relref "/diagrams/user-progression-system.md" >}})** - State diagram showing user permission levels and progression
+4. **[Database Relationships]({{< relref "/diagrams/database-relationships.md" >}})** - Entity-Relationship diagram of all model relationships
 
 These diagrams are synchronized with the 3-level documentation in `docs/`:
 - Beginner: platform concepts and user-facing flow
@@ -34,4 +34,4 @@ The Hume Social platform is designed for structured intellectual discourse with:
 - **Progressive Permissions**: Users earn capabilities through competence
 - **Personalized Discovery**: Feed algorithm matches content to user interests
 
-For more details, continue with the [Documentation Home](/docs/).
+For more details, continue with the [Documentation Home]({{< relref "/docs/_index.md" >}}).

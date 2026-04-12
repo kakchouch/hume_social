@@ -38,7 +38,7 @@ Parameters (fields):
 
 Related:
 
-- User lifecycle status: [User.sponsorship_status](/docs/reference/users/#user-inherits-abstractuser)
+- User lifecycle status: [User.sponsorship_status]({{< relref "/docs/reference/users.md" >}}#user-inherits-abstractuser)
 
 ### FounderCohort
 
@@ -65,4 +65,4 @@ Methods:
 
 ## Related Documentation
 
-- [Users App](/docs/reference/users/)
+- [Users App]({{< relref "/docs/reference/users.md" >}})
