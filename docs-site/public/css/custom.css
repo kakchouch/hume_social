@@ -1,0 +1,41 @@
+/* Hume Social custom tweaks on top of Risotto */
+
+:root {
+    --hume-teal: #0f766e;
+    --hume-berry: #8b3a45;
+    --hume-line: #d8d3c4;
+    --hume-paper: #fffdf7;
+}
+
+.main-nav {
+    border-bottom: 1px solid var(--hume-line);
+    margin-bottom: 1rem;
+}
+
+.content a,
+.main-nav a {
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+}
+
+.content a:hover,
+.main-nav a:hover {
+    color: var(--hume-teal);
+}
+
+.content h1,
+.content h2,
+.content h3 {
+    color: var(--hume-berry);
+}
+
+pre,
+code {
+    border-radius: 8px;
+}
+
+blockquote {
+    border-left: 3px solid var(--hume-teal);
+    background: var(--hume-paper);
+    padding: 0.5rem 1rem;
+}

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><title>Intermediate Guide &ndash; Hume Social Documentation</title>
+<meta name="description" content="Structured discourse documentation portal">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8"/>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css" integrity="sha512-IW0nhlW5MgNydsXJO40En2EoCkTTjZhI3yuODrZIc8cQ4h1XcF53PsqDHa09NqnkXuIe0Oiyyj171BqZFwISBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="../../css/palettes/hume-social.css">
+<link rel="stylesheet" href="../../css/risotto.css">
+<link rel="stylesheet" href="../../css/custom.css">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Intermediate Guide &ndash; Hume Social Documentation" />
+<meta property="og:url" content="http://localhost:1313/docs/intermediate/" />
+
+  
+    <meta property="og:description" content="Structured discourse documentation portal"/> 
+  
+
+<meta property="og:locale" content="en-us" />
+<meta property="og:image" content="" /></head>
+
+    <body>
+        <div class="page">
+
+            <header class="page__header"><nav class="page__nav main-nav">
+    <ul>
+      <li class="nomarker"><h1 class="page__logo"><a href="../../" class="page__logo-inner">Hume Social Documentation</a></h1></li>
+    
+    
+    <li class="main-nav__item"><a class="nav-main-item" href="../../" title="">Home</a></li>
+    
+    <li class="main-nav__item"><a class="nav-main-item" href="../../docs/" title="">Docs</a></li>
+    
+    <li class="main-nav__item"><a class="nav-main-item" href="../../docs/reference/" title="">Reference</a></li>
+    
+    <li class="main-nav__item"><a class="nav-main-item" href="../../diagrams/" title="">Diagrams</a></li>
+    
+    </ul>
+</nav>
+
+</header>
+
+            <section class="page__body">
+    <header class="content__header">
+        <h1>Intermediate Guide</h1>
+    </header>
+    <div class="content__body">
+        <h1 id="intermediate-guide">Intermediate Guide</h1>
+<h2 id="1-architecture-in-practice">1. Architecture In Practice</h2>
+<p>The project is a Django monolith with domain apps under src/apps.</p>
+<ul>
+<li>users: identity, profile, sponsorship status, contact graph, GDPR workflows.</li>
+<li>theses: authoring, listing, detail/review display, follow-ups.</li>
+<li>tags: community tag taxonomy, tag applications, votes.</li>
+<li>moderation: editorial reviews and moderation actions.</li>
+<li>feed: preference model + score calculation + legacy feed route.</li>
+<li>sponsorship: sponsorship and founder cohort models.</li>
+</ul>
+<h2 id="2-request-lifecycle">2. Request Lifecycle</h2>
+<p>A typical request goes through:</p>
+<ol>
+<li>Django security middleware.</li>
+<li>CSP middleware.</li>
+<li>Session middleware.</li>
+<li>HTMX middleware (adds request.htmx context).</li>
+<li>CSRF/auth/message middleware.</li>
+<li>UpdateLastActivityMiddleware (daily touch for authenticated users).</li>
+<li>Target app view.</li>
+<li>Template render (full page or HTMX fragment).</li>
+</ol>
+<h2 id="3-htmx-integration-pattern">3. HTMX Integration Pattern</h2>
+<p>Current pattern is implemented in thesis list:</p>
+<ul>
+<li>Full GET returns templates/theses/thesis_list.html.</li>
+<li>HTMX GET returns templates/theses/_thesis_cards.html.</li>
+<li>Search and pagination use hx-get/hx-target/hx-push-url.</li>
+<li>Shared partial loads self-hosted HTMX and app_htmx.js for CSRF header injection.</li>
+</ul>
+<p>This pattern can be reused in other list/detail interfaces.</p>
+<h2 id="4-content-quality-pipeline">4. Content Quality Pipeline</h2>
+<ol>
+<li>Author publishes MiniThesis.</li>
+<li>Community applies TagApplication entries and votes with TagVote.</li>
+<li>Editorial reviewers publish EditorialReview items.</li>
+<li>Optional ThesisReviewHighlight links selected text to a tag + reviewer note.</li>
+<li>FeedItem.calculate_scores combines:
+<ul>
+<li>rigor score from thesis tags</li>
+<li>engagement score from follow-up/citation/review signals</li>
+<li>recency decay</li>
+</ul>
+</li>
+</ol>
+<h2 id="5-sponsorship-and-progression">5. Sponsorship and Progression</h2>
+<ul>
+<li>Signup requires sponsor username.</li>
+<li>New account starts with sponsorship_status = pending.</li>
+<li>Users cannot create or edit theses while pending.</li>
+<li>Sponsor decides via sponsorship requests UI.</li>
+<li>User level methods (can_comment/can_tag/can_review) enforce capability checks in views.</li>
+</ul>
+<h2 id="6-privacy-and-gdpr-flow">6. Privacy and GDPR Flow</h2>
+<p>Available user actions:</p>
+<ul>
+<li>Download personal data as JSON.</li>
+<li>Delete account via password confirmation.</li>
+<li>Account deletion anonymizes personal fields and disables login.</li>
+<li>Management command purge_inactive_users anonymizes stale accounts by policy.</li>
+</ul>
+<h2 id="7-testing-strategy">7. Testing Strategy</h2>
+<ul>
+<li>Model tests validate score bounds, uniqueness constraints, and computed properties.</li>
+<li>View tests cover authorization, redirects, sponsorship constraints, and rendered pages.</li>
+<li>HTMX tests verify fragment-only responses and script presence.</li>
+<li>Feed tests verify ordering and preference threshold behavior.</li>
+</ul>
+<h2 id="8-ci-and-deployment-notes">8. CI and Deployment Notes</h2>
+<ul>
+<li>GitHub Actions runs Django test command on Python 3.12.</li>
+<li>Production settings enforce SSL redirect, secure cookies, HSTS, and trusted CSRF origins.</li>
+<li>CSP and frame protections are defined centrally in base settings.</li>
+</ul>
+<p>For complete inventories and field-level references, see expert.md.</p>
+
+    </div>
+    <footer class="content__footer"></footer>
+
+            </section>
+
+            <section class="page__aside">
+                <div class="aside__about">
+<div class="aside__about">
+    
+    
+<h1 class="about__title">Hume Social</h1>
+<p class="about__description">Structured discourse documentation portal</p>
+</div>
+
+
+<ul class="aside__social-links">
+    
+</ul>
+</div>
+                <hr>
+                <div class="aside__content">
+    
+    
+
+    
+
+                </div>
+            </section>
+
+            <footer class="page__footer"><p>
+    
+    
+    
+    
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      
+          
+            
+            
+                <br/><span class="active">$ echo $LANG<br/><b></b></span><br/>
+
+            
+          
+      
+    
+</p>
+<br /><br />
+<p class="copyright"></p>
+<p class="advertisement">Powered by <a href="https://gohugo.io/">hugo</a> and <a href="https://github.com/joeroe/risotto">risotto</a>.</p>
+</footer>
+
+        </div>
+    </body>
+
+</html>

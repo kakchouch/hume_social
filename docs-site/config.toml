@@ -1,0 +1,39 @@
+baseURL = "http://localhost:1313/"
+languageCode = "en-us"
+title = "Hume Social Documentation"
+theme = "risotto"
+relativeURLs = true
+canonifyURLs = false
+
+[params]
+noindex = false
+
+[params.theme]
+palette = "hume-social"
+
+[params.about]
+title = "Hume Social"
+description = "Structured discourse documentation portal"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[menu]
+  [[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    name = "Docs"
+    url = "/docs/"
+    weight = 2
+  [[menu.main]]
+    name = "Reference"
+    url = "/docs/reference/"
+    weight = 3
+  [[menu.main]]
+    name = "Diagrams"
+    url = "/diagrams/"
+    weight = 4

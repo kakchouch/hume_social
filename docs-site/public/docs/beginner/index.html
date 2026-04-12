@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><title>Beginner Guide &ndash; Hume Social Documentation</title>
+<meta name="description" content="Structured discourse documentation portal">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8"/>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css" integrity="sha512-IW0nhlW5MgNydsXJO40En2EoCkTTjZhI3yuODrZIc8cQ4h1XcF53PsqDHa09NqnkXuIe0Oiyyj171BqZFwISBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="../../css/palettes/hume-social.css">
+<link rel="stylesheet" href="../../css/risotto.css">
+<link rel="stylesheet" href="../../css/custom.css">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Beginner Guide &ndash; Hume Social Documentation" />
+<meta property="og:url" content="http://localhost:1313/docs/beginner/" />
+
+  
+    <meta property="og:description" content="Structured discourse documentation portal"/> 
+  
+
+<meta property="og:locale" content="en-us" />
+<meta property="og:image" content="" /></head>
+
+    <body>
+        <div class="page">
+
+            <header class="page__header"><nav class="page__nav main-nav">
+    <ul>
+      <li class="nomarker"><h1 class="page__logo"><a href="../../" class="page__logo-inner">Hume Social Documentation</a></h1></li>
+    
+    
+    <li class="main-nav__item"><a class="nav-main-item" href="../../" title="">Home</a></li>
+    
+    <li class="main-nav__item"><a class="nav-main-item" href="../../docs/" title="">Docs</a></li>
+    
+    <li class="main-nav__item"><a class="nav-main-item" href="../../docs/reference/" title="">Reference</a></li>
+    
+    <li class="main-nav__item"><a class="nav-main-item" href="../../diagrams/" title="">Diagrams</a></li>
+    
+    </ul>
+</nav>
+
+</header>
+
+            <section class="page__body">
+    <header class="content__header">
+        <h1>Beginner Guide</h1>
+    </header>
+    <div class="content__body">
+        <h1 id="beginner-guide">Beginner Guide</h1>
+<h2 id="1-what-hume-social-is">1. What Hume Social Is</h2>
+<p>Hume Social is a structured-discussion platform where people publish mini-theses and the community evaluates quality through tags and reviews.</p>
+<p>Unlike conventional social media, content is shaped around argument structure:</p>
+<ul>
+<li>Thesis</li>
+<li>Facts</li>
+<li>Normative premises</li>
+<li>Conclusion</li>
+<li>Declared limits</li>
+</ul>
+<h2 id="2-overall-working">2. Overall Working</h2>
+<p>At a high level:</p>
+<ol>
+<li>A user signs up with a sponsor username.</li>
+<li>Sponsored users can write theses once sponsorship is approved.</li>
+<li>Other users can apply quality tags and reviewers can publish editorial reviews.</li>
+<li>The feed ranks content using rigor, engagement, and recency.</li>
+<li>Users progress by trust and competence (reader -&gt; commentator -&gt; tagger -&gt; editorial reviewer).</li>
+</ol>
+<h2 id="3-main-screens">3. Main Screens</h2>
+<ul>
+<li>Home: public landing + authenticated feed preview.</li>
+<li>Theses list: searchable, paginated, HTMX-enhanced updates.</li>
+<li>Thesis detail: full structured argument and highlighted review segments.</li>
+<li>Thesis review tab: tags, editorial reviews, and highlight review form.</li>
+<li>User pages: directory, profile, sponsorship requests, contact requests, GDPR actions.</li>
+</ul>
+<h2 id="4-tech-stack-simple-view">4. Tech Stack (Simple View)</h2>
+<ul>
+<li>Backend: Python 3.12, Django 4.2.</li>
+<li>Frontend: Django templates + HTMX + CSS.</li>
+<li>Database: SQLite in local/dev; PostgreSQL intended for production.</li>
+<li>Testing: pytest + Django TestCase.</li>
+<li>Security baseline: CSRF, CSP, secure cookie policies, frame protection, referrer policy.</li>
+</ul>
+<h2 id="5-how-to-run-locally">5. How to Run Locally</h2>
+<ol>
+<li>Create and activate virtual environment.</li>
+<li>Install dependencies from requirements/local.txt.</li>
+<li>Run migrations in src/.</li>
+<li>Start server from src/.</li>
+<li>Run tests from repository root with pytest.</li>
+</ol>
+<h2 id="6-core-concepts-to-learn-next">6. Core Concepts To Learn Next</h2>
+<ul>
+<li>Sponsorship status gates thesis creation/edit.</li>
+<li>Tag applications are not the same as editorial reviews.</li>
+<li>Feed score is a weighted combination, not raw chronology.</li>
+<li>HTMX is used for partial page updates while keeping server-rendered templates.</li>
+</ul>
+<p>For implementation details, continue with intermediate.md.</p>
+
+    </div>
+    <footer class="content__footer"></footer>
+
+            </section>
+
+            <section class="page__aside">
+                <div class="aside__about">
+<div class="aside__about">
+    
+    
+<h1 class="about__title">Hume Social</h1>
+<p class="about__description">Structured discourse documentation portal</p>
+</div>
+
+
+<ul class="aside__social-links">
+    
+</ul>
+</div>
+                <hr>
+                <div class="aside__content">
+    
+    
+
+    
+
+                </div>
+            </section>
+
+            <footer class="page__footer"><p>
+    
+    
+    
+    
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      
+          
+            
+            
+                <br/><span class="active">$ echo $LANG<br/><b></b></span><br/>
+
+            
+          
+      
+    
+</p>
+<br /><br />
+<p class="copyright"></p>
+<p class="advertisement">Powered by <a href="https://gohugo.io/">hugo</a> and <a href="https://github.com/joeroe/risotto">risotto</a>.</p>
+</footer>
+
+        </div>
+    </body>
+
+</html>

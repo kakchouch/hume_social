@@ -1,0 +1,20 @@
+/* Hume Social palette for Risotto (base16 variables) */
+
+:root {
+    --base00: #f3efe4; /* page background */
+    --base01: #ebe5d8;
+    --base02: #e0d8cb; /* separators */
+    --base03: #9a8f80;
+    --base04: #6f665d;
+    --base05: #1f2421; /* main text */
+    --base06: #171b18;
+    --base07: #fffdf7; /* paper */
+    --base08: #8b3a45; /* berry */
+    --base09: #e7bc77; /* sand */
+    --base0A: #d89b45;
+    --base0B: #2f6f52;
+    --base0C: #4f8e81;
+    --base0D: #0f766e; /* teal */
+    --base0E: #5f6b62;
+    --base0F: #b06e57;
+}
